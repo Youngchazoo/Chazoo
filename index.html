@@ -572,11 +572,15 @@ nav button:not([aria-current=page]):active{background:color-mix(in srgb,var(--mu
 .dchips .chip{min-height:32px;padding:4px 10px;font-size:13px}
 .dsp{display:flex;justify-content:space-between;align-items:baseline;padding:6px 0;border-top:1px solid var(--ln);font-size:15px}.dsp span{color:var(--mu)}
 nav{grid-template-columns:repeat(5,1fr)}nav button{font-size:12px}
-/* easier thumb targets: one row, taller buttons */
-.pain{grid-template-columns:repeat(11,1fr);gap:3px;justify-items:stretch}
-.pain button{width:auto;max-width:none;aspect-ratio:auto;height:44px;border-radius:14px;font-size:15px}
+/* knee ratings: one row of round buttons with room between them */
+.pain{grid-template-columns:repeat(11,1fr);gap:6px;justify-items:center}
+.pain button{width:100%;max-width:none;height:auto;aspect-ratio:1;border-radius:50%;font-size:13px;padding:0}
+.pain button.on,.pain button:active{transform:scale(1.08);box-shadow:0 0 0 2px color-mix(in srgb,var(--rd) 25%,transparent)}
 .drate{flex-direction:column;align-items:stretch;gap:4px;margin:0 0 10px}.drate span{width:auto}
-.drate .pain{flex:none;gap:3px;margin:0}.drate .pain button{font-size:15px}
+.drate .pain{flex:none;gap:6px;margin:0}.drate .pain button{font-size:13px}
+.dpt .dch{align-items:flex-start;margin-bottom:-18px}
+/* the tab bar floats as a rounded bubble */
+nav{left:8px;right:8px;bottom:max(8px,calc(env(safe-area-inset-bottom) - 14px));padding:6px;gap:4px;border:1px solid var(--ln);border-radius:24px;box-shadow:0 4px 18px rgba(20,32,43,.14)}
 </style>
 </head>
 <body>
@@ -2140,8 +2144,8 @@ function dailyView() {
   const rate = (k, label) => h("div", { class: "drate", "data-need": rec[k] == null ? "1" : "0" }, h("span", {}, label),
     h("div", { class: "pain" }, [...Array(11)].map((_, i) => h("button", { class: rec[k] === i ? "on" : "", style: "--t:" + i, "aria-pressed": String(rec[k] === i), "aria-label": label + " knee " + i, onclick: () => ptSetRating(t, k, i) }, String(i)))));
   const pReady = rec.l != null && rec.r != null && !!ar, pOn = !!(state.ptCheck && state.ptCheck[t]);
-  const mkP = compact => h("div", { class: "card dcard" + (compact ? " dcompact" : ""), style: "--ac:var(--rd);--on:var(--rdk);--c:var(--rd);--ck:var(--rdk)", onclick: ev => { if (ev.target.closest("button")) return; goTab("rehab", () => { selDate = t; }); } },
-    h("div", { class: "dch" }, h("div", {}, h("small", {}, "Tendinitis"), h("div", { class: "dimgs" }, h("img", { class: "dleg", alt: "", src: LEG_IMG, style: "height:" + Math.round(compact ? 42 * DOG_SCALE * 1.3 : 62 * DOG_SCALE * 1.15) + "px" }))),
+  const mkP = compact => h("div", { class: "card dcard" + (compact ? " dcompact" : " dpt"), style: "--ac:var(--rd);--on:var(--rdk);--c:var(--rd);--ck:var(--rdk)", onclick: ev => { if (ev.target.closest("button")) return; goTab("rehab", () => { selDate = t; }); } },
+    h("div", { class: "dch" }, h("div", {}, h("small", {}, "Tendinitis"), h("div", { class: "dimgs", style: compact ? null : "min-height:0" }, compact && h("img", { class: "dleg", alt: "", src: LEG_IMG, style: "height:" + Math.round(compact ? 42 * DOG_SCALE * 1.3 : 62 * DOG_SCALE * 1.15) + "px" }))),
       h("button", { class: "wchk lockable" + (pOn ? " on" : pReady ? "" : " locked"), "aria-pressed": String(pOn), "aria-label": pOn ? "Tendinitis done: tap to undo" : pReady ? "Mark tendinitis done" : "Fill in the morning rating and yesterday's activities first", onclick: ev => {
         if (pOn) { // undo: forget today's check and the rating and activities that went with it
           state.ptCheck = state.ptCheck || {}; delete state.ptCheck[t];
