@@ -200,6 +200,9 @@ body.set nav button[aria-current=page]{background:var(--gy);color:var(--gyk);bor
 body.money nav button[aria-current=page]{background:var(--bl);color:var(--blk);border-top-color:var(--bl)}
 body.daily nav button[aria-current=page]{background:var(--gd);color:var(--gdk);border-top-color:var(--gd)}
 body.pt nav button[aria-current=page]{background:var(--rd);color:var(--rdk);border-top-color:var(--rd)}
+/* rounded bottom tabs */
+nav{gap:4px;padding:6px 8px calc(6px + env(safe-area-inset-bottom))}
+nav button{border:0;border-radius:16px;min-height:48px;padding:6px 2px}
 nav button:not([aria-current=page]):active{background:color-mix(in srgb,var(--mu) 18%,transparent)}
 .mnav{display:flex;align-items:center;justify-content:space-between;margin:0 0 6px}.mnav h2{margin:0;font-size:17px}.mnav .lnk{font-size:26px;min-width:44px;color:var(--blt)}
 .mbig{font-size:40px;font-weight:700;line-height:1.1}.mbig small{font-size:15px;font-weight:500;color:var(--mu)}
@@ -569,6 +572,11 @@ nav button:not([aria-current=page]):active{background:color-mix(in srgb,var(--mu
 .dchips .chip{min-height:32px;padding:4px 10px;font-size:13px}
 .dsp{display:flex;justify-content:space-between;align-items:baseline;padding:6px 0;border-top:1px solid var(--ln);font-size:15px}.dsp span{color:var(--mu)}
 nav{grid-template-columns:repeat(5,1fr)}nav button{font-size:12px}
+/* easier thumb targets: one row, taller buttons */
+.pain{grid-template-columns:repeat(11,1fr);gap:3px;justify-items:stretch}
+.pain button{width:auto;max-width:none;aspect-ratio:auto;height:44px;border-radius:14px;font-size:15px}
+.drate{flex-direction:column;align-items:stretch;gap:4px;margin:0 0 10px}.drate span{width:auto}
+.drate .pain{flex:none;gap:3px;margin:0}.drate .pain button{font-size:15px}
 </style>
 </head>
 <body>
@@ -2133,7 +2141,7 @@ function dailyView() {
     h("div", { class: "pain" }, [...Array(11)].map((_, i) => h("button", { class: rec[k] === i ? "on" : "", style: "--t:" + i, "aria-pressed": String(rec[k] === i), "aria-label": label + " knee " + i, onclick: () => ptSetRating(t, k, i) }, String(i)))));
   const pReady = rec.l != null && rec.r != null && !!ar, pOn = !!(state.ptCheck && state.ptCheck[t]);
   const mkP = compact => h("div", { class: "card dcard" + (compact ? " dcompact" : ""), style: "--ac:var(--rd);--on:var(--rdk);--c:var(--rd);--ck:var(--rdk)", onclick: ev => { if (ev.target.closest("button")) return; goTab("rehab", () => { selDate = t; }); } },
-    h("div", { class: "dch" }, h("div", {}, h("small", {}, "Tendinitis"), h("div", { class: "dimgs" }, h("img", { class: "dleg", alt: "", src: LEG_IMG, style: "height:" + Math.round((compact ? 42 : 62) * DOG_SCALE * 1.3) + "px" }))),
+    h("div", { class: "dch" }, h("div", {}, h("small", {}, "Tendinitis"), h("div", { class: "dimgs" }, h("img", { class: "dleg", alt: "", src: LEG_IMG, style: "height:" + Math.round(compact ? 42 * DOG_SCALE * 1.3 : 62 * DOG_SCALE * 1.15) + "px" }))),
       h("button", { class: "wchk lockable" + (pOn ? " on" : pReady ? "" : " locked"), "aria-pressed": String(pOn), "aria-label": pOn ? "Tendinitis done: tap to undo" : pReady ? "Mark tendinitis done" : "Fill in the morning rating and yesterday's activities first", onclick: ev => {
         if (pOn) { // undo: forget today's check and the rating and activities that went with it
           state.ptCheck = state.ptCheck || {}; delete state.ptCheck[t];
