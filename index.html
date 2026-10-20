@@ -240,7 +240,7 @@ nav button:not([aria-current=page]):active{background:color-mix(in srgb,var(--mu
 .mlf .btn{min-height:42px;line-height:42px;font-size:15px;margin:2px 0 0}
 .ygrid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}.ym{min-width:0;text-align:left;font:inherit;color:var(--ink);background:var(--bg);border:2px solid transparent;border-radius:12px;padding:8px 8px 9px}.ym.sel{border-color:var(--bl)}.ym b{display:block;font-size:13px;color:var(--mu);font-weight:600;margin-bottom:4px}.ym.off{opacity:.55}.yn{color:var(--mu);font-size:14px}
 .yd{display:flex;align-items:center;gap:5px;font-size:13px;font-variant-numeric:tabular-nums;margin-top:2px;white-space:nowrap}.yd i{flex:none;width:9px;height:9px;border-radius:50%}
-.ydet{margin-top:10px;padding:8px 10px;background:var(--bg);border-radius:12px}.ydet b{display:block;font-size:13px;margin-bottom:2px}
+.ym{position:relative}.yvis{position:absolute;top:6px;right:6px;background:var(--bl);color:#fff;font-size:11px;font-weight:700;line-height:1;padding:5px 9px;border-radius:8px}.ydet{margin-top:10px;padding:8px 10px;background:var(--bg);border-radius:12px}.ydet b{display:block;font-size:13px;margin-bottom:2px}
 .ytot{margin-top:12px;border-top:1px solid var(--ln);padding-top:10px}.yh{display:flex;justify-content:space-between;align-items:baseline}.yh span{font-size:14px;color:var(--mu)}.yh b{font-size:24px;color:var(--blt)}
 .madd.sm input[type=date]{flex:0 0 132px;width:132px;font-size:13px;min-height:32px;padding:3px 8px}
 .madd.sm .n{flex:1 1 90px}
@@ -660,15 +660,19 @@ body.money{background:color-mix(in srgb,var(--bl) 3.5%,var(--bg))}
 nav button{font-family:"TabPop",-apple-system,system-ui,sans-serif;font-weight:500;letter-spacing:0;font-size:clamp(9px,2.6vw,10.5px)}nav button[aria-current=page]{font-weight:700;letter-spacing:0}
 .mov,.mlg{margin-top:14px;padding-top:12px;border-top:1px solid color-mix(in srgb,var(--blk) 30%,transparent)}.mvh{font-size:12px;font-weight:700;letter-spacing:.04em;text-transform:uppercase;color:color-mix(in srgb,var(--blk) 80%,transparent);margin-bottom:6px}
 .mvr{display:flex;justify-content:space-between;align-items:center;padding:5px 0;font-weight:600}.mvr b{background:var(--sf);color:var(--dn);border-radius:99px;padding:2px 11px;font-size:13px}.mvn{font-weight:600}
-.mlg svg{display:block;width:100%;height:auto}.mlg .mlv{fill:var(--blk);font-size:10.5px;font-weight:700}.mlg .mll{fill:color-mix(in srgb,var(--blk) 80%,transparent);font-size:10.5px}.mlg .mll.now{fill:var(--blk);font-weight:800}.mlg .mlb{fill:color-mix(in srgb,var(--blk) 85%,transparent);font-size:10px;font-weight:600}
+.mlg svg{display:block;width:100%;height:auto}.mlg .mlv{fill:var(--blk);font-size:9.5px;font-weight:700}.mlg .mll{fill:color-mix(in srgb,var(--blk) 80%,transparent);font-size:10.5px}.mlg .mll.now{fill:var(--blk);font-weight:800}.mlg .mlb{fill:color-mix(in srgb,var(--blk) 85%,transparent);font-size:10px;font-weight:600}
 .mbud .mrbody .mrt b{color:var(--ink)}.mbud .mrbody .mrr,.mbud .mrbody .mov,.mbud .mrbody .mlg{border-top-color:color-mix(in srgb,var(--bl) 25%,transparent)}
 .mbud .mrbody .mrm small{color:var(--mu)}.mbud .mrbody .mrm.now small{color:var(--ink)}.mbud .mrbody .mrn{color:var(--mu)}
 .mbud .mrbody .mvh{color:var(--mu)}.mbud .mrbody .mvr b{background:color-mix(in srgb,var(--dn) 14%,var(--sf));border:1.5px solid var(--dn)}
 .mbud .mrbody .mlv{fill:var(--ink)}.mbud .mrbody .mll{fill:var(--mu)}.mbud .mrbody .mll.now{fill:var(--ink)}.mbud .mrbody .mlb{fill:var(--blt)}
+.mvhr{display:flex;justify-content:space-between;align-items:center;gap:8px}
+.mlb2{display:inline-flex;align-items:center;gap:6px;color:var(--blt);font-size:12px;font-weight:700;letter-spacing:0;text-transform:none}
+.mlb2 svg{width:16px;height:4px}
+.mlg .mlv{paint-order:stroke;stroke:color-mix(in srgb,var(--bl) 15%,var(--sf));stroke-width:3px;stroke-linejoin:round;font-size:9.5px}
 .mcard.mbud{background:color-mix(in srgb,var(--bl) 15%,var(--sf));color:var(--ink);border:1px solid color-mix(in srgb,var(--bl) 40%,var(--ln));padding-top:14px}
-.mname.hold{--hc:var(--bl);border-radius:10px;transition:background-color .5s ease,box-shadow .5s ease}.mname.hold.holding{background-color:color-mix(in srgb,var(--hc) 24%,transparent);box-shadow:0 0 0 5px color-mix(in srgb,var(--hc) 24%,transparent)}
-.mx.hold{--hc:var(--c2);transition:background-color .5s ease,box-shadow .5s ease}.mx.hold.holding{background-color:color-mix(in srgb,var(--hc) 30%,var(--bg));box-shadow:0 0 0 3px color-mix(in srgb,var(--hc) 30%,transparent)}
-.hold{-webkit-touch-callout:none;-webkit-user-select:none;user-select:none;touch-action:manipulation}
+.mname.hold{--hc:var(--bl);border-radius:10px;transition:background-color .15s ease,box-shadow .15s ease}.mname.hold.holding{background-color:color-mix(in srgb,var(--hc) 24%,transparent);box-shadow:0 0 0 5px color-mix(in srgb,var(--hc) 24%,transparent)}
+.mx.hold{--hc:var(--c2);transition:background-color .15s ease,box-shadow .15s ease}.mx.hold.holding{background-color:color-mix(in srgb,var(--hc) 30%,var(--bg));box-shadow:0 0 0 3px color-mix(in srgb,var(--hc) 30%,transparent)}
+.hold{-webkit-tap-highlight-color:transparent;-webkit-touch-callout:none;-webkit-user-select:none;user-select:none;touch-action:manipulation}
 *{touch-action:pan-x pan-y} /* no double-tap zoom and no pinch zoom: quick repeat taps (like $100 three times) count as taps */
 .mamtin{width:100%;box-sizing:border-box;margin-top:12px;font:inherit;font-size:22px;font-weight:700;padding:12px;border-radius:12px;border:1px solid var(--ln);background:var(--bg);color:var(--ink)}
 .mamtb{display:flex;gap:10px}.mamtb .btn{flex:1;margin:0}
@@ -1342,6 +1346,7 @@ function openAmtPop(c, anchor, store) {
   const inp = h("input", { type: "text", inputmode: "decimal", class: "apin", "aria-label": "Type an amount", autocomplete: "off", name: "apin-x", value: val() ? String(val()) : "" });
   const set = v => { v = Math.max(0, Math.round(v * 100) / 100); st.set(v); inp.value = v > 0 ? String(v) : ""; };
   inp.addEventListener("input", () => { st.set(numOf(inp.value)); });
+  inp.addEventListener("focus", () => { apOpenedAt = Date.now(); });
   const done = () => { closeAmtPop(); render(); };
   inp.onkeydown = e => { if (e.key === "Enter") { e.preventDefault(); done(); } };
   const pop = h("div", { class: "apop", role: "dialog", "aria-label": c.name + " amount" },
@@ -1351,13 +1356,15 @@ function openAmtPop(c, anchor, store) {
       h("button", { type: "button", class: "apk" + (store ? " set" : ""), "aria-label": store ? "Set budget" : "Done", onclick: done }, store ? "Set" : raw('<svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>'))));
   const back = h("div", { class: "apback", onclick: done });
   back.id = "apback"; pop.id = "apop";
-  document.body.append(back, pop);
+  document.body.append(back, pop); apOpenedAt = Date.now();
   const r = anchor.getBoundingClientRect(), w = pop.offsetWidth, ph = pop.offsetHeight;
   pop.style.left = Math.max(8, Math.min(innerWidth - w - 8, r.right - w)) + "px";
   pop.style.top = (r.top - ph - 8 >= 8 ? r.top - ph - 8 : r.bottom + 8) + "px";
 }
 function closeAmtPop() { for (const id of ["apback", "apop"]) { const e = document.getElementById(id); if (e) e.remove(); } }
-window.addEventListener("scroll", () => { if (document.getElementById("apop")) { closeAmtPop(); render(); } }, { passive: true });
+let apOpenedAt = 0;
+// Scrolling closes the popup, except while you are typing in it (the phone scrolls a little when the keyboard opens).
+window.addEventListener("scroll", () => { if (!document.getElementById("apop")) return; const a = document.activeElement; if ((a && a.classList && a.classList.contains("apin")) || Date.now() - apOpenedAt < 700) return; closeAmtPop(); render(); }, { passive: true });
 function amtModal() {
   const M = money(), c = M.cats.find(x => x.id === modal.id);
   if (!c) { modal = null; return h("div"); }
@@ -1670,10 +1677,10 @@ function syncActs() {
 const actHidden = k => ((state.data && state.data.pthidden) || []).includes(k);
 // Press and hold (about half a second) runs fn. A quick tap does nothing; moving your finger (scrolling) cancels it.
 function holdProps(fn, ms) {
-  let tm = null, held = false, x0 = 0, y0 = 0, el = null;
-  const stop = () => { clearTimeout(tm); tm = null; if (el) el.classList.remove("holding"); };
+  let tm = null, tint = null, held = false, x0 = 0, y0 = 0, el = null;
+  const stop = () => { clearTimeout(tm); clearTimeout(tint); tm = tint = null; if (el) el.classList.remove("holding"); };
   return { class: "hold",
-    onpointerdown: e => { held = false; stop(); el = e.currentTarget; el.classList.add("holding"); x0 = e.clientX; y0 = e.clientY; tm = setTimeout(() => { tm = null; held = true; fn(); }, ms || 550); },
+    onpointerdown: e => { held = false; stop(); el = e.currentTarget; tint = setTimeout(() => { tint = null; if (el) el.classList.add("holding"); }, 120); x0 = e.clientX; y0 = e.clientY; tm = setTimeout(() => { tm = null; held = true; fn(); }, ms || 550); },
     onpointermove: e => { if (tm && Math.hypot(e.clientX - x0, e.clientY - y0) > 10) stop(); },
     onpointerup: stop, onpointerleave: stop, onpointercancel: stop,
     onclick: e => { if (held) { held = false; e.preventDefault(); e.stopPropagation(); } },
@@ -2117,7 +2124,7 @@ function moneyView() {
           (() => { const bud = c.budget || 0, spent = sumBy(es, x => x.amt);
             return h("button", { type: "button", class: "mcpb" + (bud ? " bset" : " none"), "aria-label": bud ? c.name + ": " + usd0(spent) + " spent, budget " + usd0(bud) + ". Tap to change" : "Set a monthly budget for " + c.name,
               onclick: e => openAmtPop(c, e.currentTarget, { get: () => c.budget || 0, set: v => { if (v > 0) c.budget = v; else delete c.budget; delete c.budgetDemo; save(); } }) },
-              bud ? [h("span", { class: "mbbar" }, h("i", { style: "width:" + Math.min(100, 100 * spent / bud) + "%;background:var(--bl)" })), h("span", { class: "mbe" }, usd0(spent) + " / " + usd0(bud), raw('<svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg>'))]
+              bud ? [h("span", { class: "mbbar" }, h("i", { style: "width:" + Math.min(100, 100 * spent / bud) + "%;background:var(--bl)" })), h("span", { class: "mbe" }, h("span", {}, h("span", { style: "color:" + (spent > bud ? "var(--dn)" : spent >= bud * 0.85 ? "var(--blt)" : "var(--c2)") }, usd0(spent)), " / " + usd0(bud)), raw('<svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg>'))]
                   : [h("span", { class: "mcpn" }, "+ Set a monthly budget")]); })(),
           es.length > 0 && h("div", { class: "mgray" },
             es.map(x => h("div", { class: "ge" }, h("span", { class: "gdt" }, usd0(x.amt) + " · ",
@@ -2159,12 +2166,12 @@ function budgetReport(M) {
   // ----- Line graph: spent vs budget by month -----
   const pts = months.filter(mo => mo >= first || mo === mm).map(mo => ({ mo, v: sumBy(cats, c => spentIn(c.id, mo)) }));
   const lineBox = pts.length < 2 ? null : (() => {
-    const W = 320, H = 132, px = 24, top = 22, bot = 24, top$ = Math.max(totalB, ...pts.map(p => p.v)) * 1.12 || 1;
-    const X = i => px + (W - 2 * px) * i / (pts.length - 1), Y = v => top + (H - top - bot) * (1 - v / top$), by = Y(totalB);
+    const W = 320, H = 140, px = 24, pr = 58, top = 22, bot = 42, top$ = Math.max(totalB, ...pts.map(p => p.v)) * 1.12 || 1;
+    const X = i => px + (W - px - pr) * i / (pts.length - 1), Y = v => top + (H - top - bot) * (1 - v / top$), by = Y(totalB);
     const line = pts.map((p, i) => (i ? "L" : "M") + X(i).toFixed(1) + " " + Y(p.v).toFixed(1)).join(" ");
-    const dots = pts.map((p, i) => '<circle cx="' + X(i).toFixed(1) + '" cy="' + Y(p.v).toFixed(1) + '" r="4.5" fill="' + (p.v > totalB ? "var(--dn)" : "var(--sf)") + '" stroke="' + (p.v > totalB ? "var(--dn)" : "var(--bl)") + '" stroke-width="2.5"/><text x="' + X(i).toFixed(1) + '" y="' + (p.v <= totalB ? Y(p.v) + 17 : Y(p.v) - 9).toFixed(1) + '" text-anchor="middle" class="mlv">' + usd0(p.v) + '</text><text x="' + X(i).toFixed(1) + '" y="' + (H - 6) + '" text-anchor="middle" class="mll' + (p.mo === mm ? " now" : "") + '">' + lbl(p.mo) + '</text>').join("");
+    const dots = pts.map((p, i) => '<circle cx="' + X(i).toFixed(1) + '" cy="' + Y(p.v).toFixed(1) + '" r="3.5" fill="' + (p.v > totalB ? "var(--dn)" : "var(--sf)") + '" stroke="' + (p.v > totalB ? "var(--dn)" : "var(--bl)") + '" stroke-width="2"/><text x="' + X(i).toFixed(1) + '" y="' + (p.v <= totalB ? Y(p.v) + 14 : Y(p.v) - 8).toFixed(1) + '" text-anchor="middle" class="mlv">' + usd0(p.v) + '</text><text x="' + X(i).toFixed(1) + '" y="' + (H - 6) + '" text-anchor="middle" class="mll' + (p.mo === mm ? " now" : "") + '">' + lbl(p.mo) + '</text>').join("");
     return h("div", { class: "mlg" }, h("div", { class: "mvh" }, "Spent vs. budget"),
-      raw('<svg viewBox="0 0 ' + W + " " + H + '" role="img" aria-label="Spending each month compared with the total budget of ' + usd0(totalB) + '"><line x1="' + px + '" x2="' + (W - px) + '" y1="' + by.toFixed(1) + '" y2="' + by.toFixed(1) + '" stroke="var(--bl)" stroke-opacity=".6" stroke-width="1.5" stroke-dasharray="4 4"/><text x="' + (W - px) + '" y="' + (by - 5).toFixed(1) + '" text-anchor="end" class="mlb">Budget ' + usd0(totalB) + '</text><path d="' + line + '" fill="none" stroke="var(--bl)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>' + dots + '</svg>'));
+      raw('<svg viewBox="0 0 ' + W + " " + H + '" role="img" aria-label="Spending each month compared with the total budget of ' + usd0(totalB) + '"><line x1="' + px + '" x2="' + (W - pr + 12) + '" y1="' + by.toFixed(1) + '" y2="' + by.toFixed(1) + '" stroke="var(--bl)" stroke-opacity=".6" stroke-width="1.5" stroke-dasharray="4 4"/><text x="' + (W - pr + 17) + '" y="' + (by - 1).toFixed(1) + '" class="mlb">Budget</text><text x="' + (W - pr + 17) + '" y="' + (by + 9).toFixed(1) + '" class="mlb">' + usd0(totalB) + '</text><path d="' + line + '" fill="none" stroke="var(--bl)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>' + dots + '</svg>'));
   })();
   return h("div", { class: "card mcard mbud" + (reportOpen ? " open" : " shut") },
     h("button", { type: "button", class: "mrh", "aria-expanded": String(reportOpen), onclick: () => { reportOpen = !reportOpen; render(); } },
@@ -2250,8 +2257,7 @@ function moneyHistModal() {
   const det = sel && (() => {
     const byCat = M.cats.map(c => ({ n: c.name, v: sumBy(sel.es.filter(x => x.cat === c.id), x => x.amt) })).filter(x => x.v > 0).sort((a, b) => b.v - a.v);
     return h("div", { class: "hdet ydet" }, h("b", {}, new Date(sel.mo + "-01T00:00:00").toLocaleDateString("en-US", { month: "long" }) + " · everyday expenses"),
-      byCat.length ? byCat.map(x => h("div", {}, h("span", {}, x.n), h("span", {}, usd0(x.v)))) : h("div", {}, h("span", {}, "No everyday expenses logged")),
-      h("button", { type: "button", class: "btn", style: "width:100%;margin:10px 0 0", onclick: () => { mm = sel.mo; closeModal(); render(); } }, "Visit"));
+      byCat.length ? byCat.map(x => h("div", {}, h("span", {}, x.n), h("span", {}, usd0(x.v)))) : h("div", {}, h("span", {}, "No everyday expenses logged")));
   })();
   return h("div", {},
     h("div", { class: "row exh", style: "justify-content:flex-end;margin-bottom:0" }, closeBtn()),
@@ -2262,6 +2268,7 @@ function moneyHistModal() {
     h("div", { class: "ygrid" }, ms.map(x => h("button", { class: "ym" + (x.show ? "" : " off") + (sel && sel.mo === x.mo ? " sel" : ""), "aria-label": new Date(x.mo + "-01T00:00:00").toLocaleDateString("en-US", { month: "long" }),
       onclick: () => { modal.sel = modal.sel === x.mo ? null : x.mo; renderModal(); } },
       h("b", {}, new Date(x.mo + "-01T00:00:00").toLocaleDateString("en-US", { month: "short" })),
+      sel && sel.mo === x.mo ? h("span", { role: "button", tabindex: "0", class: "yvis", "aria-label": "Visit " + new Date(x.mo + "-01T00:00:00").toLocaleDateString("en-US", { month: "long" }), onclick: e => { e.stopPropagation(); mm = x.mo; closeModal(); render(); } }, "Visit") : null,
       x.show ? [dot("var(--bld)", x.rec), dot("var(--bl)", x.other)] : h("span", { class: "yn" }, "–")))),
     det,
     h("div", { class: "ytot" }, h("div", { class: "yh" }, h("span", {}, yr + " total"), h("b", {}, usd0(yRec + yOther))),
