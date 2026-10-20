@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-title" content="Tracker">
@@ -666,6 +666,10 @@ nav button{font-family:"TabPop",-apple-system,system-ui,sans-serif;font-weight:5
 .mbud .mrbody .mvh{color:var(--mu)}.mbud .mrbody .mvr b{background:color-mix(in srgb,var(--dn) 14%,var(--sf));border:1.5px solid var(--dn)}
 .mbud .mrbody .mlv{fill:var(--ink)}.mbud .mrbody .mll{fill:var(--mu)}.mbud .mrbody .mll.now{fill:var(--ink)}.mbud .mrbody .mlb{fill:var(--blt)}
 .mcard.mbud{background:color-mix(in srgb,var(--bl) 15%,var(--sf));color:var(--ink);border:1px solid color-mix(in srgb,var(--bl) 40%,var(--ln));padding-top:14px}
+.mname.hold{--hc:var(--bl);border-radius:10px;transition:background-color .5s ease,box-shadow .5s ease}.mname.hold.holding{background-color:color-mix(in srgb,var(--hc) 24%,transparent);box-shadow:0 0 0 5px color-mix(in srgb,var(--hc) 24%,transparent)}
+.mx.hold{--hc:var(--c2);transition:background-color .5s ease,box-shadow .5s ease}.mx.hold.holding{background-color:color-mix(in srgb,var(--hc) 30%,var(--bg));box-shadow:0 0 0 3px color-mix(in srgb,var(--hc) 30%,transparent)}
+.hold{-webkit-touch-callout:none;-webkit-user-select:none;user-select:none;touch-action:manipulation}
+*{touch-action:pan-x pan-y} /* no double-tap zoom and no pinch zoom: quick repeat taps (like $100 three times) count as taps */
 .mamtin{width:100%;box-sizing:border-box;margin-top:12px;font:inherit;font-size:22px;font-weight:700;padding:12px;border-radius:12px;border:1px solid var(--ln);background:var(--bg);color:var(--ink)}
 .mamtb{display:flex;gap:10px}.mamtb .btn{flex:1;margin:0}
 .mcat:has(.msl){padding-bottom:0}
@@ -827,7 +831,7 @@ async function exportData() {
 // In-app confirm / notice (browser pop-up boxes are blocked in some views). fn = null makes a plain notice.
 function askConfirm(text, label, fn, back, no, title) { modal = { type: "confirm", text, label, fn, back, no, title }; render(); }
 function confirmModal(m) {
-  const go = () => { modal = null; if (m.fn) m.fn(); else render(); };
+  const go = () => { modal = null; if (m.fn) m.fn(); else if (m.reload) location.reload(); else render(); };
   return h("div", { class: m.title ? "askc" : "" },
     m.title && h("h3", { class: "askh" }, m.title),
     m.text && h("p", { class: "askt" }, m.text),
@@ -842,8 +846,8 @@ function importData(file) {
       const s = JSON.parse(r.result);
       if (!s || typeof s.data !== "object" || Array.isArray(s.data) || !Object.values(s.data).every(v => Array.isArray(v) || (v && typeof v === "object"))) throw new Error("bad");
       askConfirm("This replaces everything on this device with the backup. Continue?", "Restore", () => {
-        state = { v: 1, data: s.data, lastExport: s.lastExport, backupCount: s.backupCount, seeded: 1, ptSeeded: 1, ptOct: 1, checkSync: s.checkSync };
-        save(); syncChecksOnce(); caliMigrate(); askConfirm("Backup restored.", "OK", null);
+        state = { seeded: 1, ptSeeded: 1, ptOct: 1, ...s, v: 1, data: s.data }; // everything in the backup comes back: data, tendinitis check marks, and the "already set up" flags (so sample data is not added again)
+        save(); syncChecksOnce(); caliMigrate(); askConfirm("Backup restored.", "OK", null); modal.reload = true; // reload so the whole app starts fresh from the restored data
       });
     } catch (e) { askConfirm("That file is not a valid Life Tracker backup.", "OK", null); }
   };
@@ -1191,10 +1195,9 @@ function hub() {
 // ---------- A single workout page ----------
 function exCard(p, id, name, s) {
   const mx = getMax(id);
-  // Double-tap a record to get a small window with a trash icon (clears that record).
-  const stat = ([k, l]) => { let t = 0; return h("div", { class: "mx", role: "button", "aria-label": l + ": " + (mx[k] != null ? mx[k] : "none") + ". Double tap to clear", onclick: () => {
-    const n = Date.now(); if (n - t < 450) { t = 0; if (mx[k] != null) { modal = { type: "mxdel", ex: id, k, l, name, v: mx[k] }; renderModal(); } } else t = n;
-  } }, h("b", {}, mx[k] != null ? String(mx[k]) : "-"), h("span", {}, l)); };
+  // Hold a record to get a small window with a trash icon (clears that record).
+  const stat = ([k, l]) => h("div", { role: "button", ...holdProps(() => { if (mx[k] != null) { modal = { type: "mxdel", ex: id, k, l, name, v: mx[k] }; renderModal(); } }), class: "mx hold", "aria-label": l + ": " + (mx[k] != null ? mx[k] : "none") + ". Hold to clear" },
+    h("b", {}, mx[k] != null ? String(mx[k]) : "-"), h("span", {}, l));
   const sets = s ? s.sets.map((x, i) => ({ x, i })).filter(r => r.x.ex === id) : [];
   const last = sets.length ? sets[sets.length - 1].x : {};
   const newN = (state.chartNew && state.chartNew[id]) || 0, flash = sets.length > 0; // this exercise has data today: the chart button lights up
@@ -1665,6 +1668,17 @@ function syncActs() {
 }
 // Hold an activity for about half a second to delete it (PT and None stay). Deleting hides it from the list; days that already used it keep their record.
 const actHidden = k => ((state.data && state.data.pthidden) || []).includes(k);
+// Press and hold (about half a second) runs fn. A quick tap does nothing; moving your finger (scrolling) cancels it.
+function holdProps(fn, ms) {
+  let tm = null, held = false, x0 = 0, y0 = 0, el = null;
+  const stop = () => { clearTimeout(tm); tm = null; if (el) el.classList.remove("holding"); };
+  return { class: "hold",
+    onpointerdown: e => { held = false; stop(); el = e.currentTarget; el.classList.add("holding"); x0 = e.clientX; y0 = e.clientY; tm = setTimeout(() => { tm = null; held = true; fn(); }, ms || 550); },
+    onpointermove: e => { if (tm && Math.hypot(e.clientX - x0, e.clientY - y0) > 10) stop(); },
+    onpointerup: stop, onpointerleave: stop, onpointercancel: stop,
+    onclick: e => { if (held) { held = false; e.preventDefault(); e.stopPropagation(); } },
+    oncontextmenu: e => e.preventDefault() };
+}
 function actPress(d, a) {
   let tm = null, held = false;
   const stop = () => { clearTimeout(tm); tm = null; };
@@ -2036,8 +2050,17 @@ const money = () => {
   if (!M.start) { M.start = today().slice(0, 7); save(); } // months before you started using the app count as zero
   const HOME = ["rent", "utilities", "yard", "gas", "internet", "northtown mud"];
   if (!M.homeSeeded) { M.homeSeeded = 1; M.recurring.forEach(r => { if (HOME.includes(r.name.toLowerCase())) r.home = true; }); save(); } // house items get the blue house once
+  if (!M.recBy) { // your recurring list is kept month by month: a change applies from that month on and never rewrites earlier months
+    M.recBy = {};
+    if (M.recurring.length) { const first = M.spends.filter(x => !x.demo).map(x => x.date.slice(0, 7)).sort()[0]; M.recBy[first && first < M.start ? first : M.start] = M.recurring.map(r => ({ ...r })); }
+    save();
+  }
   return M;
 };
+// The recurring list in force for a month: the newest saved version that starts on or before it (nothing before the first one).
+function recFor(mo) { const B = money().recBy, k = Object.keys(B).filter(x => x <= mo).sort().pop(); return k ? B[k] : []; }
+// The list you are about to change for a month. The first change in a month saves its own copy, so earlier months stay as they were.
+function recEdit(mo) { const B = money().recBy; if (!B[mo]) B[mo] = recFor(mo).map(r => ({ ...r })); return B[mo]; }
 let mm = today().slice(0, 7), mcat = null;
 const usd0 = n => new Intl.NumberFormat("en-US", { style: "currency", currency: "USD", maximumFractionDigits: n % 1 ? 2 : 0 }).format(n);
 const sumBy = (arr, f) => arr.reduce((a, x) => a + f(x), 0);
@@ -2055,7 +2078,7 @@ const delAsk = (text, fn, back) => askConfirm("Delete?", "Yes", () => { fn(); mo
 const mInput = (cls, ph, extra) => h("input", { class: cls, type: "text", inputmode: "decimal", autocomplete: "off", placeholder: ph, ...extra });
 
 function moneyView() {
-  const M = money(), rec = mm >= M.start ? sumBy(M.recurring, r => r.amt) : 0, other = sumBy(monthSpends(), x => x.amt);
+  const M = money(), rec = sumBy(recFor(mm), r => r.amt), other = sumBy(monthSpends(), x => x.amt);
   const total = rec + other, left = M.limit - total, pool = Math.max(0, M.limit - rec), planned = sumBy(M.cats, c => c.alloc || 0);
   const pct = v => Math.min(100, M.limit ? 100 * v / M.limit : 0) + "%";
   const catName = h("input", { class: "n", placeholder: "New category", "aria-label": "Category name", required: true });
@@ -2085,12 +2108,11 @@ function moneyView() {
         // The amount box opens a popup with quick amounts and a spot to type your own.
         const amt = mAmt[c.id] || 0;
         const inp = h("button", { type: "button", class: "a abox" + (amt ? " has" : ""), "aria-label": c.name + " amount: tap to choose", onclick: e => openAmtPop(c, e.currentTarget) }, h("span", {}, amt ? "$" + amt : "$"), raw('<svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg>'));
-        // Tap an entry twice quickly to change its date. Tap a category name twice quickly to delete the category.
-        const dbl = fn => { let t = 0; return () => { const n = Date.now(); if (n - t < 450) { t = 0; fn(); } else t = n; }; };
+        // Hold a category name to rename or delete the category.
         const delCat = () => { modal = { type: "mcatopt", id: c.id }; renderModal(); };
         return h("div", { class: "mcat" },
           h("form", { class: "mq", onsubmit: e => { e.preventDefault(); const a = mAmt[c.id] || 0; if (!a) return; delete mAmt[c.id]; M.spends.push({ id: uid(), at: new Date().toISOString(), date: mm === today().slice(0, 7) ? today() : mm + "-01", cat: c.id, amt: a, note: "" }); save(); render(); } },
-            h("button", { type: "button", class: "mname", "aria-label": c.name, onclick: dbl(delCat) }, h("b", {}, c.name)),
+            h("button", { type: "button", ...holdProps(delCat), class: "mname hold", "aria-label": c.name + ": hold to rename or delete" }, h("b", {}, c.name)),
             inp, h("button", { class: "btn", type: "submit", "aria-label": "Add to " + c.name }, "+")),
           (() => { const bud = c.budget || 0, spent = sumBy(es, x => x.amt);
             return h("button", { type: "button", class: "mcpb" + (bud ? " bset" : " none"), "aria-label": bud ? c.name + ": " + usd0(spent) + " spent, budget " + usd0(bud) + ". Tap to change" : "Set a monthly budget for " + c.name,
@@ -2215,20 +2237,21 @@ function pushCalModal() {
     h("div", { class: "pcal" }, [..."SMTWTFS"].map(c => h("div", { class: "pch" }, c)), cells));
 }
 function moneyHistModal() {
-  const M = money(), recAll = sumBy(M.recurring, r => r.amt), cur = today().slice(0, 7);
+  const M = money(), cur = today().slice(0, 7);
   const yr = modal.year || Number(cur.slice(0, 4));
   const info = mo => {
-    const es = M.spends.filter(x => x.date.startsWith(mo)), other = sumBy(es, x => x.amt), rec = mo >= M.start ? recAll : 0;
+    const es = M.spends.filter(x => x.date.startsWith(mo)), other = sumBy(es, x => x.amt), rec = sumBy(recFor(mo), r => r.amt);
     return { mo, es, other, rec, show: mo <= cur && (rec + other > 0) };
   };
   const ms = Array.from({ length: 12 }, (_, i) => info(yr + "-" + pad(i + 1)));
   const yRec = sumBy(ms.filter(x => x.show), x => x.rec), yOther = sumBy(ms.filter(x => x.show), x => x.other);
   const sel = modal.sel && modal.sel.startsWith(yr + "-") ? ms.find(x => x.mo === modal.sel) : null;
   const dot = (c, v) => h("div", { class: "yd" }, h("i", { style: "background:" + c }), h("span", {}, usd0(v)));
-  const det = sel && sel.show && (() => {
+  const det = sel && (() => {
     const byCat = M.cats.map(c => ({ n: c.name, v: sumBy(sel.es.filter(x => x.cat === c.id), x => x.amt) })).filter(x => x.v > 0).sort((a, b) => b.v - a.v);
-    return h("div", { class: "hdet ydet" }, h("b", {}, new Date(sel.mo + "-01T00:00:00").toLocaleDateString("en-US", { month: "long" }) + " · other"),
-      byCat.length ? byCat.map(x => h("div", {}, h("span", {}, x.n), h("span", {}, usd0(x.v)))) : h("div", {}, h("span", {}, "Nothing else logged")));
+    return h("div", { class: "hdet ydet" }, h("b", {}, new Date(sel.mo + "-01T00:00:00").toLocaleDateString("en-US", { month: "long" }) + " · everyday expenses"),
+      byCat.length ? byCat.map(x => h("div", {}, h("span", {}, x.n), h("span", {}, usd0(x.v)))) : h("div", {}, h("span", {}, "No everyday expenses logged")),
+      h("button", { type: "button", class: "btn", style: "width:100%;margin:10px 0 0", onclick: () => { mm = sel.mo; closeModal(); render(); } }, "Visit"));
   })();
   return h("div", {},
     h("div", { class: "row exh", style: "justify-content:flex-end;margin-bottom:0" }, closeBtn()),
@@ -2263,7 +2286,7 @@ function smallAsk(anchor, fn) {
 }
 function closeSmallAsk() { for (const id of ["saskb", "sask"]) { const e = document.getElementById(id); if (e) e.remove(); } }
 function moneyRecModal() {
-  const M = money(), rec = sumBy(M.recurring, r => r.amt);
+  const M = money(), list = recFor(mm), rec = sumBy(list, r => r.amt);
   const name = h("input", { class: "n", placeholder: "Name", "aria-label": "Recurring name", required: true });
   const amt = mInput("a", "$ / mo", { "aria-label": "Recurring amount", required: true });
   let kind = null;
@@ -2275,20 +2298,21 @@ function moneyRecModal() {
     return b;
   });
   const kinds = h("div", { class: "mkinds" }, REC_KINDS.map((K, i) => h("div", { class: "mkind" }, btns[i])));
-  const legend = REC_KINDS.map(K => ({ K, v: sumBy(M.recurring.filter(r => recKind(r) === K.k), r => r.amt) }))
+  const legend = REC_KINDS.map(K => ({ K, v: sumBy(list.filter(r => recKind(r) === K.k), r => r.amt) }))
     .map(x => h("span", {}, h("span", { class: "mh2 lg", "aria-hidden": "true" }, raw(x.K.svg)), x.K.label + " ", h("b", {}, usd0(x.v))));
-  const other = sumBy(M.recurring.filter(r => !recKind(r)), r => r.amt);
+  const other = sumBy(list.filter(r => !recKind(r)), r => r.amt);
   legend.push(h("span", {}, "Other ", h("b", {}, usd0(other))));
   return h("div", {},
     h("div", { class: "row exh" }, h("h2", { style: "margin:0" }, "Recurring"), closeBtn()),
     h("div", { class: "mtot" }, usd0(rec), h("small", {}, " a month")),
+    h("p", { class: "mrn", style: "margin:0 0 6px" }, "Changes here apply to " + monthName() + " and later months."),
     h("div", { class: "mleg", style: "margin:2px 0 8px;flex-wrap:wrap" }, legend),
-    M.recurring.slice().sort((a, b) => b.amt - a.amt || a.name.localeCompare(b.name)).map(r => { const K = REC_KINDS.find(x => x.k === recKind(r)); return h("div", { class: "mrow" },
-      h("button", { type: "button", class: "mrname", "aria-label": r.name + ": tap to change the symbol", onclick: () => { const ks = [null, ...REC_KINDS.map(x => x.k)], n = ks[(ks.indexOf(recKind(r)) + 1) % ks.length]; r.kind = n; r.home = n === "home"; save(); render(); } }, h("b", {}, r.name, K && h("span", { class: "mh2", role: "img", "aria-label": K.label }, raw(K.svg)))),
+    list.slice().sort((a, b) => b.amt - a.amt || a.name.localeCompare(b.name)).map(r => { const K = REC_KINDS.find(x => x.k === recKind(r)); return h("div", { class: "mrow" },
+      h("button", { type: "button", class: "mrname", "aria-label": r.name + ": tap to change the symbol", onclick: () => { const ks = [null, ...REC_KINDS.map(x => x.k)], n = ks[(ks.indexOf(recKind(r)) + 1) % ks.length], x = recEdit(mm).find(q => q.id === r.id); if (x) { x.kind = n; x.home = n === "home"; } save(); render(); } }, h("b", {}, r.name, K && h("span", { class: "mh2", role: "img", "aria-label": K.label }, raw(K.svg)))),
       h("label", { class: "mamt" }, "$", h("input", { type: "text", inputmode: "decimal", autocomplete: "off", value: r.amt, "aria-label": r.name + " amount",
-        onchange: e => { const n = numOf(e.target.value); if (n > 0) r.amt = n; save(); render(); } })),
-      h("button", { class: "x tr", "aria-label": "Remove " + r.name, onclick: e => smallAsk(e.currentTarget, () => { M.recurring = M.recurring.filter(x => x !== r); save(); render(); }) }, raw(TRASH))); }),
-    h("form", { class: "madd sm mrf", onsubmit: e => { e.preventDefault(); const a = numOf(amt.value); if (!name.value.trim() || !a) return; M.recurring.push({ id: uid(), name: name.value.trim(), amt: a, kind, home: kind === "home" }); save(); render(); } },
+        onchange: e => { const n = numOf(e.target.value), x = recEdit(mm).find(q => q.id === r.id); if (n > 0 && x) x.amt = n; save(); render(); } })),
+      h("button", { class: "x tr", "aria-label": "Remove " + r.name, onclick: e => smallAsk(e.currentTarget, () => { M.recBy[mm] = recEdit(mm).filter(x => x.id !== r.id); save(); render(); }) }, raw(TRASH))); }),
+    h("form", { class: "madd sm mrf", onsubmit: e => { e.preventDefault(); const a = numOf(amt.value); if (!name.value.trim() || !a) return; recEdit(mm).push({ id: uid(), name: name.value.trim(), amt: a, kind, home: kind === "home" }); save(); render(); } },
       name, ...btns, amt, h("button", { class: "btn", type: "submit", "aria-label": "Add recurring" }, "Add")));
 }
 function infoModal() {
@@ -2614,6 +2638,7 @@ render();
 // Ask the browser to keep our data, and make the app work offline.
 if (navigator.storage && navigator.storage.persist) navigator.storage.persist();
 if ("serviceWorker" in navigator) navigator.serviceWorker.register("sw.js").catch(() => {});
+document.addEventListener("gesturestart", e => e.preventDefault()); // Safari pinch-zoom off
 </script>
 </body>
 </html>
