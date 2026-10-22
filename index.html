@@ -824,6 +824,19 @@ nav button{font-family:"TabPop",-apple-system,system-ui,sans-serif;font-weight:5
 .mamtb{display:flex;gap:10px}.mamtb .btn{flex:1;margin:0}
 .mcat:has(.msl){padding-bottom:0}
 .madd.sm:not(.mrf) .btn{width:52px;padding:0;font-size:20px;line-height:34px;min-height:36px}
+/* Faded red until pressed: finish button, quad weights and times (solid once the timer is running) */
+.rpfin .rpfb{background:color-mix(in srgb,var(--rd) 18%,var(--sf));color:var(--rdt);border:0}.rpfin .rpfb:active,.rpfin .rpfb.on{background:var(--rd);color:var(--rdk)}
+body .rpwg button.on:not(.fix),body .rptm.pick .rptt button.on:not(.rpstart){background:color-mix(in srgb,var(--rd) 18%,var(--sf));color:var(--rdt);animation:none;opacity:1}
+body .rpwg.run button.on:not(.fix),body .rptm.pick.run .rptt button.on:not(.rpstart){background:var(--rd);color:var(--rdk);animation:none}
+.rpfin .rpfb{position:relative;overflow:visible;display:flex;align-items:center;justify-content:center;gap:8px}.rpfin .rpfb svg{width:18px;height:18px;flex:none}
+.rpfb.pop{animation:rpfpop .5s cubic-bezier(.2,1.6,.4,1)}@keyframes rpfpop{0%{transform:scale(.94)}55%{transform:scale(1.05)}100%{transform:scale(1)}}.rpfb.pop svg path{stroke-dasharray:30;stroke-dashoffset:30;animation:rpfck .45s .15s ease forwards}@keyframes rpfck{to{stroke-dashoffset:0}}
+.rpfb i.cf{position:absolute;left:50%;top:50%;width:8px;height:8px;border-radius:50%;opacity:0;pointer-events:none;animation:rpcf .75s ease-out forwards}@keyframes rpcf{0%{opacity:1;transform:translate(-50%,-50%) scale(1)}100%{opacity:0;transform:translate(calc(-50% + var(--dx)),calc(-50% + var(--dy))) scale(.3)}}
+.rpest{display:flex;align-items:center;gap:6px;margin:6px 0 2px;font-size:13px;font-weight:600;color:var(--rdt)}.rpest svg{width:16px;height:16px;flex:none}
+.rpsb .rpgo svg{width:16px;height:16px}
+.rpsb .rpgo+.rpb{margin-left:auto}body .rpsb .rpb.sm{flex:0 0 52px;width:52px;height:26px;min-width:0;font-size:12px;padding:0;border-radius:8px}body .rpsb .rpgo{flex:0 0 56px;width:56px;height:30px}.rpsb .rpb{flex:1}
+.rpgs{display:flex;align-items:center;gap:8px;margin-top:8px;flex-wrap:wrap}.rpgs small{font-size:12px;font-weight:700;color:var(--mu);letter-spacing:.03em;text-transform:uppercase}.rpgs div{display:flex;flex-wrap:wrap;gap:5px}.rpgs span{font-size:13px;font-weight:700;font-variant-numeric:tabular-nums;border-radius:999px;padding:3px 10px;background:color-mix(in srgb,var(--rd) 14%,var(--sf));color:var(--rdt)}
+body .rpvx button.on{background:color-mix(in srgb,var(--rd) 18%,var(--sf));color:var(--rdt);border-color:var(--rd)}body .rpvx.solid button.on{background:var(--rd);color:var(--rdk)}
+body .rpgo.on:not(:active),body .rptr .rpgo.on:not(:active),body .rpsb .rpgo.on:not(:active),body .rptm.pick .rptt button.rpstart.on:not(:active){background:color-mix(in srgb,var(--rd) 18%,var(--sf));color:var(--rdt);border:1.5px solid var(--rd)}
 </style>
 </head>
 <body>
@@ -2549,14 +2562,14 @@ const rpSess = () => list("rpsess").slice().sort((a, b) => a.date < b.date ? -1 
 // Last weight used for an exercise (and variant).
 function rpLastW(k, v) { const s = rpSess().filter(x => x.ex[k] && x.ex[k].w != null && (!v || !x.ex[k].v || x.ex[k].v === v)); return s.length ? s[s.length - 1].ex[k].w : null; }
 // Looking at another day: its drafts are kept apart (the key ends in @date + session number) and start from what was saved that day.
-let rpSn = 0;
+let rpSn = 0, rpFin = null; // rpFin: which finish button was just pressed (it stays solid until you change something)
 const rpDSuf = () => rpDate ? "@" + rpDate.replace(/-/g, "") + "s" + rpSn : "";
 const rpDaySess = () => rpDate ? list("rpsess").filter(x => x.date === rpDate) : [];
 const rpPurge = date => { const r = rp(), tag = "@" + date.replace(/-/g, "") + "s"; Object.keys(r.draft).forEach(k => { if (k.includes(tag)) delete r.draft[k]; }); };
 function rpPrefill(s) {
   const d = { _pain: s.pain != null ? s.pain : null };
   Object.entries(s.ex).forEach(([k, x]) => { const e = RP_EX[k]; if (!e) return; const n = k === "hop" ? 4 : e.kind === "prog" ? 3 : e.sets || 0; const o = { done: Array.from({ length: n }, (_, i) => i < (x.sets || 0)) };
-    ["w", "v", "L", "R", "cL", "cR"].forEach(f => { if (x[f] != null) o[f] = x[f]; }); if (x.ws) o.ws = x.ws.slice(); d[k] = o; });
+    ["w", "v", "L", "R", "cL", "cR"].forEach(f => { if (x[f] != null) o[f] = x[f]; }); ["gL", "gR"].forEach(f => { if (x[f]) o[f] = x[f].slice(); }); if (x.ws) o.ws = x.ws.slice(); d[k] = o; });
   return d;
 }
 function rpDraft(stage, idx) { const r = rp(), key = stage + "-" + idx + rpDSuf(); if (!r.draft[key] && rpDate) { const s = rpDaySess()[rpSn]; r.draft[key] = s && s.stage === stage && s.day === RP_DAYS[stage][idx].n ? rpPrefill(s) : {}; } return r.draft[key] || (r.draft[key] = {}); }
@@ -2660,6 +2673,22 @@ const RP_TIMES = [[30, "0:30"], [45, "0:45"], [60, "1:00"], [90, "1:30"], [120, 
 // A soft two-note chime when a timer ends. The browser only allows sound after a tap, so the Start button wakes it up first.
 let rpAC = null;
 function rpWake() { try { const AC = window.AudioContext || window.webkitAudioContext; if (!AC) return; rpAC = rpAC || new AC(); if (rpAC.state === "suspended") rpAC.resume(); } catch (x) {} }
+function rpDing() { // a quick rising "done" chime for Finish session
+  try { if (!rpAC) return; const t0 = rpAC.currentTime + 0.02;
+    [[523.25, 0], [659.25, 0.1], [783.99, 0.2], [1046.5, 0.32]].forEach(([f, d]) => { const o = rpAC.createOscillator(), g = rpAC.createGain(); o.type = "sine"; o.frequency.value = f; o.connect(g); g.connect(rpAC.destination);
+      g.gain.setValueAtTime(0.0001, t0 + d); g.gain.exponentialRampToValueAtTime(0.28, t0 + d + 0.02); g.gain.exponentialRampToValueAtTime(0.0001, t0 + d + 0.55); o.start(t0 + d); o.stop(t0 + d + 0.6); });
+  } catch (x) {}
+}
+let rpUndo = null, rpBurst = false;
+function rpUnfinish() { // take Finish session back: the session leaves the history and your entries come back
+  const u = rpUndo; rpUndo = null; rpFin = null; if (!u) return;
+  const r = rp(), list_ = list("rpsess");
+  if (u.prev) { const s = list_.find(x => x.id === u.sid); if (s) { Object.keys(s).forEach(k => delete s[k]); Object.assign(s, u.prev); } }
+  else state.data.rpsess = list_.filter(x => x.id !== u.sid);
+  if (u.draft) r.draft[u.dk] = JSON.parse(u.draft); else if (r.draft[u.dk]) delete r.draft[u.dk]._sid;
+  if (u.nxt) { r.nxt = u.nxt; r.wk = u.wk; }
+  rpSync(); save(); render();
+}
 function rpBeep() {
   try {
     if (!rpAC) return; const t0 = rpAC.currentTime + 0.02;
@@ -2694,7 +2723,7 @@ function rpTicker() { const need = !!(rp().run || rpTm); if (need && !rpTick) rp
 function rpStopRun() {
   const r = rp(); if (!r.run) return;
   const rk = r.run.key.split("-"), dd = (r.draft[rk[0] + "-" + rk[1]] || {})[rk[2]], el = (Date.now() - r.run.t0) / 1000;
-  if (dd) { const side = r.run.side, prev = dd[side] || 0, use = Math.min(el, 180 - prev); dd[side] = Math.min(180, prev + el); const ck = "c" + side; dd[ck] = Math.max(dd[ck] || 0, use); }
+  if (dd) { const side = r.run.side, prev = dd[side] || 0, use = Math.min(el, 180 - prev); dd[side] = Math.min(180, prev + el); const ck = "c" + side; dd[ck] = Math.max(dd[ck] || 0, use); if (use >= 2) (dd["g" + side] = dd["g" + side] || []).push(Math.round(use)); }
   r.run = null;
 }
 function rpAcc(dr, stage, idx, k, e) {
@@ -2703,12 +2732,13 @@ function rpAcc(dr, stage, idx, k, e) {
   const side = (s, label) => {
     const key = stage + "-" + idx + rpDSuf() + "-" + k, running = r.run && r.run.key === key && r.run.side === s, fin = (d[s] || 0) >= 180;
     const t = h("b", { class: "rpt" }); t._d = d; t.setAttribute("data-rpt", key + "|" + s); t.textContent = fmtT(Math.min(180, (d[s] || 0) + (running ? (Date.now() - r.run.t0) / 1000 : 0)));
-    const bump = x => { d[s] = Math.min(180, Math.max(0, (d[s] || 0) + x)); if (d[s] >= 180) rpMarkPT(); save(); render(); };
+    const bump = x => { d[s] = Math.min(180, Math.max(0, (d[s] || 0) + x)); if (!d[s]) { delete d["g" + s]; delete d["c" + s]; } if (d[s] >= 180) rpMarkPT(); save(); render(); };
     return h("div", { class: "rpside" + (fin ? " fin" : "") }, h("div", { class: "rpsh" }, h("span", {}, label, fin && h("em", { class: "rpfn" }, raw(RPCHK), " done")), t, h("em", {}, " / 3:00")), h("i", {}, h("b", { style: "width:" + Math.min(100, 100 * ((d[s] || 0) + (running ? (Date.now() - r.run.t0) / 1000 : 0)) / 180) + "%" })),
       h("div", { class: "rpsb" },
-        h("button", { type: "button", class: "btn rpgo" + (running ? " on" : ""), disabled: fin ? "" : null, onclick: () => { const was = running; rpStopRun(); if (!was) r.run = { key, side: s, t0: Date.now() }; save(); render(); } }, running ? raw(PAUSE) : "Start"),
+        h("button", { type: "button", class: "btn rpgo" + (running ? " on" : ""), disabled: fin ? "" : null, onclick: () => { const was = running; rpStopRun(); if (!was) r.run = { key, side: s, t0: Date.now() }; save(); render(); } }, raw(running ? PAUSE : PLAY)),
         h("button", { type: "button", class: "rpb sm", "aria-label": "Subtract 30 seconds", onclick: () => bump(-30) }, "−30s"),
-        h("button", { type: "button", class: "rpb sm", "aria-label": "Add 30 seconds", disabled: fin ? "" : null, onclick: () => bump(30) }, "+30s")));
+        h("button", { type: "button", class: "rpb sm", "aria-label": "Add 30 seconds", disabled: fin ? "" : null, onclick: () => bump(30) }, "+30s")),
+      (d["g" + s] || []).length > 0 && h("div", { class: "rpgs" }, h("small", {}, d["g" + s].length + (d["g" + s].length === 1 ? " hold" : " holds")), h("div", {}, d["g" + s].map(x => h("span", {}, fmtT(x))))));
   };
   return h("div", { class: "rpacc" }, side("L", "Left"), side("R", "Right"));
 }
@@ -2803,7 +2833,7 @@ function rpExCard(stage, idx, k) {
   const card = h("div", { class: "card ptc rpx" + (done ? " done" : "") + (swipe ? " swp" : "") },
     h("div", { class: "row exh" }, h("h2", {}, e.n, done && h("span", { class: "rpdone", role: "img", "aria-label": "Done for today" }, raw(RPCHK))), h("div", { class: "rphb" }, legBtn && h("button", { type: "button", class: "iconbtn rphowb", "aria-label": "Leg press hold times", onclick: () => { modal = { type: "leg" }; renderModal(); } }, raw(CLOCK)), rpInfoBtn(k))),
     (rx || e.rest) && h("p", { class: "rprx" }, [rx, e.rest].filter(Boolean).join(" · ")),
-    e.vars && h("div", { class: "rpvs", role: "group", "aria-label": e.n + " variation" }, e.vars.map(v => h("button", { type: "button", class: v === rpVar(k, e) ? "on" : "", "aria-pressed": String(v === rpVar(k, e)), onclick: () => { r.vars[k] = v; save(); render(); } }, v))),
+    e.vars && h("div", { class: "rpvs rpvx" + ((rpTm && rpTm.key === key) || (held && held.done && held.done.some(Boolean)) ? " solid" : ""), role: "group", "aria-label": e.n + " variation" }, e.vars.map(v => h("button", { type: "button", class: v === rpVar(k, e) ? "on" : "", "aria-pressed": String(v === rpVar(k, e)), onclick: () => { r.vars[k] = v; save(); render(); } }, v))),
     ...kids);
   if (swipe) swipe(card);
   return card;
@@ -2887,25 +2917,31 @@ function rpRefCard() {
 }
 function rpFinish(stage, idx) {
   const r = rp(), day = RP_DAYS[stage][idx], dr = rpDraft(stage, idx), ex = {};
-  if (dr._pain == null) { rpWarn = "Pick your pain level (0–10) to finish."; render(); return; }
+  if (dr._pain == null) { rpWarn = "pain"; render(); return; }
   rpStopRun();
   const keys = day.ex.flatMap(k => k === "s3" ? S3CAT.map(c => c[0]) : [k]);
   keys.forEach(k => { const d = dr[k]; if (!d) return; const n = (d.done || []).filter(Boolean).length; if (!n && !d.L && !d.R) return; ex[k] = { sets: n };
     if (d.w != null) ex[k].w = d.w; else { const lw = RP_EX[k] && RP_EX[k].w && !RP_EX[k].pw ? rpLastW(k, d.v) : null; if (lw != null && n) ex[k].w = lw; }
     if (d.ws && d.v === "Single-leg leg press") { ex[k].ws = d.ws.map((x, i) => d.done[i] ? x : null); const top = Math.max(0, ...ex[k].ws.filter(Boolean)); if (top) ex[k].w = top; else delete ex[k].w; }
-    if (d.v) ex[k].v = d.v; if (d.L) ex[k].L = Math.round(d.L); if (d.R) ex[k].R = Math.round(d.R); if (d.cL) ex[k].cL = Math.round(d.cL); if (d.cR) ex[k].cR = Math.round(d.cR);
+    if (d.v) ex[k].v = d.v; if (d.L) ex[k].L = Math.round(d.L); if (d.R) ex[k].R = Math.round(d.R); if (d.cL) ex[k].cL = Math.round(d.cL); if (d.cR) ex[k].cR = Math.round(d.cR); if (d.gL && d.gL.length) ex[k].gL = d.gL.slice(); if (d.gR && d.gR.length) ex[k].gR = d.gR.slice();
     if (k === "hop") ex[k].lvl = r.hop; if (k === "bridge") ex[k].lvl = r.bridge; if (["squat", "split", "hinge", "step"].includes(k)) ex[k].r = rpReps(); });
-  if (!Object.keys(ex).length) { rpWarn = "Log at least one set or hold first."; render(); return; }
   if (day.ex.includes("s3")) { const row = S3W[r.s3 - 1], full = S3CAT.every(([ck], i) => ex[ck] && ex[ck].sets >= row[i][1]); ex.s3 = { sets: 0, w: r.s3, full }; }
+  const exFull = k => { const e = RP_EX[k], d = dr[k]; if (!e || !d) return false; if (e.kind === "acc") return (d.L || 0) >= 180 && (d.R || 0) >= 180; const n = k === "hop" ? 4 : e.kind === "prog" ? 3 : e.sets || 0; return n > 0 && d.done && d.done.length >= n && d.done.every(Boolean); };
+  if (!day.ex.some(k => k !== "s3" && exFull(k)) && !(ex.s3 && ex.s3.full)) { rpWarn = "Finish at least one exercise completely."; render(); return; }
   rpMarkPT(); { const fd = rpDate || today(); if (state.rpOff) delete state.rpOff[fd]; if (state.rpSkip) delete state.rpSkip[fd]; }
-  const mine = rpDaySess();
-  if (rpDate && rpSn < mine.length) Object.assign(mine[rpSn], { stage, day: day.n, ex, pain: dr._pain }); // fixing a session you already logged that day
-  else list("rpsess").push({ id: uid(), date: rpDate || today(), stage, day: day.n, ex, pain: dr._pain });
-  if (rpDate) rpPurge(rpDate); else delete r.draft[stage + "-" + idx];
+  const mine = rpDaySess(), prior = dr._sid && list("rpsess").find(x => x.id === dr._sid);
+  const undoInfo = { dk: stage + "-" + idx + rpDSuf(), nxt: r.nxt ? { ...r.nxt } : {}, wk: r.wk, draft: null, prev: null, sid: null };
+  // Everything in the session done? Then the form starts fresh. A part-finished session keeps what you entered, and finishing again updates the same session.
+  const full = day.ex.filter(k => k !== "s3").every(k => { const e = RP_EX[k], d = dr[k]; if (!e || !d) return false; if (e.kind === "acc") return (d.L || 0) >= 180 && (d.R || 0) >= 180; const n = k === "hop" ? 4 : e.kind === "prog" ? 3 : e.sets || 0; return n > 0 && d.done && d.done.length >= n && d.done.every(Boolean); }) && (!day.ex.includes("s3") || !!(ex.s3 && ex.s3.full));
+  if (prior) { undoInfo.prev = JSON.parse(JSON.stringify(prior)); undoInfo.sid = prior.id; Object.assign(prior, { stage, day: day.n, ex, pain: dr._pain }); }
+  else if (rpDate && rpSn < mine.length) { undoInfo.prev = JSON.parse(JSON.stringify(mine[rpSn])); undoInfo.sid = mine[rpSn].id; Object.assign(mine[rpSn], { stage, day: day.n, ex, pain: dr._pain }); } // fixing a session you already logged that day
+  else { const id = uid(); undoInfo.sid = id; list("rpsess").push({ id, date: rpDate || today(), stage, day: day.n, ex, pain: dr._pain }); dr._sid = id; }
+  if (full) { undoInfo.draft = JSON.stringify(dr); if (rpDate) rpPurge(rpDate); else delete r.draft[stage + "-" + idx]; }
   rpWarn = "";
   const len = RP_DAYS[stage].length; r.nxt = r.nxt || {};
-  if (stage !== 1 && !rpDate) { const nx = (idx + 1) % len; r.nxt[stage] = nx; if (nx === 0) r.wk = r.wk % 3 + 1; }
-  if (!rpDate) rpDay = null; rpSync(); render();
+  if (stage !== 1 && !rpDate && full) { const nx = (idx + 1) % len; r.nxt[stage] = nx; if (nx === 0) r.wk = r.wk % 3 + 1; }
+  rpFin = { key: stage + "-" + idx + rpDSuf() + "|" + (rpDate || today()), snap: null }; rpUndo = undoInfo; rpBurst = true; setTimeout(() => { rpBurst = false; }, 900); rpDing();
+  if (!rpDate && full) rpDay = null; rpSync(); render();
 }
 function rpDoneView(out) {
   const r = rp(), ss = rpSess(), items = rpBench(2), got = items.filter(it => rpMet(it, r)).length;
@@ -2917,17 +2953,29 @@ function rpDoneView(out) {
   out.push(rpProgressCard());
   return out;
 }
+// Rough time for a day's session: the work itself, the rests in between, and about a minute per exercise to set up.
+function rpMins(day) {
+  let t = 0;
+  day.ex.forEach(k => { if (k === "s3") { t += 20 * 60; return; } const e = RP_EX[k]; if (!e) return; t += 60;
+    if (e.kind === "acc") { t += 360; return; }
+    const n = k === "hop" ? 4 : e.kind === "prog" ? 3 : e.sets || 3, m = e.rest && /(\d+)\s*min/.exec(e.rest), rest = m ? +m[1] * 60 : 60;
+    const work = e.kind === "iso" ? 40 : e.kind === "prog" ? (e.tfix || 30) : e.kind === "lift" ? (e.fixed ? 60 : 48) : 40;
+    t += n * work + (n - 1) * rest; });
+  return Math.max(5, Math.round(t / 60 / 5) * 5);
+}
 function rpToday() {
   const r = rp(), vd = rpDate || today(), dss = rpDaySess(), forced = rpDate && dss[rpSn] ? dss[rpSn] : null, out = [];
   const stage = forced ? forced.stage : rpView || (r.complete ? 3 : r.stage);
   if (stage === 3) return rpDoneView(out);
   if (rpDate && dss.length) out.push(h("div", { class: "rpvs", role: "group", "aria-label": "Sessions that day" }, dss.map((x, i) => h("button", { type: "button", class: forced === x ? "on" : "", onclick: () => { rpSn = i; rpDay = null; render(); } }, "Session " + (i + 1))), h("button", { type: "button", class: forced ? "" : "on", onclick: () => { rpSn = dss.length; rpDay = null; render(); } }, "+ New")));
   if (r.notice) out.push(h("button", { type: "button", class: "card rpnote", onclick: () => { delete r.notice; save(); render(); } }, h("b", {}, r.notice.to === "done" ? "Rehab complete" : "Moved up to Stage " + r.notice.to), h("span", {}, "You reached every goal for Stage " + r.notice.from + ". Tap to dismiss.")));
-  const hdr = h("div", { class: "card ptc rphd" }, h("small", {}, "Stage " + stage), h("h2", {}, RP_STAGE[stage].t), h("p", {}, RP_STAGE[stage].sub),
+  const est = h("div", { class: "rpest" });
+  const hdr = h("div", { class: "card ptc rphd" }, h("small", {}, "Stage " + stage), h("h2", {}, RP_STAGE[stage].t), h("p", {}, RP_STAGE[stage].sub), est,
     stage === 1 && (() => { const n = list("rpsess").filter(s => s.stage === 1 && s.date === vd).length; return h("div", { class: "rpdn" }, [0, 1].map(i => h("span", { class: i < n ? "on" : "" }, i < n ? raw(RPCHK) : "")), h("em", {}, vd !== today() ? (n ? n + (n === 1 ? " session" : " sessions") + " logged" : "No sessions logged") : n >= 2 ? "Both sessions done today" : n === 1 ? "One session done, one more if you can" : "No sessions yet today")); })());
   if (stage !== r.stage && !rpDate) out.push(h("div", { class: "card rpview" }, h("span", {}, h("b", {}, "Viewing Stage " + stage), h("small", {}, "You're on Stage " + r.stage)), h("button", { type: "button", class: "btn", onclick: () => askConfirm("Make Stage " + stage + " your current stage?", "Yes", () => { r.stage = stage; rpView = null; rpDay = null; r.wk = 1; save(); render(); }, null, "Cancel", "Change your stage?") }, "Switch to Stage " + stage)));
   out.push(hdr);
   const days = RP_DAYS[stage], cur = forced ? Math.max(0, days.findIndex(d => d.n === forced.day)) : Math.min(days.length - 1, rpDay != null ? rpDay : rpDate ? 0 : (r.nxt && r.nxt[stage]) || 0), day = days[cur];
+  est.append(raw(CLOCK), "About " + rpMins(day) + " min" + (stage === 1 ? " per session" : "") + ", rests included");
   if (days.length > 1) {
     out.push(h("div", { class: "rpdays", role: "group", "aria-label": "Day" }, days.map((d, i) => h("button", { type: "button", class: "rpdy" + (i === cur ? " on" : "") + (r.nxt && (r.nxt[stage] || 0) === i && stage === r.stage ? " nxt" : ""), "aria-pressed": String(i === cur), onclick: () => { rpDay = i; if (forced) rpSn = dss.length; render(); } }, h("small", {}, "Day"), h("b", {}, String(i + 1))))));
     out.push(h("div", { class: "rpwk" }, h("b", {}, "Day " + (cur + 1) + ": " + day.n), day.ex.some(k => ["squat", "split", "hinge", "step"].includes(k)) ? h("div", { class: "seg rpweek", role: "group", "aria-label": "Week" }, [1, 2, 3].map(w => h("button", { type: "button", class: r.wk === w ? "on" : "", "aria-pressed": String(r.wk === w), onclick: () => { r.wk = w; save(); render(); } }, "Week " + w))) : null));
@@ -2935,8 +2983,12 @@ function rpToday() {
   day.ex.forEach(k => out.push(k === "s3" ? rpS3Card(stage, cur) : rpExCard(stage, cur, k)));
   const dr = rpDraft(stage, cur);
   out.push(h("div", { class: "card ptc rpfin" }, h("div", { class: "rppain" + (rpWarn && dr._pain == null ? " need" : "") }, h("span", {}, "Pain during training"), h("div", { class: "pain" }, Array.from({ length: 11 }, (_, i) => h("button", { type: "button", class: dr._pain === i ? "on" : "", style: "--t:" + i, "aria-pressed": String(dr._pain === i), onclick: () => { dr._pain = dr._pain === i ? null : i; rpWarn = ""; save(); render(); } }, String(i))))),
-    rpWarn && h("p", { class: "rpwarn", role: "alert" }, rpWarn),
-    h("button", { type: "button", class: "btn rpfb", onclick: () => rpFinish(stage, cur) }, forced ? "Save changes" : "Finish session"),
+    rpWarn && rpWarn !== "pain" && h("p", { class: "rpwarn", role: "alert" }, rpWarn),
+    (() => { const fk = stage + "-" + cur + rpDSuf() + "|" + (rpDate || today()), js = JSON.stringify(dr); if (rpFin && rpFin.key === fk && rpFin.snap === null) rpFin.snap = js;
+      const solid = !!(rpFin && rpFin.key === fk && rpFin.snap === js);
+      const burst = solid && rpBurst;
+      return h("button", { type: "button", class: "btn rpfb" + (solid ? " on" : "") + (burst ? " pop" : ""), "aria-pressed": String(solid), onclick: () => solid && rpUndo ? rpUnfinish() : rpFinish(stage, cur) },
+        solid ? [raw(RPCHK), forced ? "Saved" : "Finished"] : forced ? "Save changes" : "Finish session"); })(),
     forced && h("button", { type: "button", class: "lnk", style: "display:block;margin:12px auto 0", onclick: () => askConfirm("This session will be removed from your history and progress.", "Delete", () => { state.data.rpsess = list("rpsess").filter(y => y.id !== forced.id); rpPurge(rpDate); rpSn = 0; save(); render(); }, null, "Cancel", "Delete this session?") }, "Delete this session")));
   out.push(rpBenchCard(stage), rpProgressCard(), rpRefCard());
   return out;
