@@ -854,6 +854,15 @@ body .rpfin .rpfb.rpnext{background:var(--sf)!important;color:var(--rd)!importan
 .rpsh .rpfn{display:inline-flex;align-items:center;vertical-align:middle;margin-left:6px;line-height:1}.rpsh .rpfn svg{width:16px;height:16px;display:block}
 body .rphowb,body .rptrash{-webkit-tap-highlight-color:transparent;transition:none;touch-action:manipulation}body .rphowb{border-radius:12px}body .rphowb:active,body .rptrash:active{background:var(--rd)!important;color:var(--rdk)!important}
 .rpvs button.shake{animation:dshake .45s}body .rpwg button.fix.on{opacity:.5}
+.vnl{font-size:12.5px;font-weight:800;letter-spacing:.04em;text-transform:uppercase;color:var(--ac);margin:0 0 6px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.trlv{display:flex;gap:8px;justify-content:center;margin-top:10px}.trlv .chip{padding:6px 16px}
+.chip.shake,.dcard .rpprog.need{animation:dshake .45s}.dcard .rpprog.need{animation:rpneed 1.2s ease;border-radius:12px;padding:10px 8px 2px}
+.trwrap{position:relative;display:inline-block}.trmenu{position:absolute;z-index:30;top:calc(100% + 6px);left:0;min-width:128px;padding:4px;display:flex;flex-direction:column;background:var(--sf);border:1.5px solid var(--rd);border-radius:12px;box-shadow:0 8px 22px rgba(0,0,0,.14)}.trmenu button{border:0;background:none;color:var(--rdt);font:inherit;font-size:14px;font-weight:600;text-align:left;padding:9px 12px;border-radius:8px;-webkit-tap-highlight-color:transparent}.trmenu button.on{background:color-mix(in srgb,var(--rd) 16%,var(--sf));font-weight:800}.trmenu button:active{background:var(--rd);color:var(--rdk)}
+.impg{border-radius:12px}.impgs{margin:-2px 0 6px 10px;padding-left:10px;border-left:2px solid color-mix(in srgb,var(--rd) 35%,transparent)}.imp.impsub .ih b{font-size:14px;font-weight:600}
+.rpc.half i{background:linear-gradient(90deg,var(--rd) 50%,color-mix(in srgb,var(--rd) 40%,var(--bg)) 50%)}
+body .dpcal,body .dwcal{border-radius:12px;transition:none;-webkit-tap-highlight-color:transparent}body .dpcal:active{background:var(--ac)!important;color:var(--on)!important}body .iconbtn.dwcal{border-radius:12px;transition:none}body .iconbtn.dwcal:active{background:var(--ac);color:var(--on)}
+.vnf{display:flex;gap:8px;align-items:center;margin-top:12px}.vnf .vnote{margin:0;flex:1;min-width:0;height:44px;padding:0 12px}.vnf .vnb{height:44px;min-height:0;padding:0 18px;width:auto;margin:0;border-radius:12px}
+body .iconbtn.dwcal:active{background:var(--gy)!important;color:var(--gyk)!important}
 </style>
 </head>
 <body>
@@ -1474,7 +1483,9 @@ function exCard(p, id, name, s, opts) {
   // Identical sets in a row show as one line with a count.
   const groups = [];
   sets.forEach(row => { const g = groups[groups.length - 1]; if (g && g.x.weight === row.x.weight && g.x.reps === row.x.reps) g.idx.push(row.i); else groups.push({ x: row.x, idx: [row.i] }); });
+  const nt = opts && opts.note && state.vnotes && (state.vnotes[id] || "").trim();
   return h("div", { class: "card cardx" },
+    nt && h("div", { class: "vnl" }, nt),
     h("div", { class: "row exh" }, icon(id, 46, name), h("span", { class: "exbs" },
       opts && opts.note && h("button", { class: "iconbtn", "aria-label": name + ": note", onclick: () => { modal = { type: "vnote", ex: id, name }; renderModal(); } }, raw(NOTEI), state.vnotes && state.vnotes[id] && h("span", { class: "ndot" })),
       h("button", { class: "iconbtn", "aria-label": name + ": change the weights", onclick: () => { modal = { type: "wedit", ex: id, name }; renderModal(); } }, raw(PICKI)),
@@ -1626,11 +1637,13 @@ function exSlot(p, e, s) {
 // The note button: type where this machine is or what makes it different. It only shows here, never on the card.
 function vnoteModal() {
   const m = modal;
-  const ta = h("textarea", { class: "vnote", rows: "5", placeholder: "Which gym or machine is this?", "aria-label": "Note for " + m.name, autocomplete: "off", autocapitalize: "sentences", oninput: () => { state.vnotes = state.vnotes || {}; const v = ta.value.trim(); if (v) state.vnotes[m.ex] = ta.value; else delete state.vnotes[m.ex]; save(); } });
-  ta.value = (state.vnotes && state.vnotes[m.ex]) || "";
+  const save1 = () => { state.vnotes = state.vnotes || {}; const v = inp.value.trim(); if (v) state.vnotes[m.ex] = v; else delete state.vnotes[m.ex]; save(); };
+  const inp = h("input", { class: "vnote vnl1", type: "text", maxlength: "40", placeholder: "Which gym or machine?", "aria-label": "Note for " + m.name, autocomplete: "off", autocapitalize: "words", enterkeyhint: "done", oninput: save1 });
+  inp.value = (state.vnotes && state.vnotes[m.ex]) || "";
+  const done = () => { save1(); closeModal(); render(); };
   return h("div", {},
     h("div", { class: "row exh" }, h("h2", { style: "margin:0" }, "Note"), h("button", { class: "iconbtn x2", "aria-label": "Close", onclick: () => { closeModal(); render(); } }, "×")),
-    ta);
+    h("form", { class: "vnf", onsubmit: e => { e.preventDefault(); done(); } }, inp, h("button", { class: "btn vnb", type: "submit" }, "Enter")));
 }
 
 function workoutView(p) {
@@ -2066,6 +2079,17 @@ const ACTS = [
   { k: "training", label: "Training", unit: "min" }, { k: "golf", label: "Golf", unit: "holes" }, { k: "walking", label: "Walking", unit: "min" },
   { k: "squats", label: "Squats", unit: "sets" }, { k: "pt", label: "PT", unit: "min" }, { k: "trampoline", label: "Trampoline", unit: "min" }, { k: "other", label: "Other", unit: "min" }];
 const actOf = k => ACTS.find(a => a.k === k);
+const TLV = [["L", "Light"], ["M", "Medium"], ["H", "Hard"]];
+const actName = (a, acts) => a.label + (a.k === "training" && acts[a.k] ? " (" + acts[a.k] + ")" : "");
+let trMenu = null; // the date whose Training intensity drop-down is open
+document.addEventListener("click", e => { if (trMenu && !e.target.closest(".trwrap")) { trMenu = null; render(); } });
+const actChip = (y, a, acts) => {
+  const b = h("button", { class: "chip" + (a.k === "pt" ? " ptkey" : "") + (a.k in acts ? " on" : ""), "aria-pressed": String(a.k in acts), ...actPress(y, a) }, actName(a, acts));
+  if (a.k !== "training") return b;
+  b.setAttribute("aria-haspopup", "menu"); b.setAttribute("aria-expanded", String(trMenu === y));
+  return h("span", { class: "trwrap" }, b, trMenu === y && h("div", { class: "trmenu", role: "menu", "aria-label": "Training intensity" }, TLV.map(([c, l]) => h("button", { type: "button", role: "menuitem", class: acts.training === c ? "on" : "", onclick: ev => { ev.stopPropagation(); trMenu = null; ptActEdit(y, o => { if (o.training === c) delete o.training; else { delete o.none; o.training = c; } }); } }, l))));
+};
+const trainOpts = (y, acts) => "training" in acts && h("div", { class: "trlv", role: "group", "aria-label": "Training intensity" }, TLV.map(([c, l]) => h("button", { type: "button", class: "chip" + (acts.training === c ? " on" : ""), "aria-pressed": String(acts.training === c), onclick: () => ptActEdit(y, a => { a.training = a.training === c ? null : c; }) }, l)));
 // Activities you add yourself (the + button) are saved in state.data.ptcustom and slotted in before "Other".
 function syncActs() {
   ((state.data && state.data.ptcustom) || []).forEach(x => {
@@ -2090,7 +2114,7 @@ function holdProps(fn, ms) {
 function actPress(d, a) {
   let tm = null, held = false;
   const stop = () => { clearTimeout(tm); tm = null; };
-  const out = { onclick: () => { if (held) { held = false; return; } ptToggle(d, a.k); } };
+  const out = { onclick: () => { if (held) { held = false; return; } if (a.k === "training") { trMenu = trMenu === d ? null : d; render(); return; } ptToggle(d, a.k); } };
   if (a.k === "pt") return { onclick: ev => { const b = ev.currentTarget; b.classList.remove("shake"); void b.offsetWidth; b.classList.add("shake"); } }; // PT can only be checked by finishing a session on the PT page
   if (a.k === "none") return out;
   return { ...out,
@@ -2175,10 +2199,12 @@ function trendBest(rat) { for (const n of [30, 14, 7]) { const t = trendOf(rat, 
 function ptImpact(rat) {
   const logged = list("ptacts");
   const pairs = logged.filter(a => rat[ptNext(a.date)] != null).map(a => ({ aDate: a.date, mDate: ptNext(a.date), v: rat[ptNext(a.date)], acts: a.acts }));
-  return { pairs, rows: ACTS.filter(A => !actHidden(A.k)).map(A => {
-    const w = pairs.filter(p => A.k in p.acts), wo = pairs.filter(p => !(A.k in p.acts));
+  const base = []; ACTS.filter(A => !actHidden(A.k)).forEach(A => { base.push(A); if (A.k === "training") TLV.forEach(([c]) => base.push({ k: "training", label: "Training (" + c + ")", lvl: c })); });
+  return { pairs, rows: base.map(A => {
+    const has = a => A.lvl ? a.acts[A.k] === A.lvl : A.k in a.acts;
+    const w = pairs.filter(p => has(p)), wo = pairs.filter(p => !has(p));
     const aw = avg(w.map(p => p.v)), awo = avg(wo.map(p => p.v));
-    const times = logged.filter(a => A.k in a.acts).length;
+    const times = logged.filter(has).length;
     return { A, times, nw: w.length, nwo: wo.length, aw, awo, diff: aw != null && awo != null ? aw - awo : null, ok: w.length >= MIN_OBS && wo.length >= MIN_OBS };
   }) };
 }
@@ -2233,7 +2259,7 @@ function ptEntry(d) {
       scale("l", "Left knee"), scale("r", "Right knee")),
     h("div", { class: "card ptc" },
       h("div", { class: "ptnav", style: "justify-content:center;min-height:44px" }, h("b", {}, "Yesterday's activities", h("span", { class: "ptsub", style: "margin:0 0 0 10px;font-weight:400" }, dayLbl(y)))),
-      h("div", { class: "chips" }, [ACTS.find(a => a.k === "pt"), ...ACTS.filter(a => a.k !== "pt" && !actHidden(a.k)), { k: "none", label: "None" }].map(a => h("button", { class: "chip" + (a.k === "pt" ? " ptkey" : "") + (a.k in acts ? " on" : ""), "aria-pressed": String(a.k in acts), ...actPress(y, a) }, a.label)).concat(addActBtn(y))))];
+      h("div", { class: "chips" }, [ACTS.find(a => a.k === "pt"), ...ACTS.filter(a => a.k !== "pt" && !actHidden(a.k)), { k: "none", label: "None" }].map(a => actChip(y, a, acts)).concat(addActBtn(y))))];
 }
 function ptTrendCard(rat) {
   return h("div", { class: "card ptc" }, h("h2", {}, "Trend"),
@@ -2248,11 +2274,13 @@ function ptImpactCard(imp) {
     const w = Math.min(1, Math.abs(r.diff) / 3) * 50, col = r.diff >= 0.5 ? "var(--rd)" : r.diff <= -0.5 ? "var(--ac)" : "var(--mu)";
     return h("div", { class: "ibar" }, h("i", { class: "mid" }), h("b", { style: "background:" + col + ";" + (r.diff >= 0 ? "left:50%;" : "right:50%;") + "width:" + w + "%" }));
   };
+  const pick = r => h("button", { class: "imp" + (r.A.k === "pt" ? " imppt" : "") + (r.A.lvl ? " impsub" : ""), "aria-label": r.A.label + " details", onclick: () => { modal = { type: "ptact", k: r.A.k }; render(); } },
+    h("div", { class: "ih" }, h("b", {}, r.A.lvl ? (TLV.find(t => t[0] === r.A.lvl) || [0, r.A.label])[1] : r.A.label), h("span", {}, r.times + (r.times === 1 ? " session" : " sessions")), h("em", { class: r.ok ? (r.diff >= 0.5 ? "up" : r.diff <= -0.5 ? "dn" : "") : "na" }, r.ok ? sgn(r.diff) : "")),
+    bar(r),
+    r.ok && h("div", { class: "isub" }, h("span", {}, "After: " + f1(r.aw)), h("span", {}, "Without: " + f1(r.awo))));
+  const subs = imp.rows.filter(r => r.A.lvl), top = rows.filter(r => !r.A.lvl);
   return h("div", { class: "card ptc" }, h("h2", {}, "Activity impact"),
-    rows.map(r => h("button", { class: "imp" + (r.A.k === "pt" ? " imppt" : ""), "aria-label": r.A.label + " details", onclick: () => { modal = { type: "ptact", k: r.A.k }; render(); } },
-      h("div", { class: "ih" }, h("b", {}, r.A.label), h("span", {}, r.times + (r.times === 1 ? " session" : " sessions")), h("em", { class: r.ok ? (r.diff >= 0.5 ? "up" : r.diff <= -0.5 ? "dn" : "") : "na" }, r.ok ? sgn(r.diff) : "")),
-      bar(r),
-      r.ok && h("div", { class: "isub" }, h("span", {}, "After: " + f1(r.aw)), h("span", {}, "Without: " + f1(r.awo))))));
+    top.map(r => r.A.k === "training" && subs.length ? h("div", { class: "impg" }, pick(r), h("div", { class: "impgs" }, subs.map(pick))) : pick(r)));
 }
 function ptPtCard(rat, imp) {
   const t7 = trendOf(rat, 7), t30 = trendOf(rat, 30), ptr = imp.rows.find(r => r.A.k === "pt");
@@ -2311,7 +2339,7 @@ function ptDayModal(m) {
         '<text x="50" y="59" text-anchor="middle" font-size="28" font-weight="700" fill="var(--ink)">' + (v != null ? v : "-") + "</text></svg>"),
       h("b", {}, label));
   };
-  const names = ar ? Object.keys(ar.acts).map(k => k === "none" ? "None" : actOf(k).label) : [];
+  const names = ar ? Object.keys(ar.acts).map(k => k === "none" ? "None" : actOf(k).label + (k === "training" && ar.acts[k] ? " (" + ar.acts[k] + ")" : "")) : [];
   return h("div", {},
     h("div", { class: "row exh" }, h("h2", { style: "margin:0" }, dayLbl(d)), closeBtn()),
     h("div", { class: "pdrings" }, ring("Left", rec ? rec.l : null, "var(--rdA)"), ring("Right", rec ? rec.r : null, "var(--rdB)")),
@@ -2591,7 +2619,7 @@ function rpPrefill(s) {
     ["w", "v", "L", "R", "cL", "cR"].forEach(f => { if (x[f] != null) o[f] = x[f]; }); ["gL", "gR"].forEach(f => { if (x[f]) o[f] = x[f].slice(); }); if (x.ws) o.ws = x.ws.slice(); d[k] = o; });
   return d;
 }
-const rpHas = dr => dr._pain != null || Object.keys(dr).some(k => { if (k[0] === "_") return false; const x = dr[k]; return x && ((x.done && x.done.some(Boolean)) || x.L || x.R || x.w != null || x.cw != null || (x.ws && x.ws.some(v => v != null))); });
+const rpHas = dr => dr._pain != null || Object.keys(dr).some(k => { if (k[0] === "_") return false; const x = dr[k]; return x && ((x.done && x.done.some(Boolean)) || x.L || x.R || x.half || x.w != null || x.cw != null || (x.ws && x.ws.some(v => v != null))); });
 function rpDraft(stage, idx) {
   const r = rp(), key = stage + "-" + idx + rpDSuf();
   if (!rpDate && r.draft[key] && r.draft[key]._d && r.draft[key]._d !== today() && r.draft[key]._ts && Date.now() - r.draft[key]._ts > 6 * 36e5) delete r.draft[key]; // an old unfinished session is dropped after 6 hours (one that crosses midnight is kept)
@@ -2680,10 +2708,10 @@ const rpPrev = new WeakMap();
 let rpSel = null; // (old tap-to-look feature, no longer used)
 function rpCircles(d, onchg, o) {
   o = o || {};
-  const cur = d.done.findIndex(x => !x), n = d.done.length, cnt = d.done.filter(Boolean).length;
+  const cur = d.done.findIndex(x => !x), n = d.done.length, cnt = d.done.filter(Boolean).length + (d.half && cur >= 0 ? 0.5 : 0);
   const pc = cur < 0 ? n : cur, pv = rpPrev.get(d), grow = pv != null && pc > pv ? pc - 1 : -1; rpPrev.set(d, pc);
   const mk = (on, i) => {
-    const cls = "rpc" + (on ? " on" : "") + (i === cur ? " cur" : "") + (i === cur && (!o.static || o.view == null) ? " ring" : "") + (o.view != null && i === o.view ? " sel" : "") + (i === grow ? " grow" : "");
+    const cls = "rpc" + (on ? " on" : "") + (i === cur ? " cur" : "") + (i === cur && d.half ? " half" : "") + (i === cur && (!o.static || o.view == null) ? " ring" : "") + (o.view != null && i === o.view ? " sel" : "") + (i === grow ? " grow" : "");
     if (o.static) return h("div", { class: cls }, h("i", {}));
     return h("button", { type: "button", class: cls, "aria-pressed": String(on), "aria-label": "Set " + (i + 1) + (on ? " done" : ""),
       onclick: () => { if (cur >= 0 && i > cur) return; d.done[i] = !d.done[i]; save(); onchg ? onchg() : render(); } }, h("i", {}));
@@ -2768,7 +2796,7 @@ function rpKeyDate(key) { // the day a timer belongs to: the day viewed, or the 
 }
 function rpTimerTick() {
   const r = rp();
-  if (rpTm && rpTmLeft() <= 0) { const t = rpTm; rpTm = null; rpBeep(); const i = t.d.done.findIndex(x => !x); if (i >= 0 && !(t.d.v === "Single-leg leg press" && t.d.ws)) { t.d.done[i] = true; if (t.d.hs) t.d.hs[i] = t.dur; } if (t.d.v === "Single-leg leg press" && t.d.ws) { const lw = t.d.cw; if (lw != null && i >= 0) { t.d.done[i] = true; t.d.ws[i] = lw; if (t.d.hs) t.d.hs[i] = t.dur; if (LEG_OPTS.some(o => o[0] === t.dur)) { const lid = uid(); legLog().push({ id: lid, at: new Date().toISOString(), date: rpKeyDate(t.key), w: lw, s: t.dur }); (t.d.lg = t.d.lg || []).push(lid); } } } save(); render(); return; }
+  if (rpTm && rpTmLeft() <= 0) { const t = rpTm; rpTm = null; rpBeep(); const i = t.d.done.findIndex(x => !x); if (i >= 0 && !(t.d.v === "Single-leg leg press" && t.d.ws)) { t.d.done[i] = true; if (t.d.hs) t.d.hs[i] = t.dur; } if (t.d.v === "Single-leg leg press" && t.d.ws) { const lw = t.d.cw; if (lw != null && i >= 0) { if (!t.d.half) t.d.half = true; else { t.d.done[i] = true; t.d.ws[i] = lw; if (t.d.hs) t.d.hs[i] = t.dur; t.d.half = false; } if (LEG_OPTS.some(o => o[0] === t.dur)) { const lid = uid(); legLog().push({ id: lid, at: new Date().toISOString(), date: rpKeyDate(t.key), w: lw, s: t.dur }); (t.d.lg = t.d.lg || []).push(lid); } } } save(); render(); return; }
   if (r.run) { const rk = r.run.key.split("-"), dd = (r.draft[rk[0] + "-" + rk[1]] || {})[rk[2]]; if (dd && (dd[r.run.side] || 0) + (Date.now() - r.run.t0) / 1000 >= 180) { rpStopRun(); rpBeep(); save(); render(); return; } }
   document.querySelectorAll("[data-rptd]").forEach(el => { if (rpTm && el.getAttribute("data-rptd") === rpTm.key) el.textContent = fmtT(Math.ceil(rpTmLeft())); });
   document.querySelectorAll("[data-rpt]").forEach(el => { const [key, side] = el.getAttribute("data-rpt").split("|"), d = el._d, run = r.run; if (!d) return; const s = (d[side] || 0) + (run && run.key === key && run.side === side ? (Date.now() - run.t0) / 1000 : 0); el.textContent = fmtT(s); const bar = el.closest(".rpside").querySelector("i b"); if (bar) bar.style.width = Math.min(100, 100 * s / 180) + "%"; });
@@ -2809,7 +2837,7 @@ function rpQuadLeg(key, d, e, wt) { // wt = false: no weights (foam roller bridg
   if (W && cur >= 0 && d.cw == null) { const prev = d.ws.filter(x => x != null); d.cw = prev.length ? prev[prev.length - 1] : 20; } // 20 lb to start, then whatever the last set used
   const popv = rpPop; rpPop = null;
   const logW = v => { d.cw = v; rpPop = d.cw; save(); render(); };
-  const undo = i => { d.done[i] = false; if (W) { d.ws[i] = null; d.cw = null; } d.hs[i] = null; save(); render(); };
+  const undo = i => { d.half = false; d.done[i] = false; if (W) { d.ws[i] = null; d.cw = null; } d.hs[i] = null; save(); render(); };
   const top = rpCircles(d, null, { static: true, view: j, sub: i => W && d.ws[i] != null ? d.ws[i] + " lb" : "" });
   const panel = idx => {
     const isCur = idx === cur;
@@ -3628,7 +3656,7 @@ function dailyView() {
     !compact && h("div", { class: "dcap" }, "Morning rating"),
     !compact && rate("l", "Left"), !compact && rate("r", "Right"),
     !compact && h("div", { class: "dcap" }, t === real ? "Yesterday's activities" : new Date(y + "T00:00:00").toLocaleDateString("en-US", { weekday: "long" }) + "'s activities"),
-    !compact && h("div", { class: "chips dchips", "data-need": ar ? "0" : "1" }, [ACTS.find(a => a.k === "pt"), ...ACTS.filter(a => a.k !== "pt" && !actHidden(a.k)), { k: "none", label: "None" }].map(a => h("button", { class: "chip" + (a.k === "pt" ? " ptkey" : "") + (a.k in acts ? " on" : ""), "aria-pressed": String(a.k in acts), ...actPress(y, a) }, a.label)).concat(addActBtn(y))));
+    !compact && h("div", { class: "chips dchips", "data-need": ar ? "0" : "1" }, [ACTS.find(a => a.k === "pt"), ...ACTS.filter(a => a.k !== "pt" && !actHidden(a.k)), { k: "none", label: "None" }].map(a => actChip(y, a, acts)).concat(addActBtn(y))));
   // ----- Physical therapy (red): a short summary that points to the PT page. The check can only come from finishing a session there. -----
   const rr = rp(), rSess = list("rpsess").filter(x => x.date === t), rLast = rSess[rSess.length - 1];
   const rStage = rLast ? rLast.stage : rr.stage, rDays = RP_DAYS[rStage] || [], rIdx = rLast ? Math.max(0, rDays.findIndex(x => x.n === rLast.day)) : rStage === 1 ? 0 : Math.min(rDays.length - 1, (rr.nxt && rr.nxt[rStage]) || 0), rDay = rDays[rIdx];
@@ -3636,7 +3664,7 @@ function dailyView() {
   const rSkipped = !!rpSkipMap[t], rWk0 = new Date(t + "T00:00:00"); rWk0.setDate(rWk0.getDate() - rWk0.getDay());
   const rSkipN = Object.keys(rpSkipMap).filter(d => { if (d === t || !rpSkipMap[d]) return false; const x = new Date(d + "T00:00:00"); return x >= rWk0 && x < new Date(rWk0.getFullYear(), rWk0.getMonth(), rWk0.getDate() + 7); }).length, rSkipLeft = Math.max(0, 2 - rSkipN), rSkipUsed = rSkipLeft === 0;
   const rHas = rSess.length > 0, rOn = (rHas && !rpOffMap[t]) || rSkipped, rNeed = rStage === 1 ? 2 : 1;
-  const rCheck = ev => { ev.stopPropagation(); if (rSkipped) delete rpSkipMap[t]; else if (rHas) { if (rpOffMap[t]) delete rpOffMap[t]; else rpOffMap[t] = true; } else return; save(); render(); };
+  const rCheck = ev => { ev.stopPropagation(); if (rSkipped) delete rpSkipMap[t]; else if (rHas) { if (rpOffMap[t]) delete rpOffMap[t]; else rpOffMap[t] = true; } else { const b = ev.currentTarget; b.classList.remove("shake"); void b.offsetWidth; b.classList.add("shake"); const pg = b.closest(".dcard").querySelector(".rpprog"); if (pg) { pg.classList.remove("need"); void pg.offsetWidth; pg.classList.add("need"); } return; } save(); render(); };
   const rpFr = (k, x) => { const e = RP_EX[k]; if (!e || !x) return 0; if (e.kind === "acc") return (Math.min(180, x.L || 0) + Math.min(180, x.R || 0)) / 360; const n = k === "hop" ? 4 : e.kind === "prog" ? 3 : e.sets || 0; if (!n) return 0; const c = x.done ? x.done.filter(Boolean).length : x.sets || 0; return Math.min(1, c / n); };
   const rpKeys = (rDay ? rDay.ex : []).filter(k => k !== "s3"), dtag = "@" + t.replace(/-/g, "") + "s", dKeys = Object.keys(rr.draft || {}).filter(k => k === rStage + "-" + rIdx + "" ? t === real : k.startsWith(rStage + "-" + rIdx + "@") && k.includes(dtag));
   const srt = get => rpKeys.map(get).sort((a, b) => b - a), avgFr = get => srt(get)[0] || 0, avgFr2 = get => srt(get)[1] || 0; // the bar needs only the best exercise; the second one is a bonus bar
@@ -3646,7 +3674,7 @@ function dailyView() {
   if (sFr2.length < rpNeed2) sFr2.push(Math.max(0, ...dKeys.map(dk => avgFr2(k => rpFr(k, rr.draft[dk][k])))));
   const rPct = Math.round(100 * sFr.reduce((a, v) => a + v, 0) / rpNeed2), rPct2 = Math.round(100 * sFr2.reduce((a, v) => a + v, 0) / rpNeed2);
   const goR = () => setTimeout(() => goTab("rehab", () => { ptPage = "pt"; rpView = null; rpDay = null; rpDate = t === today() ? null : t; rpSn = 0; selDate = t; }), 130);
-  const mkR = (compact, inDone) => h("div", Object.assign({ class: "card dcard" + (compact ? " dcompact" : " dclick"), style: "--ac:var(--rd);--on:var(--rdk);--c:var(--rd);--ck:var(--rdk)" }, compact ? {} : inDone ? { onclick: ev => { if (ev.target.closest(".dgo")) goR(); } } : { role: "link", tabindex: "0", "aria-label": "Open Physical therapy", onclick: goR, onkeydown: ev => { if (ev.key === "Enter" || ev.key === " ") { ev.preventDefault(); goR(); } } }),
+  const mkR = (compact, inDone) => h("div", Object.assign({ class: "card dcard" + (compact ? " dcompact" : " dclick"), style: "--ac:var(--rd);--on:var(--rdk);--c:var(--rd);--ck:var(--rdk)" }, compact ? {} : inDone ? { onclick: ev => { if (ev.target.closest(".dgo")) goR(); } } : { role: "link", tabindex: "0", "aria-label": "Open Physical therapy", onclick: ev => { if (ev.target.closest("button")) return; goR(); }, onkeydown: ev => { if (ev.target !== ev.currentTarget) return; if (ev.key === "Enter" || ev.key === " ") { ev.preventDefault(); goR(); } } }),
     !compact && h("span", { class: "dgo", "aria-hidden": "true" }, raw(GO2)),
     h("div", { class: "dch", style: compact ? null : "margin-bottom:12px" }, h("div", {}, h("small", { style: compact ? "min-width:0" : null }, "Physical therapy" + (compact && rSkipped ? " · rest day" : "")), h("div", { class: "dimgs", style: "min-height:0" }, h("img", { class: "dleg", alt: "", src: LEG_IMG, style: "height:" + Math.round((compact ? 42 : 62) * DOG_SCALE * (compact ? 1.3 : 1.15)) + "px" }))),
       h("div", { class: "dbtns" }, calBtn("p"), h("button", { type: "button", class: "wchk" + (rOn ? " on" : rHas ? "" : " locked"), "aria-pressed": String(rOn), "aria-label": rOn ? "Physical therapy done: tap to undo" : rHas ? "Mark physical therapy done again" : "Not done yet: finish a session on the Physical therapy page", onclick: rCheck }, raw(CHECK)))),
