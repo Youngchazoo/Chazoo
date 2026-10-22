@@ -2695,7 +2695,8 @@ const STOP = '<svg viewBox="0 0 24 24" width="14" height="14" fill="currentColor
 const PAUSE = '<svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor" aria-label="Pause"><rect x="6" y="5" width="4.2" height="14" rx="1.2"/><rect x="13.8" y="5" width="4.2" height="14" rx="1.2"/></svg>';
 const INFO = '<svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="9.5"/><path d="M12 11v6"/><circle cx="12" cy="7.4" r="0.6" fill="currentColor"/></svg>';
 const RPCHK = '<svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>';
-const rpVar = (k, e) => { const v = rp().vars[k]; return e.vars.includes(v) ? v : e.vars[0]; };
+let rpCurDr = null; // the form on screen: a past or saved session keeps the variation it was done with, whatever you are using now
+const rpVar = (k, e) => { const dv = rpDate && rpCurDr && rpCurDr[k] && rpCurDr[k].v; if (dv && e.vars.includes(dv)) return dv; const v = rp().vars[k]; return e.vars.includes(v) ? v : e.vars[0]; };
 // Which symbol shows for an exercise right now (its current variation or level).
 function rpIconKey(k) {
   const e = RP_EX[k], r = rp(); if (!e || !e.icons) return null;
@@ -2924,7 +2925,7 @@ function rpExCard(stage, idx, k) {
   const card = h("div", { class: "card ptc rpx" + (done ? " done" : "") + (swipe ? " swp" : "") },
     h("div", { class: "row exh" }, h("h2", {}, e.n, done && h("span", { class: "rpdone", role: "img", "aria-label": "Done for today" }, raw(RPCHK))), h("div", { class: "rphb" }, legBtn && h("button", { type: "button", class: "iconbtn rphowb", "aria-label": "Leg press hold times", onclick: () => { modal = { type: "leg" }; renderModal(); } }, raw(CLOCK)), rpTrashBtn(stage, idx, k, key), rpInfoBtn(k))),
     (rx || e.rest) && h("p", { class: "rprx" }, [rx, e.rest].filter(Boolean).join(" · ")),
-    e.vars && h("div", { class: "rpvs rpvx" + ((rpTm && rpTm.key === key) || (held && held.done && held.done.some(Boolean)) ? " solid" : ""), role: "group", "aria-label": e.n + " variation" }, e.vars.map(v => h("button", { type: "button", class: v === rpVar(k, e) ? "on" : "", "aria-pressed": String(v === rpVar(k, e)), onclick: ev => { if (done && v !== rpVar(k, e)) { const b = ev.currentTarget; b.classList.remove("shake"); void b.offsetWidth; b.classList.add("shake"); return; } r.vars[k] = v; save(); render(); } }, v))), // once every set is done you stay on this variation
+    e.vars && h("div", { class: "rpvs rpvx" + ((rpTm && rpTm.key === key) || (held && held.done && held.done.some(Boolean)) ? " solid" : ""), role: "group", "aria-label": e.n + " variation" }, e.vars.map(v => h("button", { type: "button", class: v === rpVar(k, e) ? "on" : "", "aria-pressed": String(v === rpVar(k, e)), onclick: ev => { if (done && v !== rpVar(k, e)) { const b = ev.currentTarget; b.classList.remove("shake"); void b.offsetWidth; b.classList.add("shake"); return; } if (rpDate && dr[k]) dr[k].v = v; else r.vars[k] = v; save(); render(); } }, v))), // once every set is done you stay on this variation
     ...kids);
   if (swipe) swipe(card);
   return card;
@@ -3076,6 +3077,7 @@ function rpToday() {
     out.push(h("div", { class: "rpdays", role: "group", "aria-label": "Day" }, days.map((d, i) => h("button", { type: "button", class: "rpdy" + (i === cur ? " on" : "") + (r.nxt && (r.nxt[stage] || 0) === i && stage === r.stage ? " nxt" : ""), "aria-pressed": String(i === cur), onclick: () => { rpDay = i; if (forced) rpSn = dss.length; render(); } }, h("small", {}, "Day"), h("b", {}, String(i + 1))))));
     out.push(h("div", { class: "rpwk" }, h("b", {}, "Day " + (cur + 1) + ": " + day.n), day.ex.some(k => ["squat", "split", "hinge", "step"].includes(k)) ? h("div", { class: "seg rpweek", role: "group", "aria-label": "Week" }, [1, 2, 3].map(w => h("button", { type: "button", class: r.wk === w ? "on" : "", "aria-pressed": String(r.wk === w), onclick: () => { r.wk = w; save(); render(); } }, "Week " + w))) : null));
   }
+  rpCurDr = rpDraft(stage, cur);
   day.ex.forEach(k => out.push(k === "s3" ? rpS3Card(stage, cur) : rpExCard(stage, cur, k)));
   const dr = rpDraft(stage, cur);
   if (rpWarn) { const wkx = stage + "-" + cur + rpDSuf() + "|" + (rpDate || dr._d || today()); if (rpWarnKey !== wkx || (rpWarn !== "pain" && day.ex.some(k => { const e = RP_EX[k], d = dr[k]; if (k === "s3" || !e || !d) return false; if (e.kind === "acc") return (d.L || 0) >= 180 && (d.R || 0) >= 180; const n = k === "hop" ? 4 : e.kind === "prog" ? 3 : e.sets || 0; return n > 0 && d.done && d.done.length >= n && d.done.every(Boolean); }))) rpWarn = ""; }
