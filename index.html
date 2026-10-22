@@ -2432,6 +2432,7 @@ function legModal() {
     rows);
 }
 function ptView() {
+  rpHeal();
   const d = selDate, pages = [["prov", "Tendon provocation"], ["pt", "Physical therapy"]];
   const sw = h("div", { class: "seg ptpages", role: "group", "aria-label": "Page" }, pages.map(([k, l]) => h("button", { type: "button", class: k === ptPage ? "on" : "", "aria-pressed": String(k === ptPage), onclick: () => { ptPage = k; render(); } }, l)));
   const mir = "--bg:var(--pg)";
@@ -2710,6 +2711,11 @@ function rpUnmark(date) { // no finished session left on that day, so PT is not 
   if (!date || list("rpsess").some(x => x.date === date)) return;
   const r = ptActs(date); if (!r || !("pt" in r.acts)) return;
   delete r.acts.pt; if (!Object.keys(r.acts).length) state.data.ptacts = list("ptacts").filter(x => x !== r);
+}
+function rpHeal() { // a PT mark from the last few days with no finished session behind it (left over from an older version, or a session moved to another day) is removed
+  const d = new Date(today() + "T00:00:00"); let changed = false;
+  for (let i = 0; i < 4; i++) { const k = d.getFullYear() + "-" + String(d.getMonth() + 1).padStart(2, "0") + "-" + String(d.getDate()).padStart(2, "0"), r = ptActs(k); if (r && "pt" in r.acts && !list("rpsess").some(x => x.date === k)) { rpUnmark(k); changed = true; } d.setDate(d.getDate() - 1); }
+  if (changed) save();
 }
 function rpUnfinish() { // take Finish session back: the session leaves the history and your entries come back
   const u = rpUndo; rpUndo = null; rpFin = null; if (!u) return;
@@ -3548,6 +3554,7 @@ function dailySettled(key, done, delay) {
   return false;
 }
 function dailyView() {
+  rpHeal();
   if (!dailyDate || dailyStamp !== today()) { dailyDate = today(); dailyStamp = today(); }
   selDate = viewDate = dailyDate; // keeps the other pages in step with the day shown here
   if (dailyDate === today()) maybeRecap(today());
