@@ -863,6 +863,8 @@ body .rphowb,body .rptrash{-webkit-tap-highlight-color:transparent;transition:no
 body .dpcal,body .dwcal{border-radius:12px;transition:none;-webkit-tap-highlight-color:transparent}body .dpcal:active{background:var(--ac)!important;color:var(--on)!important}body .iconbtn.dwcal{border-radius:12px;transition:none}body .iconbtn.dwcal:active{background:var(--ac);color:var(--on)}
 .vnf{display:flex;gap:8px;align-items:center;margin-top:12px}.vnf .vnote{margin:0;flex:1;min-width:0;height:44px;padding:0 12px}.vnf .vnb{height:44px;min-height:0;padding:0 18px;width:auto;margin:0;border-radius:12px}
 body .iconbtn.dwcal:active{background:var(--gy)!important;color:var(--gyk)!important}
+.dcard.dclosing{overflow:hidden;transform-origin:50% 100%;animation:dclose .16s ease-in both}@keyframes dclose{0%{max-height:900px;opacity:1;transform:scale(1)}100%{max-height:0;opacity:0;transform:scale(.94);margin-top:0;margin-bottom:0;padding-top:0;padding-bottom:0;border-width:0}}
+.ddb em.bump{animation:dbump .2s cubic-bezier(.2,1.6,.4,1)}@keyframes dbump{0%{transform:scale(1)}45%{transform:scale(1.5)}100%{transform:scale(1)}}
 </style>
 </head>
 <body>
@@ -1070,7 +1072,8 @@ function backupView() {
 // ---------- Workout plan ----------
 // Edit names and exercises here. Keep each id the same so saved data stays linked.
 const UNIT = "lb";
-const GOAL = 5; // workout days per week (Sunday to Saturday)
+const wdm = d => (d.getDay() + 6) % 7; // weekday index with Monday = 0
+const GOAL = 5; // workout days per week (Monday to Sunday)
 // color = this workout's shade of green. sym = the symbol that stands for the whole workout.
 const PLAN = [
   { id: "w1", name: "Workout 1", color: "var(--c1)", sym: "bench", dogs: ["chest", "triceps", "shoulders"], ex: [["bench", "Bench press"], ["triceps", "Tricep pushdown"], ["shoulders", "Shoulder press"]] },
@@ -1376,11 +1379,11 @@ function recPlan(t) {
 }
 const shiftMonth = n => { const d = new Date(cal.y, cal.m + n, 1); cal = { y: d.getFullYear(), m: d.getMonth() }; render(); };
 
-// Days with a workout in the Sunday to Saturday week of the selected day.
+// Days with a workout in the Monday to Sunday week of the selected day.
 function weekKinds() { // one entry per worked-out day, in order: "cali" if it was only calisthenics, otherwise "gym"
   const base = new Date(selDate + "T00:00:00"), done = doneByDate(), out = [];
   for (let i = 0; i < 7; i++) {
-    const ks = done[dstr(new Date(base.getFullYear(), base.getMonth(), base.getDate() - base.getDay() + i))];
+    const ks = done[dstr(new Date(base.getFullYear(), base.getMonth(), base.getDate() - wdm(base) + i))];
     if (ks) out.push(ks.every(k => k === "cali") ? "cali" : ks.includes("cali") ? "both" : "gym");
   }
   return out;
@@ -1413,8 +1416,8 @@ function calendarView(pick, mode) { // mode: which page the calendar is on ("cal
   const first = new Date(cal.y, cal.m, 1);
   const count = new Date(cal.y, cal.m + 1, 0).getDate();
   const done = doneByDate(), t = today();
-  const cells = ["S", "M", "T", "W", "T", "F", "S"].map(d => h("div", { class: "wd" }, d));
-  for (let i = 0; i < first.getDay(); i++) cells.push(h("div"));
+  const cells = ["M", "T", "W", "T", "F", "S", "S"].map(d => h("div", { class: "wd" }, d));
+  for (let i = 0; i < wdm(first); i++) cells.push(h("div"));
   for (let d = 1; d <= count; d++) {
     const ds = cal.y + "-" + pad(cal.m + 1) + "-" + pad(d), ks = [...(done[ds] || []), ...(ptDoneOn(ds) ? ["pt"] : [])], keys = ks.length ? ks : null;
     const hasCheck = keys && (mode === "cali" ? keys.includes("cali") : mode === "pt" ? keys.includes("pt") : keys.some(k => k !== "cali" && k !== "pt"));
@@ -3313,7 +3316,7 @@ function budgetReport(M) {
 function weeksModal() {
   const done = doneByDate(), t = today(), PT_NEED = 5;
   const dates = [...Object.keys(done), ...list("ptacts").map(x => x.date), ...list("ptdone").map(x => x.date), ...list("pt").map(x => x.date)].filter(Boolean).sort();
-  const sun = d => { const x = new Date(d.getFullYear(), d.getMonth(), d.getDate()); x.setDate(x.getDate() - x.getDay()); return x; };
+  const sun = d => { const x = new Date(d.getFullYear(), d.getMonth(), d.getDate()); x.setDate(x.getDate() - wdm(x)); return x; };
   const day = (w, i) => new Date(w.getFullYear(), w.getMonth(), w.getDate() + i);
   const cur = sun(new Date(t + "T00:00:00")), firstDs = dates[0] || t, first = sun(new Date(firstDs + "T00:00:00"));
   const verdict = w => { let gym = 0, pt = 0; for (let i = 0; i < 7; i++) { const ds = dstr(day(w, i)); if ((done[ds] || []).length) gym++; if (ptDoneOn(ds)) pt++; } return gym >= GOAL && pt >= PT_NEED; };
@@ -3341,13 +3344,13 @@ function weeksModal() {
       h("button", { class: "lnk", "aria-label": "Previous month", onclick: () => step(-1) }, "‹"),
       h("h2", {}, new Date(y, m, 1).toLocaleDateString("en-US", { month: "long", year: "numeric" })),
       h("button", { class: "lnk", "aria-label": "Next month", onclick: () => step(1) }, "›")),
-    h("div", { class: "wcal" }, [..."SMTWTFS"].map(c => h("div", { class: "wch" }, c)), cells),
+    h("div", { class: "wcal" }, [..."MTWTFSS"].map(c => h("div", { class: "wch" }, c)), cells),
     h("div", { class: "wleg" }, h("span", {}, h("i", { class: "g" }), "Goal met"), h("span", {}, h("i", { class: "y" }), "Missed")));
 }
 const RECAP_IC = '<svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3.5" y="3.5" width="17" height="17" rx="4" fill="none" stroke="currentColor" stroke-width="2"/><path d="M8 16v-3.5M12 16V8.5M16 16v-5.5" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></svg>';
 function recapModal() {
   const done = doneByDate(), M = money(), real = today(), base = new Date(modal.base + "T00:00:00"), off = modal.off || 0;
-  const mk = o => { const w = new Date(base.getFullYear(), base.getMonth(), base.getDate() - base.getDay() + 7 * o); return [...Array(7)].map((_, i) => dstr(new Date(w.getFullYear(), w.getMonth(), w.getDate() + i))); };
+  const mk = o => { const w = new Date(base.getFullYear(), base.getMonth(), base.getDate() - wdm(base) + 7 * o); return [...Array(7)].map((_, i) => dstr(new Date(w.getFullYear(), w.getMonth(), w.getDate() + i))); };
   const days = mk(off), prev = mk(off - 1), cur = days.includes(real), future = days[0] > real;
   const kinds = d => done[d] || [], gym = days.filter(d => kinds(d).some(k => k !== "cali")).length, cali = days.filter(d => kinds(d).includes("cali")).length, train = days.filter(d => kinds(d).length).length;
   const pt = days.filter(d => ptDoneOn(d)).length, pu = days.filter(d => list("pushups").some(x => x.date === d)).length;
@@ -3356,14 +3359,14 @@ function recapModal() {
   const pa = avg(days), pp = avg(prev), sp = ds => sumBy(M.spends.filter(x => ds.includes(x.date)), x => x.amt), s0 = sp(days), s1 = sp(prev);
   const byCat = M.cats.map(c => ({ n: c.name, v: sumBy(M.spends.filter(x => x.cat === c.id && days.includes(x.date)), x => x.amt) })).filter(x => x.v > 0).sort((a, b) => b.v - a.v);
   const metN = [train >= GOAL, pt >= 5, pu >= 6].filter(Boolean).length, hit = train >= GOAL && pt >= 5;
-  const curStart = new Date(real + "T00:00:00"); curStart.setDate(curStart.getDate() - curStart.getDay());
+  const curStart = new Date(real + "T00:00:00"); curStart.setDate(curStart.getDate() - wdm(curStart));
   const wAgo = Math.round((curStart - new Date(days[0] + "T00:00:00")) / 6048e5);
   const kick = wAgo === 0 ? "This week so far" : wAgo === 1 ? "Last week" : wAgo + " weeks ago";
   const any = days.some(d => kinds(d).length || ptDoneOn(d) || list("pushups").some(x => x.date === d) || list("pt").some(x => x.date === d)), score = (Math.min(1, train / GOAL) + Math.min(1, pt / 5) + Math.min(1, pu / 6)) / 3;
   const tint = cur || !any ? "var(--gy) 24%" : score >= 0.85 ? "var(--c2) 32%" : score >= 0.45 ? "#e3b100 30%" : "var(--dn) 28%"; // green (hit it), yellow (partly), red (missed most), gray (no data)
   const ring = (v, g, col, label) => { const c = 2 * Math.PI * 26, f = Math.min(1, v / g);
     return h("div", { class: "rcpt", style: "--rc:" + col }, h("div", { class: "rcpring" }, raw('<svg viewBox="0 0 64 64" aria-hidden="true"><circle cx="32" cy="32" r="26" class="bg"/><circle cx="32" cy="32" r="26" class="fg" stroke-dasharray="' + (f * c).toFixed(1) + " " + c.toFixed(1) + '" transform="rotate(-90 32 32)"/></svg>'), h("b", {}, String(v))), h("span", {}, label), h("small", {}, "of " + g)); };
-  const strip = h("div", { class: "rcpd" }, days.map((d, i) => { const ks = kinds(d); return h("div", { class: "rcpday" + (d === real ? " now" : "") }, h("small", {}, "SMTWTFS"[i]), h("em", {}, String(new Date(d + "T00:00:00").getDate())),
+  const strip = h("div", { class: "rcpd" }, days.map((d, i) => { const ks = kinds(d); return h("div", { class: "rcpday" + (d === real ? " now" : "") }, h("small", {}, "MTWTFSS"[i]), h("em", {}, String(new Date(d + "T00:00:00").getDate())),
     h("div", {}, h("i", { style: ks.some(k => k !== "cali") ? "background:var(--c2)" : "" }), h("i", { style: ks.includes("cali") ? "background:var(--cy)" : "" }), h("i", { style: ptDoneOn(d) ? "background:var(--rd)" : "" }))); }));
   const row = (ic, label, val, sub) => h("div", { class: "rcpr" }, h("i", { style: "background:" + ic }), h("span", {}, label), h("b", {}, val, sub && h("small", { class: sub[1] }, sub[0])));
   const go = n => { modal.off = off + n; renderModal(); };
@@ -3380,7 +3383,7 @@ function recapModal() {
     h("div", { class: "rcpl" },
       row("var(--c2)", "Workouts", gym + (gym === 1 ? " day" : " days")),
       row("var(--cy)", "Calisthenics", cali + (cali === 1 ? " day" : " days")),
-      row("var(--gy)", "Rest days", rests + " training · " + ptRests + " PT · " + puRests + " push-ups"),
+      row("var(--gy)", "Rest days", (rests + ptRests + puRests) + ((rests + ptRests + puRests) === 1 ? " day" : " days")),
       row("var(--rd)", "Knee pain", pa == null ? "No ratings" : pa.toFixed(1) + " / 10", painSub),
       row("var(--bl)", "Everyday spending", usd0(Math.round(s0)), spSub),
       byCat.length > 0 && h("div", { class: "rcpc" }, byCat.slice(0, 3).map(x => h("span", {}, x.n + " " + usd0(Math.round(x.v)))))),
@@ -3388,7 +3391,7 @@ function recapModal() {
 }
 // First time you open Daily in a new week, last week's recap pops up once.
 function maybeRecap(real) {
-  const w = new Date(real + "T00:00:00"); w.setDate(w.getDate() - w.getDay()); const wk = dstr(w);
+  const w = new Date(real + "T00:00:00"); w.setDate(w.getDate() - wdm(w)); const wk = dstr(w);
   if (state.recapSeen === wk || modal) return;
   state.recapSeen = wk; save();
   const dn = doneByDate(), pw = new Date(w.getFullYear(), w.getMonth(), w.getDate() - 7), ds = [...Array(7)].map((_, i) => dstr(new Date(pw.getFullYear(), pw.getMonth(), pw.getDate() + i)));
@@ -3409,7 +3412,7 @@ function pushCalModal() {
   const K = KCAL[modal.kind || "u"], dn = doneByDate(), days = new Set(K.dates(dn)), t = today(), now = new Date(t + "T00:00:00");
   const y = modal.y != null ? modal.y : now.getFullYear(), m = modal.m != null ? modal.m : now.getMonth();
   const step = n => { const d = new Date(y, m + n, 1); modal.y = d.getFullYear(); modal.m = d.getMonth(); renderModal(); };
-  const lead = new Date(y, m, 1).getDay(), total = new Date(y, m + 1, 0).getDate(), cells = [];
+  const lead = wdm(new Date(y, m, 1)), total = new Date(y, m + 1, 0).getDate(), cells = [];
   for (let i = 0; i < lead; i++) cells.push(h("div", { class: "pcd" }));
   let cnt = 0;
   for (let d = 1; d <= total; d++) { const ds = y + "-" + pad(m + 1) + "-" + pad(d), on = days.has(ds); if (on) cnt++;
@@ -3421,7 +3424,7 @@ function pushCalModal() {
       h("h2", {}, new Date(y, m, 1).toLocaleDateString("en-US", { month: "long", year: "numeric" })),
       h("button", { class: "lnk", "aria-label": "Next month", onclick: () => step(1) }, "›")),
     h("div", { class: "pcnt" }, cnt + (cnt === 1 ? " day" : " days") + " this month"),
-    h("div", { class: "pcal" }, [..."SMTWTFS"].map(c => h("div", { class: "pch" }, c)), cells));
+    h("div", { class: "pcal" }, [..."MTWTFSS"].map(c => h("div", { class: "pch" }, c)), cells));
 }
 function moneyHistModal() {
   const M = money(), cur = today().slice(0, 7);
@@ -3535,8 +3538,8 @@ function moneyDateModal() {
   if (m.y == null) { m.y = Number(x.date.slice(0, 4)); m.mo = Number(x.date.slice(5, 7)) - 1; }
   const first = new Date(m.y, m.mo, 1), count = new Date(m.y, m.mo + 1, 0).getDate(), t = today();
   const shiftM = n => { const d = new Date(m.y, m.mo + n, 1); m.y = d.getFullYear(); m.mo = d.getMonth(); renderModal(); };
-  const cells = ["S", "M", "T", "W", "T", "F", "S"].map(d => h("div", { class: "wd" }, d));
-  for (let i = 0; i < first.getDay(); i++) cells.push(h("div"));
+  const cells = ["M", "T", "W", "T", "F", "S", "S"].map(d => h("div", { class: "wd" }, d));
+  for (let i = 0; i < wdm(first); i++) cells.push(h("div"));
   for (let d = 1; d <= count; d++) {
     const ds = m.y + "-" + pad(m.mo + 1) + "-" + pad(d);
     cells.push(h("button", { type: "button", class: "day" + (ds === t ? " today" : "") + (ds === x.date ? " sel" : ""), "aria-label": longDate(ds),
@@ -3572,7 +3575,7 @@ function calFit(id, compact) {
   return h("img", { class: "cimg", alt: "", src: "data:image/webp;base64," + d[2], style: "height:" + Math.round(hh * k) + "px;width:" + Math.round(w * k) + "px" });
 }
 let dailyDoneOpen = false;
-const dailyHide = {}, dailyHT = {};
+const dailyHide = {}, dailyHT = {}; let dailyBump = false;
 // A card that is finished moves down into "Completed today" (after a short pause, so you can still pick another activity or change your mind).
 let dailyDate = null, dailyStamp = ""; // the day shown on Daily; remembered while you visit other tabs, and reset on a new day
 function dailyPick(ds) { Object.keys(dailyHT).forEach(k => clearTimeout(dailyHT[k])); Object.keys(dailyHide).forEach(k => delete dailyHide[k]); Object.keys(dailyHT).forEach(k => delete dailyHT[k]); dailyDate = selDate = ds; dailyStamp = today(); render(); }
@@ -3580,7 +3583,7 @@ function dailySettled(key, done, delay) {
   if (!done) { dailyHide[key] = false; clearTimeout(dailyHT[key]); dailyHT[key] = null; return false; }
   if (dailyHide[key] === true) return true;
   if (dailyHide[key] === undefined || !delay) { dailyHide[key] = true; return true; }
-  if (!dailyHT[key]) dailyHT[key] = setTimeout(() => { dailyHT[key] = null; dailyHide[key] = true; if (tab === "daily") render(); }, delay);
+  if (!dailyHT[key]) dailyHT[key] = setTimeout(() => { dailyHT[key] = null; dailyHide[key] = true; dailyBump = true; if (tab === "daily") render(); }, delay);
   return false;
 }
 function dailyView() {
@@ -3592,7 +3595,7 @@ function dailyView() {
   const kinds = weekKinds(), n = kinds.length, left = Math.max(0, GOAL - n);
   // ----- Week -----
   let ptHit = 0;
-  const wk0 = new Date(t + "T00:00:00"); wk0.setDate(wk0.getDate() - wk0.getDay());
+  const wk0 = new Date(t + "T00:00:00"); wk0.setDate(wk0.getDate() - wdm(wk0));
   for (let i = 0; i < 7; i++) if (ptDoneOn(dstr(new Date(wk0.getFullYear(), wk0.getMonth(), wk0.getDate() + i)))) ptHit++;
   let puHit = 0; for (let i = 0; i < 7; i++) { const ds = dstr(new Date(wk0.getFullYear(), wk0.getMonth(), wk0.getDate() + i)); if (list("pushups").some(x => x.date === ds)) puHit++; }
   const PT_NEED = 5, PU_NEED = 6, wPct = Math.round(n / GOAL * 100), ptPct = Math.round(ptHit / PT_NEED * 100), puPct = Math.round(puHit / PU_NEED * 100); // 100% = the goal; more than that is a bonus
@@ -3602,9 +3605,9 @@ function dailyView() {
   const base = new Date(t + "T00:00:00"), done = doneByDate();
   const dotFill = cs => !cs.length ? "" : cs.length === 1 ? "background:" + cs[0]
     : "background:linear-gradient(90deg," + cs.map((c, i) => c + " " + (i * 100 / cs.length) + "% " + ((i + 1) * 100 / cs.length) + "%").join(",") + ")";
-  const days = [...Array(7)].map((_, i) => { const d = new Date(base.getFullYear(), base.getMonth(), base.getDate() - base.getDay() + i), ds = dstr(d), ks = done[ds] || [];
+  const days = [...Array(7)].map((_, i) => { const d = new Date(base.getFullYear(), base.getMonth(), base.getDate() - wdm(base) + i), ds = dstr(d), ks = done[ds] || [];
     const gym = ks.some(k => k !== "cali"), cali = ks.includes("cali");
-    return h("button", { class: "dday" + (ds === t ? " now" : "") + (ds === real ? " tod" : ""), "aria-pressed": String(ds === t), "aria-label": longDate(ds), onclick: () => dailyPick(ds) }, h("span", {}, "SMTWTFS"[i]), h("i", { style: dotFill([gym && "var(--ac)", cali && "var(--cy)", ptDoneOn(ds) && "var(--rd)", list("pushups").some(x => x.date === ds) && "var(--pk)"].filter(Boolean)) })); });
+    return h("button", { class: "dday" + (ds === t ? " now" : "") + (ds === real ? " tod" : ""), "aria-pressed": String(ds === t), "aria-label": longDate(ds), onclick: () => dailyPick(ds) }, h("span", {}, "MTWTFSS"[i]), h("i", { style: dotFill([gym && "var(--ac)", cali && "var(--cy)", ptDoneOn(ds) && "var(--rd)", list("pushups").some(x => x.date === ds) && "var(--pk)"].filter(Boolean)) })); });
   const week = h("div", { class: "card dweek" },
     h("div", { class: "dwh" }, h("h2", {}, "Weekly progress"), h("div", { class: "dwbs" }, h("button", { class: "iconbtn dwcal", "aria-label": "Weekly recaps", onclick: () => { modal = { type: "recap", base: real, off: -1 }; renderModal(); } }, raw(RECAP_IC)), h("button", { class: "iconbtn dwcal", "aria-label": "Weekly history", onclick: () => { modal = { type: "wkhist" }; renderModal(); } }, raw(CAL)))),
     h("div", { class: "ddays", style: "margin-top:8px" }, days),
@@ -3614,7 +3617,7 @@ function dailyView() {
   // ----- Workouts (green) -----
   const pid = recPlan(t), p = PLAN.find(x => x.id === pid), wOn = isChecked(pid, t), others = PLAN.filter(x => x.id !== pid && isChecked(x.id, t));
   const restW = state.restW = state.restW || {}, restC = state.restC = state.restC || {}, REST_MAX = 7 - GOAL;
-  const rk0 = new Date(t + "T00:00:00"); rk0.setDate(rk0.getDate() - rk0.getDay());
+  const rk0 = new Date(t + "T00:00:00"); rk0.setDate(rk0.getDate() - wdm(rk0));
   const inWk = d => { const x = new Date(d + "T00:00:00"); return x >= rk0 && x < new Date(rk0.getFullYear(), rk0.getMonth(), rk0.getDate() + 7); };
   const restUsed = Object.keys(restW).filter(d => restW[d] && inWk(d)).length + Object.keys(restC).filter(d => restC[d] && inWk(d)).length, restLeft = Math.max(0, REST_MAX - restUsed);
   const restBtn = (map, other) => h("div", {}, h("button", { type: "button", class: "drest", disabled: restLeft ? null : "", onclick: ev => { ev.stopPropagation(); if (!restLeft) return; map[t] = true; save(); render(); } }, restLeft ? (restLeft === 1 ? "Take my last rest day this week" : "Take my rest day this week (" + restLeft + " left)") : "Rest days already used this week"));
@@ -3644,7 +3647,7 @@ function dailyView() {
   const pOn = !!(state.ptCheck && state.ptCheck[t]);
   const mkP = compact => h("div", { class: "card dcard" + (compact ? " dcompact" : " dpt"), style: "--ac:var(--rd);--on:var(--rdk);--c:var(--rd);--ck:var(--rdk)" },
     !compact && goBtn("rehab", () => { selDate = t; }),
-    h("div", { class: "dch" }, h("div", {}, h("small", { style: compact ? "min-width:156px" : null }, "Tendon provocation"), h("div", { class: "dimgs", style: compact ? null : "min-height:0" }, compact && h("img", { class: "dleg", alt: "", src: LEG_IMG, style: "height:" + Math.round(compact ? 42 * DOG_SCALE * 1.3 : 62 * DOG_SCALE * 1.15) + "px" }))),
+    h("div", { class: "dch" }, h("div", {}, h("small", { style: compact ? "min-width:156px" : null }, "Tendon provocation"), h("div", { class: "dimgs", style: "min-height:0" })),
       h("div", { class: "dbtns" }, h("button", { class: "wchk lockable" + (pOn ? " on" : pReady ? "" : " locked"), "aria-pressed": String(pOn), "aria-label": pOn ? "Tendon provocation done: tap to undo" : pReady ? "Mark tendon provocation done" : "Fill in the morning rating and yesterday's activities first", onclick: ev => {
         if (pOn) { // undo: only the check goes; the morning rating and yesterday's activities stay saved
           state.ptCheck = state.ptCheck || {}; delete state.ptCheck[t];
@@ -3663,7 +3666,7 @@ function dailyView() {
   const rr = rp(), rSess = list("rpsess").filter(x => x.date === t), rLast = rSess[rSess.length - 1];
   const rStage = rLast ? rLast.stage : rr.stage, rDays = RP_DAYS[rStage] || [], rIdx = rLast ? Math.max(0, rDays.findIndex(x => x.n === rLast.day)) : rStage === 1 ? 0 : Math.min(rDays.length - 1, (rr.nxt && rr.nxt[rStage]) || 0), rDay = rDays[rIdx];
   const rpOffMap = state.rpOff = state.rpOff || {}, rpSkipMap = state.rpSkip = state.rpSkip || {};
-  const rSkipped = !!rpSkipMap[t], rWk0 = new Date(t + "T00:00:00"); rWk0.setDate(rWk0.getDate() - rWk0.getDay());
+  const rSkipped = !!rpSkipMap[t], rWk0 = new Date(t + "T00:00:00"); rWk0.setDate(rWk0.getDate() - wdm(rWk0));
   const rSkipN = Object.keys(rpSkipMap).filter(d => { if (d === t || !rpSkipMap[d]) return false; const x = new Date(d + "T00:00:00"); return x >= rWk0 && x < new Date(rWk0.getFullYear(), rWk0.getMonth(), rWk0.getDate() + 7); }).length, rSkipLeft = Math.max(0, 2 - rSkipN), rSkipUsed = rSkipLeft === 0;
   const rHas = rSess.length > 0, rOn = (rHas && !rpOffMap[t]) || rSkipped, rNeed = rStage === 1 ? 2 : 1;
   const rCheck = ev => { ev.stopPropagation(); if (rSkipped) delete rpSkipMap[t]; else if (rHas) { if (rpOffMap[t]) delete rpOffMap[t]; else rpOffMap[t] = true; } else { const b = ev.currentTarget; b.classList.remove("shake"); void b.offsetWidth; b.classList.add("shake"); const pg = b.closest(".dcard").querySelector(".rpprog"); if (pg) { pg.classList.remove("need"); void pg.offsetWidth; pg.classList.add("need"); } return; } save(); render(); };
@@ -3696,17 +3699,18 @@ function dailyView() {
     !compact && !inDone && !uOn && h("button", { type: "button", class: "drest", disabled: uRestUsed ? "" : null, onclick: ev => { ev.stopPropagation(); if (uRestUsed) return; restU[t] = true; save(); render(); } }, uRestUsed ? "Rest day already used this week" : "Take my only rest day this week"));
   const dayPlan = (state.dayPlan || {})[t] === "w" || (state.dayPlan || {})[t] === "c" ? state.dayPlan[t] : "b", showW = dayPlan !== "c" || wOn || wRest, showC = dayPlan !== "w" || cOn || cRest;
   const setPlan = v => { state.dayPlan = state.dayPlan || {}; state.dayPlan[t] = v; save(); render(); };
-  const planBar = h("div", { class: "card dplan" }, h("small", {}, t === real ? "Training today" : "Training that day"),
+  const planBar = h("div", { class: "card dplan" }, h("small", {}, "Training day"),
     h("div", { class: "seg", role: "group", "aria-label": "Training focus" }, [["b", "Both"], ["w", "Workout"], ["c", "Calisthenics"]].map(([k, l]) => h("button", { type: "button", class: dayPlan === k ? "on" : "", "aria-pressed": String(dayPlan === k), onclick: () => setPlan(k) }, l))));
   const todo = [], finished = [];
-  [[mkP, "p", pOn, 0], ...(rr.complete ? [] : [[mkR, "r", rOn, 0]]), ...(showW ? [[mkW, "w", wOn || wRest, 0]] : []), ...(showC ? [[mkC, "c", cOn || cRest, 0]] : []), [mkU, "u", uOn || uRest, 0]].forEach(([mk, key, on, delay]) => (dailySettled(key, on, delay) ? finished : todo).push({ mk, key }));
+  [[mkP, "p", pOn, 160], ...(rr.complete ? [] : [[mkR, "r", rOn, 160]]), ...(showW ? [[mkW, "w", wOn || wRest, 160]] : []), ...(showC ? [[mkC, "c", cOn || cRest, 160]] : []), [mkU, "u", uOn || uRest, 160]].forEach(([mk, key, on, delay]) => (dailySettled(key, on, delay) ? finished : todo).push({ mk, key }));
   Object.keys(dailyExp).forEach(k => { if (!finished.some(f => f.key === k)) delete dailyExp[k]; });
+  const bump = dailyBump; dailyBump = false;
   return h("section", {},
     h("div", { class: "hhead" }, h("h1", {}, "Daily"), h("button", { class: "iconbtn setg", "aria-label": "Settings", onclick: () => goTab("settings") }, raw(COG))),
     h("p", { class: "m hdate" }, longDate(t), t !== real && h("button", { class: "lnk dback", onclick: () => dailyPick(real) }, "Back to today")),
-    week, planBar, todo.map(f => f.mk(false)),
+    week, planBar, todo.map(f => { const el = f.mk(false); if (dailyHT[f.key]) el.classList.add("dclosing"); return el; }),
     finished.length > 0 && h("div", { class: "ddone" },
-      h("button", { class: "ddb" + (dailyDoneOpen ? " open" : ""), "aria-expanded": String(dailyDoneOpen), onclick: () => { dailyDoneOpen = !dailyDoneOpen; render(); } }, t === real ? "Completed today" : "Completed", h("em", {}, String(finished.length)), h("i", { "aria-hidden": "true" })),
+      h("button", { class: "ddb" + (dailyDoneOpen ? " open" : ""), "aria-expanded": String(dailyDoneOpen), onclick: () => { dailyDoneOpen = !dailyDoneOpen; render(); } }, t === real ? "Completed today" : "Completed", h("em", { class: bump ? "bump" : "" }, String(finished.length)), h("i", { "aria-hidden": "true" })),
       dailyDoneOpen && finished.map(f => { const open = !!dailyExp[f.key], el = f.mk(!open, true);
         el.addEventListener("click", ev => { if (ev.target.closest("button, .chip, .dchips, .drate, .dgo")) return; dailyExp[f.key] = !open; render(); });
         return el; })));
@@ -3842,7 +3846,7 @@ function seedBudgetHistory() {
 function seedBonusWeek() {
   if (state.seedBonus) return;
   state.seedBonus = 1;
-  const now = () => new Date().toISOString(), s0 = new Date(today() + "T00:00:00"); s0.setDate(s0.getDate() - s0.getDay() - 7);
+  const now = () => new Date().toISOString(), s0 = new Date(today() + "T00:00:00"); s0.setDate(s0.getDate() - wdm(s0) - 7);
   // per day: [gym, calisthenics, PT]
   const plan = [[0, 0, 1], [0, 1, 1], [1, 0, 1], [1, 1, 1], [1, 0, 1], [1, 1, 1], [1, 1, 1]];
   let rot = 0;
