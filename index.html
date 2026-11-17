@@ -323,7 +323,7 @@ nav button:not([aria-current=page]):active{background:color-mix(in srgb,var(--mu
 .amtmi:focus{outline:none;border-color:var(--ac);box-shadow:0 0 0 2px var(--ac)}.amtmi{caret-color:var(--ac);-webkit-tap-highlight-color:transparent}.amtmi::selection{background:var(--ac);color:var(--on)}
 .amtmi{width:70px;min-height:28px;padding:2px 6px;font-size:14px;text-align:right;border-radius:8px}
 .amtr{display:flex;justify-content:space-between;font-size:12px;color:var(--mu);padding:0 52px}
-.mq .mname{flex:none;width:86px;overflow:hidden}.mq .mname b{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.mq .mname{flex:none;width:112px;overflow:hidden}.mq .mname b{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .msl{flex:1;min-width:0;position:relative;height:36px;display:flex;align-items:center}.msl .mmr{position:absolute;left:0;right:0;top:27px}.msl .mmed{position:absolute;inset:0;background:var(--sf);z-index:2}.mcat:has(.msl){padding-bottom:17px}.bps.ms{width:100%;min-height:26px;display:block}.bps.ms::-webkit-slider-thumb{width:22px;height:22px;margin-top:-7px;background:var(--bl)}.bps.ms::-moz-range-thumb{width:22px;height:22px;background:var(--bl)}.bps.ms::-webkit-slider-runnable-track{height:8px}
 .msm{margin-top:0}.mmr{display:flex;justify-content:flex-end;font-size:11px;color:var(--mu);line-height:1.2}.mmed{display:flex;align-items:center;gap:4px;justify-content:flex-end}.mmed .amtmi{width:54px;min-height:26px;font-size:13px;padding:1px 4px}.amtok.sm{width:24px;height:24px;border-width:1.5px}
 .mpk{flex:none;width:32px;height:32px;padding:0;border:0;background:none;color:var(--bl);display:grid;place-items:center}.mpk svg{width:20px;height:20px}
@@ -650,6 +650,7 @@ nav button[aria-current=page]{font-weight:600;letter-spacing:-.2px}
 .apr{display:flex;align-items:center;gap:6px;margin-top:8px}
 .apin{flex:1;min-width:0;width:0;box-sizing:border-box;height:34px;font:inherit;font-size:16px;font-weight:700;padding:0 8px;border-radius:8px;border:1px solid var(--ln);background:var(--bg);color:var(--ink)}
 .apx,.apk{flex:none;width:34px;height:34px;border-radius:8px;border:1.5px solid var(--bl);background:transparent;color:var(--blt);display:grid;place-items:center;padding:0}.apk{background:var(--bl);color:var(--blk)}.apk.set{width:auto;min-width:48px;padding:0 14px;font:inherit;font-size:15px;font-weight:700}
+.apx,.apk{-webkit-tap-highlight-color:transparent;transition:none}.apx:active{background:var(--bl);color:var(--blk)}.apk:active{background:color-mix(in srgb,var(--bl) 55%,#000)}
 .mrf{flex-wrap:nowrap}.mrf .a{width:68px}.mrf .mhome.tg{width:30px;height:30px}.mrf .mhome.tg svg{width:16px;height:16px}.mleg .mh2.lg{margin:0 5px 0 0;width:15px;height:15px}.mleg>span{display:inline-flex;align-items:center}.mleg>span b{margin-left:5px}.mleg{font-size:12px}.mrname b{font-size:15px;font-weight:600}.mrf .btn{width:auto;font-size:15px;padding:0 16px}.mrname{flex:1;min-width:0;background:none;border:0;padding:0;font:inherit;color:inherit;text-align:left;-webkit-tap-highlight-color:transparent}.mkinds{flex:0 0 100%;display:flex;justify-content:space-around;margin-top:4px}.mkind{display:flex;flex-direction:column;align-items:center;gap:2px;font-size:12px;color:var(--mu)}
 .mhome.tg path.k{fill:var(--bl);stroke:none}.mhome.tg.on path.k{fill:var(--sf)}.mhome.tg path[fill=none]{fill:none}
 .mh2 path.k{fill:var(--sf);stroke:none}.mh2 path{fill:var(--bl)}.mh2 path[fill=none]{fill:none;stroke:var(--bl);stroke-width:1.8;stroke-linecap:round}
@@ -865,6 +866,71 @@ body .dpcal,body .dwcal{border-radius:12px;transition:none;-webkit-tap-highlight
 body .iconbtn.dwcal:active{background:var(--gy)!important;color:var(--gyk)!important}
 .dcard.dclosing{overflow:hidden;transform-origin:50% 100%;animation:dclose .16s ease-in both}@keyframes dclose{0%{max-height:900px;opacity:1;transform:scale(1)}100%{max-height:0;opacity:0;transform:scale(.94);margin-top:0;margin-bottom:0;padding-top:0;padding-bottom:0;border-width:0}}
 .ddb em.bump{animation:dbump .2s cubic-bezier(.2,1.6,.4,1)}@keyframes dbump{0%{transform:scale(1)}45%{transform:scale(1.5)}100%{transform:scale(1)}}
+.caph+.capr{border-top:0}
+.caph{display:flex;align-items:center;gap:10px;margin:-4px 0 6px;padding:0 0 12px;border-bottom:2px solid var(--cy)}
+.caph h2{flex:1;margin:0;font-size:16px;font-weight:800;line-height:1.2;color:var(--cyt)}
+.capi{flex:none;width:34px;height:34px;border-radius:11px;background:color-mix(in srgb,var(--cy) 16%,var(--sf));color:var(--cyt);display:flex;align-items:center;justify-content:center}.capi svg{width:20px;height:20px}
+.capr .cbtn svg{width:16px;height:16px;display:block}
+.sheet{--xc:var(--ac);--xk:var(--on)}
+body.cali .sheet:not([style*="--ac"]){--xc:var(--cy);--xk:var(--cyk)}
+body.money .sheet:not([style*="--ac"]){--xc:var(--bl);--xk:var(--blk)}
+body.pt .sheet:not([style*="--ac"]){--xc:var(--rd);--xk:var(--rdk)}
+.sheet .iconbtn.x2{flex:none;min-width:0;width:36px;height:36px;border-radius:50%;color:var(--xc);font-size:0;transition:none}
+.sheet .iconbtn.x2 svg{width:20px;height:20px}
+.sheet .iconbtn.x2:active{background:var(--xc);color:var(--xk)}
+.mpool{font-size:13px;color:var(--mu);margin:-2px 0 6px;line-height:1.35}.mpool.over{color:var(--dn);font-weight:600}
+.mnauto{justify-content:flex-start!important;align-items:baseline!important}.mauto-t{display:inline-block;flex:none;padding:2px 6px 1px;margin-left:2px;border-radius:99px;background:color-mix(in srgb,var(--bl) 14%,transparent);color:var(--blt);font-size:9.5px;line-height:1;font-weight:700;letter-spacing:.3px;text-transform:uppercase}
+.brhead{margin:2px 0 14px}.brbig{display:flex;align-items:baseline;justify-content:space-between;gap:8px;margin-bottom:8px}.brbig b{font-size:24px;font-weight:800}.brbig small{font-size:13px;color:var(--mu)}
+.brbar{display:block;height:10px;border-radius:99px;background:var(--bg);overflow:hidden}.brbar i{display:block;height:100%;border-radius:99px}
+.brsec{margin-top:34px;padding-top:26px;border-top:2px solid color-mix(in srgb,var(--bl) 28%,transparent)}.brsec .mvh{margin-bottom:6px}
+.brrow{display:grid;grid-template-columns:78px 1fr 96px;align-items:center;column-gap:10px;row-gap:1px;padding:7px 0;border-top:1px solid var(--ln)}.brrow:first-of-type{border-top:0}
+.brn{font-size:14px;font-weight:600;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.brv{font-size:13px;font-weight:700;text-align:right;white-space:nowrap}
+.brs{grid-column:2 / 4;text-align:right;font-size:12px;margin-top:-1px}.brrow.now .brn{color:var(--blt)}
+.brstats{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:12px}.brt{background:var(--sf);border:1px solid var(--ln);border-radius:12px;padding:10px 6px;text-align:center}.brt b{display:block;font-size:18px;font-weight:800;color:var(--blt)}.brt small{display:block;font-size:11.5px;color:var(--mu);margin-top:2px;line-height:1.2}
+.brrow .brbar{height:10px}
+.mlg .mlb2t{fill:var(--ink);font-size:9.5px;font-weight:700;opacity:.8}
+.mlg.sl{--odk:var(--bld)}.mlg.sl .mla{font-size:8px;font-weight:700;fill:var(--mu)}.mlg.sl .mla.ov{fill:var(--dn)}.mlg.sl .mlv{font-size:8px;font-weight:600}.mlg.sl .mll{font-size:8px;font-weight:500}.mlg.sl .mleg{font-size:11px;gap:12px;margin-top:2px}.mlg.sl .mleg u{width:9px;height:9px}
+.mgh{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:4px}.mgh .mvh{margin:0}
+.mtog{display:inline-flex;gap:0;border:1.5px solid var(--bl);border-radius:99px;overflow:hidden;flex:none}.mtog button{border:0;background:none;color:var(--blt);font:inherit;font-size:11.5px;font-weight:700;padding:3px 11px;-webkit-tap-highlight-color:transparent}.mtog button.on{background:var(--bl);color:var(--blk)}.mtog button:active{background:color-mix(in srgb,var(--bl) 55%,#000);color:var(--blk)}
+.brchips{display:flex;flex-wrap:wrap;gap:6px;margin:2px 0 8px}.brc{padding:4px 11px;border-radius:99px;font-size:12.5px;font-weight:700;color:var(--c);background:color-mix(in srgb,var(--c) 13%,transparent)}
+.mlg.sl .mll2{font-size:8px;font-weight:500;fill:var(--mu)}.mlg.sl .mla{font-size:9px}
+.brrow .brv{min-width:0}
+.mform{font-size:12.5px;color:var(--mu);margin:6px 0 2px}
+.evsum{margin:2px 0 8px}.evrow{display:flex;justify-content:space-between;align-items:baseline;gap:8px;font-size:13.5px;color:var(--mu);margin-bottom:6px}.evrow b{font-size:14px;font-weight:800}.evbar{display:block;height:10px;margin:0}.evday{font-size:13px;color:var(--blt);font-weight:700;margin-top:7px}
+.mshare{flex:none;margin-left:7px;font-size:11.5px;font-weight:700;color:var(--mu);align-self:center}.mname.hold{justify-content:flex-start}
+.brmonths{display:flex;gap:6px;overflow-x:auto;margin:2px -2px 10px;padding:2px;scrollbar-width:none}.brmonths::-webkit-scrollbar{display:none}
+.brmo{flex:none;border:1.5px solid var(--bl);background:none;color:var(--blt);font:inherit;font-size:13px;font-weight:700;padding:4px 13px;border-radius:99px;-webkit-tap-highlight-color:transparent}.brmo.on{background:var(--bl);color:var(--blk)}.brmo:active{background:color-mix(in srgb,var(--bl) 55%,#000);color:var(--blk)}
+.brsum{margin-bottom:6px}.brsh{display:flex;justify-content:space-between;align-items:center;margin-bottom:7px}.brsh b{font-size:18px;font-weight:800}.brlive{font-size:11px;font-weight:700;color:var(--blt);background:color-mix(in srgb,var(--bl) 15%,transparent);padding:2px 9px;border-radius:99px}
+.brsr{display:flex;justify-content:space-between;align-items:baseline;padding:6px 0;border-top:1px solid var(--ln);font-size:14px}.brsr span{color:var(--mu)}.brsr b{font-weight:700}.brsum .evbar{margin-bottom:6px}.brsr.sub{padding-left:12px;font-size:13px}
+.brtip{display:flex;gap:9px;align-items:baseline;padding:4px 0;font-size:14px;line-height:1.35}.brtip i{flex:none;width:8px;height:8px;border-radius:50%;transform:translateY(-1px)}.brnote{margin:6px 0 0;font-size:12px;color:var(--mu)}
+.brrow .brv{white-space:nowrap}
+.evsum{background:color-mix(in srgb,var(--bl) 9%,var(--sf));border:1.5px solid color-mix(in srgb,var(--bl) 35%,transparent);border-radius:14px;padding:12px 14px;margin:6px 0 12px}
+.evsum .evrow{margin-bottom:8px;align-items:baseline}.evsum .evrow b{font-size:22px;font-weight:800}.evsum .evrow span{font-size:13.5px;color:var(--mu);font-weight:600}.evsum .evbar{background:color-mix(in srgb,var(--bl) 14%,var(--bg))}
+.mvh .brm,.brpl .brm{font-style:normal;color:var(--blt);margin-left:2px;padding:1px 9px;border-radius:99px;background:color-mix(in srgb,var(--bl) 15%,transparent);letter-spacing:0;text-transform:none;font-size:12.5px}
+.mvh.vsh{display:flex;align-items:center;gap:8px}.mvh.vsh .brm{margin:0}.brvs{font-size:10px;font-weight:700;letter-spacing:.4px;color:var(--mu);text-transform:lowercase}
+.brrow:has(.brv2){grid-template-columns:78px 1fr 112px}.brv2{display:flex;align-items:center;justify-content:flex-end;gap:7px;white-space:nowrap}.brv2 b{font-size:14px;font-weight:700;color:var(--ink)}.brv2 em{font-style:normal;min-width:38px;text-align:center;font-size:11.5px;font-weight:700;color:var(--blt);background:color-mix(in srgb,var(--bl) 15%,transparent);padding:2px 0;border-radius:99px}
+.brstack{display:flex;height:12px;border-radius:99px;background:var(--bg);overflow:hidden;margin-bottom:12px}.brstack i{display:block;height:100%}
+.brgrp{margin:6px 0 0;font-size:11px;font-weight:700;letter-spacing:.6px;text-transform:uppercase;color:var(--mu)}
+.brdot{display:inline-block;width:9px;height:9px;border-radius:50%;margin-right:8px}.brsr.strong{font-weight:700}.brsr.strong span{color:var(--ink)}
+.brrem{display:flex;justify-content:space-between;align-items:center;margin-top:8px;padding:10px 14px;border-radius:12px;color:var(--c);background:color-mix(in srgb,var(--c) 12%,transparent);font-size:15px;font-weight:700}.brrem b{font-size:19px;font-weight:800}
+.mnote{font-size:12px;color:var(--mu);margin:-2px 0 4px}
+.evleft{margin-top:7px;font-size:13.5px;font-weight:700}
+.aphint{color:var(--mu);font-size:12.5px;font-weight:700;margin:8px 4px 0;text-align:center}
+.aphint:empty{display:none}
+.aphint.hit{color:var(--dn)}
+.cto{color:var(--mu);font-size:12.5px;margin:5px 2px 0}
+.evrow small{margin-left:10px;font-size:13px;font-weight:700}
+.evsum .evday{font-size:12px;font-weight:500;font-style:normal;color:color-mix(in srgb,var(--blt) 60%,var(--mu));opacity:1}
+.brdn{display:block;width:150px;height:150px;margin:6px auto 10px}.brdt{font-size:12px;font-weight:800;fill:var(--ink)}.brds{font-size:6.5px;font-weight:600;fill:var(--mu)}
+.brrow.brlg,.brrow.brlg:has(.brv2){grid-template-columns:1fr auto}.brlg .brn{display:flex;align-items:center;gap:8px;min-width:0}.brlg .brdot{flex:none}
+.brcmpt{display:flex;justify-content:space-between;align-items:center;background:var(--bg);border-radius:12px;padding:11px 14px;margin:2px 0 8px;font-size:14px;font-weight:700;color:var(--ink)}.brcmpt b{font-size:16px;font-weight:800}
+.brsubs{margin:0 0 4px 4px;padding-left:14px;border-left:2px solid var(--bl)}.brsubs .brsr.sub{padding-left:0}.brsubs .brsr:first-child{border-top:0}
+.brdg{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:6px}.brdg.one{grid-template-columns:1fr}.brdc{text-align:center}.brdcap{font-size:12px;font-weight:700;color:var(--mu);letter-spacing:.3px;text-transform:uppercase}
+.brdg .brdn{width:100%;max-width:170px;height:auto;margin:4px auto 6px}.brdn circle{transition:stroke-width .15s,stroke-opacity .15s}
+.brdg .brdc+.brdc{margin-top:18px}.brdg .brdn{max-width:160px}.brdp{font-size:15px;font-weight:800;fill:var(--ink)}.brdc .brlg{cursor:pointer;border-radius:8px}.brdc .brlg.on{background:var(--bl);padding-left:8px;padding-right:8px}.brdc .brlg.on .brn,.brdc .brlg.on .brv2 b{color:#fff;font-weight:700}.brdc .brlg.on .brv2 em{background:rgba(255,255,255,.25);color:#fff}.brdc .brlg.on .brdot{box-sizing:border-box;width:13px;height:13px;border:2.5px solid #fff;background-clip:padding-box}.brdc .brlg{text-align:left}
+.mbud .mrbody>.brsum{margin-bottom:30px}.mbud .mrbody>.mlg.sl{margin-top:0;padding-top:22px;border-top-width:2px}
+.mbud .mrbody>.mvh.bro{margin:18px 0 10px}
+.brpl{display:flex;align-items:center;gap:8px;margin:2px 0 12px}.brpl .brm{font-weight:700}.brpl .brm{margin:0}.mbud .mrh{padding-bottom:12px}.mbud .mrbody{padding-top:6px}.mbud .mrbody>.brmonths{margin-bottom:14px}.mbud .mrbody>.mvh.bro{margin:28px 0 12px}
 </style>
 </head>
 <body>
@@ -907,6 +973,10 @@ function save() {
 }
 let state = load();
 const list = id => state.data[id] || (state.data[id] = []);
+// Training only ever holds Light / Medium / Hard (L, M, H). Anything else saved there (such as minutes) is cleared, so it can never show up like "Training (80)".
+const trLv = v => v === "L" || v === "M" || v === "H" ? v : null;
+function trainFix() { try { list("ptacts").forEach(r => { if (r && r.acts && "training" in r.acts && r.acts.training != null && !trLv(r.acts.training)) r.acts.training = null; }); } catch (e) {} }
+trainFix();
 
 // ---------- The sections ----------
 // To add a new section later: copy one block below, change the id, title and fields.
@@ -1038,7 +1108,7 @@ function importData(file) {
       if (!s || typeof s.data !== "object" || Array.isArray(s.data) || !Object.values(s.data).every(v => Array.isArray(v) || (v && typeof v === "object"))) throw new Error("bad");
       askConfirm("This replaces everything on this device with the backup. Continue?", "Restore", () => {
         state = { seeded: 1, ptSeeded: 1, ptOct: 1, ...s, v: 1, data: s.data }; // everything in the backup comes back: data, tendinitis check marks, and the "already set up" flags (so sample data is not added again)
-        save(); syncChecksOnce(); caliMigrate(); askConfirm("Backup restored.", "OK", null); modal.reload = true; // reload so the whole app starts fresh from the restored data
+        trainFix(); save(); syncChecksOnce(); caliMigrate(); askConfirm("Backup restored.", "OK", null); modal.reload = true; // reload so the whole app starts fresh from the restored data
       });
     } catch (e) { askConfirm("That file is not a valid Life Tracker backup.", "OK", null); }
   };
@@ -1252,6 +1322,7 @@ function dropDemo() {
   if (state.rpDemo) { rp().bridge = state.rpDemo.b || 1; delete state.rpDemo; }
   money().spends = money().spends.filter(x => !x.demo);
   money().cats.forEach(c => { if (c.budgetDemo) { delete c.budget; delete c.budgetDemo; } });
+  const Md = money(); if (Md.limDemo) { if (Md.limDemo.had) Md.limBy = Md.limDemo.had; else delete Md.limBy; (Md.limDemo.keys || []).forEach(k => { delete Md.recBy[k]; }); if (Md.limDemo.recHad) Md.recBy[Md.limDemo.cur] = Md.limDemo.recHad; delete Md.limDemo; }
 }
 function removeDemo() {
   askConfirm("Remove the sample data?", "Remove", () => { dropDemo(); modal = null; save(); render(); });
@@ -1275,7 +1346,7 @@ function loadSample() {
         const sets = pl.ex.flatMap(([ex]) => { const w = BASE[ex] + up; return [...Array(3)].map((_, k) => ({ ex, weight: w, reps: k === 2 && rnd() < 0.5 ? 8 : 10 })); });
         list("sessions").push({ id: uid(), at: now(), date, w: pl.id, sets, demo: true });
         list("checks").push({ id: uid(), at: now(), date, w: pl.id, demo: true });
-        act.training = 40 + 5 * Math.floor(rnd() * 5);
+        act.training = "M";
       }
       // Calisthenics
       if ([2, 4, 0].includes(dow) && rnd() > 0.1 && !list("cali").some(x => x.date === date)) {
@@ -1645,7 +1716,7 @@ function vnoteModal() {
   inp.value = (state.vnotes && state.vnotes[m.ex]) || "";
   const done = () => { save1(); closeModal(); render(); };
   return h("div", {},
-    h("div", { class: "row exh" }, h("h2", { style: "margin:0" }, "Note"), h("button", { class: "iconbtn x2", "aria-label": "Close", onclick: () => { closeModal(); render(); } }, "×")),
+    h("div", { class: "row exh" }, h("h2", { style: "margin:0" }, "Note"), h("button", { class: "iconbtn x2", "aria-label": "Close", onclick: () => { closeModal(); render(); } }, raw(CLOSEX))),
     h("form", { class: "vnf", onsubmit: e => { e.preventDefault(); done(); } }, inp, h("button", { class: "btn vnb", type: "submit" }, "Enter")));
 }
 
@@ -1667,7 +1738,8 @@ function workoutView(p) {
 // ---------- Popups ----------
 let wdateOpen = false; // the calendar popup on a workout page is open (so choosing a month in it comes back to it)
 function closeModal() { wdateOpen = false; wdateRp = false; modal = modal && modal.type === "info" && modal.back ? modal.back : null; suppressClick = false; renderModal(); }
-const closeBtn = () => h("button", { class: "iconbtn x2", "aria-label": "Close", onclick: closeModal }, "×");
+const CLOSEX = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg>';
+const closeBtn = () => h("button", { class: "iconbtn x2", "aria-label": "Close", onclick: closeModal }, raw(CLOSEX));
 
 // One tap toggles the check. A quick second tap undoes that toggle and opens the workout page for the day.
 function popPress(ds, k) {
@@ -1761,8 +1833,10 @@ function openAmtPop(c, anchor, store) {
   const st = store || { get: () => mAmt[c.id] || 0, set: v => { if (v > 0) mAmt[c.id] = v; else delete mAmt[c.id]; } };
   const val = st.get;
   const inp = h("input", { type: "text", inputmode: "decimal", class: "apin", "aria-label": "Type an amount", autocomplete: "off", name: "apin-x", value: val() ? String(val()) : "" });
-  const set = v => { v = Math.max(0, Math.round(v * 100) / 100); st.set(v); inp.value = v > 0 ? String(v) : ""; };
-  inp.addEventListener("input", () => { st.set(numOf(inp.value)); });
+  const hint = h("div", { class: "aphint" }), cap = () => st.max ? st.max() : Infinity;
+  const fit = v => { let hit = false; if (v > cap()) { v = cap(); hit = true; } if (st.max) { hint.textContent = usd0(cap() - v) + " left to budget"; hint.classList.toggle("hit", hit); } return v; };
+  const set = v => { v = fit(Math.max(0, Math.round(v * 100) / 100)); st.set(v); inp.value = v > 0 ? String(v) : ""; };
+  inp.addEventListener("input", () => { const raw0 = numOf(inp.value), v = fit(raw0); st.set(v); if (v !== raw0) inp.value = v > 0 ? String(v) : ""; });
   inp.addEventListener("focus", () => { apOpenedAt = Date.now(); });
   const done = () => { closeAmtPop(); render(); };
   inp.onkeydown = e => { if (e.key === "Enter") { e.preventDefault(); done(); } };
@@ -1770,7 +1844,8 @@ function openAmtPop(c, anchor, store) {
     h("div", { class: "apg" }, [1, 5, 10, 50, 100, 500].map(n => h("button", { type: "button", class: "mqb", "aria-label": "Add $" + n, onclick: () => set(val() + n) }, "$" + n))),
     h("div", { class: "apr" }, inp,
       h("button", { type: "button", class: "apx", "aria-label": "Clear the amount", onclick: () => { set(0); } }, raw('<svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.8" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg>')),
-      h("button", { type: "button", class: "apk" + (store ? " set" : ""), "aria-label": store ? "Set budget" : "Done", onclick: done }, store ? "Set" : raw('<svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>'))));
+      h("button", { type: "button", class: "apk" + (store ? " set" : ""), "aria-label": store ? "Set budget" : "Done", onclick: done }, store ? "Set" : raw('<svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>'))), hint);
+  fit(val());
   const back = h("div", { class: "apback", onclick: done });
   back.id = "apback"; pop.id = "apop";
   document.body.append(back, pop); apOpenedAt = Date.now();
@@ -1791,7 +1866,7 @@ function amtModal() {
   const done = () => { modal = null; render(); };
   inp.onkeydown = e => { if (e.key === "Enter") { e.preventDefault(); done(); } };
   return h("div", {},
-    h("div", { class: "row exh" }, h("h2", { style: "margin:0" }, c.name), h("button", { class: "iconbtn x2", "aria-label": "Close", onclick: done }, "×")),
+    h("div", { class: "row exh" }, h("h2", { style: "margin:0" }, c.name), h("button", { class: "iconbtn x2", "aria-label": "Close", onclick: done }, raw(CLOSEX))),
     inp,
     h("div", { class: "mpad big" }, [1, 5, 10, 50, 100, 500].map(n => h("button", { type: "button", class: "mqb", "aria-label": "Add $" + n, onclick: () => set((numOf(inp.value) || 0) + n) }, "$" + n))),
     h("div", { class: "mamtb" },
@@ -1903,11 +1978,11 @@ const CALI = [
     { id: "advtuck", name: "Advanced tuck planche", unit: "s", sets: 3, start: 5, step: 2, cap: 20 },
     { id: "lean", name: "Planche lean", unit: "s", sets: 3, start: 7, step: 3, cap: 20 }] },
   { id: "hspu", name: "Handstand push-ups", ex: [
-    { id: "hspu", name: "Handstand push-up", unit: "reps", sets: 2, start: 10, step: 5, cap: 20 }] },
+    { id: "hspu", name: "Handstand push-up", unit: "reps", sets: 2, tot: 1, start: 10, step: 5, cap: 20 }] },
   { id: "oah", name: "One arm handstand", ex: [
-    { id: "oah", name: "One-arm handstand", unit: "s", attempts: 10, start: 30, step: 10, cap: 60 }] },
+    { id: "oah", name: "One-arm handstand", unit: "s", secs: 30, down: 1, start: 10, step: 2, cap: 2 }] },
   { id: "oapu", name: "One arm pull up", ex: [
-    { id: "pullup", name: "Pull-up", unit: "reps", sets: 2, start: 20, step: 6, cap: 30 },
+    { id: "pullup", name: "Pull-up", unit: "reps", sets: 2, tot: 1, start: 20, step: 6, cap: 30 },
     { id: "bandr", name: "One-arm band (R)", unit: "reps", start: 3, step: 2, cap: 20 },
     { id: "bandl", name: "One-arm band (L)", unit: "reps", start: 3, step: 2, cap: 20 }] }
 ];
@@ -1926,16 +2001,18 @@ const PICKI = '<svg viewBox="0 0 24 24" width="22" height="22" fill="none" strok
 const LISTI = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M5 7h14M5 12h14M5 17h14"/></svg>';
 
 // The max for an exercise. It starts at e.cap and can be raised (or lowered) from the page; the change is saved in state.data.caliCaps.
-const capOf = e => (state.data.caliCaps && state.data.caliCaps[e.id]) || e.cap;
+const capOf = e => { const v = state.data.caliCaps && state.data.caliCaps[e.id]; return v && !(e.down && v > e.start) ? v : e.cap; }; // e.down: the number counts DOWN (fewer attempts of a fixed hold), so cap is the fewest attempts
 function caliSetCap(e, dir) {
-  const n = Math.max(e.step, Math.min(9999, capOf(e) + dir * e.step)); // down to one step (5s, 2s...), never 0
+  const n = e.down ? Math.max(e.step, Math.min(e.start, capOf(e) - dir * e.step)) : Math.max(e.step, Math.min(9999, capOf(e) + dir * e.step)); // down to one step (5s, 2s...), never 0
   state.data.caliCaps = { ...(state.data.caliCaps || {}), [e.id]: n }; save(); render();
 }
-const caliLast = e => Math.max(0, Math.ceil((capOf(e) - e.start) / e.step));
-const caliValue = (e, level) => Math.min(capOf(e), e.start + e.step * level);
+const caliLast = e => Math.max(0, Math.ceil(Math.abs(capOf(e) - e.start) / e.step));
+const caliValue = (e, level) => e.down ? Math.max(capOf(e), e.start - e.step * level) : Math.min(capOf(e), e.start + e.step * level);
 const fmtSecs = n => n >= 60 ? Math.floor(n / 60) + ":" + pad(n % 60) : n + "s";
 function caliBig(e, n) {
+  if (e.down) return { big: fmtSecs(e.secs), cap: n + " attempts", sh: n + " attempts" };
   if (e.attempts) return { big: fmtSecs(n), cap: e.attempts + " attempts" };
+  if (e.tot) return { big: String(n), cap: "reps (" + e.sets + " sets)" }; // total reps split across the sets (20 reps in 2 sets), not 2 sets of 20
   const pre = e.sets > 1 ? e.sets + " × " : "";
   return e.unit === "s" ? { big: pre + fmtSecs(n), cap: "hold" } : { big: pre + n, cap: "reps" };
 }
@@ -2006,21 +2083,22 @@ function exFrac(e, t) {
 }
 // The overall bar for a goal: the average of its exercises. It is only full when every exercise is at its max.
 const GEAR = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M4 7h9M17 7h3M4 17h3M11 17h9"/><circle cx="15" cy="7" r="2"/><circle cx="9" cy="17" r="2"/></svg>';
+const CAPM = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"><path d="M6 12h12"/></svg>', CAPP = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"><path d="M6 12h12M12 6v12"/></svg>';
 function capsModal(m) {
   const g = CALI.find(x => x.id === m.g);
   return h("div", {},
-    h("div", { class: "row exh" }, h("h2", { style: "margin:0;font-size:17px" }, "Increase or decrease exercise goals"), closeBtn()),
+    h("div", { class: "caph" }, h("span", { class: "capi", "aria-hidden": "true" }, raw(GEAR)), h("h2", {}, "Increase or decrease exercise goals"), closeBtn()),
     g.ex.map(e => h("div", { class: "capr" },
       h("div", { class: "capn" }, h("b", {}, e.name)),
-      h("span", { class: "capv" }, caliBig(e, capOf(e)).big),
-      h("button", { class: "cbtn", "aria-label": e.name + ": lower the goal", onclick: () => caliSetCap(e, -1) }, "−"),
-      h("button", { class: "cbtn", "aria-label": e.name + ": raise the goal", onclick: () => caliSetCap(e, 1) }, "+"))));
+      h("span", { class: "capv" }, (caliBig(e, capOf(e)).sh || caliBig(e, capOf(e)).big)),
+      h("button", { class: "cbtn", "aria-label": e.name + ": lower the goal", onclick: () => caliSetCap(e, -1) }, raw(CAPM)),
+      h("button", { class: "cbtn", "aria-label": e.name + ": raise the goal", onclick: () => caliSetCap(e, 1) }, raw(CAPP)))));
 }
 const goalFrac = (g, t) => { const ex = g.ex.filter(e => !exLocked(e, t)); return ex.reduce((a, e) => a + exFrac(e, t), 0) / ex.length; };
 
 function nextModal(m) {
   const g = CALI.find(x => x.id === m.g), e = g.ex.find(x => x.id === m.e), t = m.t;
-  const st = exState(e, t), cur = caliBig(e, caliValue(e, st.level)), lastLvl = caliValue(e, st.level) >= capOf(e);
+  const st = exState(e, t), cur = caliBig(e, caliValue(e, st.level)), lastLvl = e.down ? caliValue(e, st.level) <= capOf(e) : caliValue(e, st.level) >= capOf(e);
   const nx = caliBig(e, caliValue(e, st.level + 1));
   const x = lastLvl ? cur : nx;
   return h("div", { class: "nmod" },
@@ -2083,7 +2161,7 @@ const ACTS = [
   { k: "squats", label: "Squats", unit: "sets" }, { k: "pt", label: "PT", unit: "min" }, { k: "trampoline", label: "Trampoline", unit: "min" }, { k: "other", label: "Other", unit: "min" }];
 const actOf = k => ACTS.find(a => a.k === k);
 const TLV = [["L", "Light"], ["M", "Medium"], ["H", "Hard"]];
-const actName = (a, acts) => a.label + (a.k === "training" && acts[a.k] ? " (" + acts[a.k] + ")" : "");
+const actName = (a, acts) => a.label + (a.k === "training" && trLv(acts[a.k]) ? " (" + trLv(acts[a.k]) + ")" : "");
 let trMenu = null; // the date whose Training intensity drop-down is open
 document.addEventListener("click", e => { if (trMenu && !e.target.closest(".trwrap")) { trMenu = null; render(); } });
 const actChip = (y, a, acts) => {
@@ -2342,7 +2420,7 @@ function ptDayModal(m) {
         '<text x="50" y="59" text-anchor="middle" font-size="28" font-weight="700" fill="var(--ink)">' + (v != null ? v : "-") + "</text></svg>"),
       h("b", {}, label));
   };
-  const names = ar ? Object.keys(ar.acts).map(k => k === "none" ? "None" : actOf(k).label + (k === "training" && ar.acts[k] ? " (" + ar.acts[k] + ")" : "")) : [];
+  const names = ar ? Object.keys(ar.acts).map(k => k === "none" ? "None" : actOf(k).label + (k === "training" && trLv(ar.acts[k]) ? " (" + trLv(ar.acts[k]) + ")" : "")) : [];
   return h("div", {},
     h("div", { class: "row exh" }, h("h2", { style: "margin:0" }, dayLbl(d)), closeBtn()),
     h("div", { class: "pdrings" }, ring("Left", rec ? rec.l : null, "var(--rdA)"), ring("Right", rec ? rec.r : null, "var(--rdB)")),
@@ -2652,30 +2730,36 @@ function rpBest(k, f) { const v = rpSess().map(s => s.ex[k] && f(s.ex[k])).filte
 function rpPainOk() { const rat = ptSeries(), ds = Object.keys(rat).sort().slice(-7); return ds.length >= 3 ? avg(ds.map(d => rat[d])) <= 3 : null; }
 // ----- Progress -----
 const RP_PROG = [["quad", "Quadriceps isometric", "w"], ["squat", "Knee-dominant squat", "w"], ["split", "Split squat", "w"], ["hinge", "Hip hinge", "w"], ["step", "Step up", "w"], ["soleus", "Soleus", "w"], ["gastroc", "Gastrocnemius", "w"],
-  ["isolunge", "ISO lunge (weaker side)", "t"], ["slstand", "Single-leg stand (weaker side)", "t"], ["hop", "Hopping level", "l"], ["bridge", "Bridge level", "l"]];
+  ["isolunge", "ISO lunge", "t"], ["slstand", "Single-leg stand", "t"], ["hop", "Hopping level", "l"], ["bridge", "Bridge level", "l"]];
 function rpSeries(k, m) {
-  return rpSess().map(s => { const x = s.ex[k]; if (!x) return null; const v = m === "w" ? x.w : m === "t" ? Math.min(x.L || 0, x.R || 0) : x.lvl; return v ? { date: s.date, v } : null; }).filter(Boolean);
+  return rpSess().map(s => { const x = s.ex[k]; if (!x) return null;
+    if (m === "t") return x.L || x.R ? { date: s.date, v: x.L || 0, v2: x.R || 0, top: Math.max(x.L || 0, x.R || 0) } : null; // both legs, longest hold of each
+    const v = m === "w" ? x.w : x.lvl; return v ? { date: s.date, v, top: v } : null; }).filter(Boolean);
 }
 function rpSvg(pts, m) {
   const W = 320, H = 150, L = 34, R = 12, T = 12, B = 24, iw = W - L - R, ih = H - T - B;
-  const vals = pts.map(p => p.v), lo0 = Math.min(...vals), hi0 = Math.max(...vals), pd = Math.max(m === "l" ? 0.5 : 2, (hi0 - lo0) * 0.2), lo = Math.max(0, lo0 - pd), hi = hi0 + pd;
+  const two = pts.some(p => p.v2 != null), vals = pts.flatMap(p => two ? [p.v, p.v2].filter(x => x > 0) : [p.v]), lo0 = Math.min(...vals), hi0 = Math.max(...vals), pd = Math.max(m === "l" ? 0.5 : 2, (hi0 - lo0) * 0.2), lo = Math.max(0, lo0 - pd), hi = hi0 + pd;
   const X = i => pts.length === 1 ? L + iw / 2 : L + iw * i / (pts.length - 1), Y = v => T + ih * (1 - (v - lo) / (hi - lo || 1));
   const fm = v => m === "t" ? fmtT(v) : String(Math.round(v * 10) / 10);
   const grid = [lo, (lo + hi) / 2, hi].map(v => '<line class="ch-grid" x1="' + L + '" x2="' + (W - R) + '" y1="' + svgf(Y(v)) + '" y2="' + svgf(Y(v)) + '"/><text class="ch-tx" x="' + (L - 5) + '" y="' + svgf(Y(v) + 3) + '" text-anchor="end">' + fm(v) + "</text>").join("");
-  const path = pts.map((p, i) => (i ? "L" : "M") + svgf(X(i)) + " " + svgf(Y(p.v))).join(" ");
-  const dots = pts.map((p, i) => '<circle class="ch-dot rd2" cx="' + svgf(X(i)) + '" cy="' + svgf(Y(p.v)) + '" r="3.6"/><circle class="hit" cx="' + svgf(X(i)) + '" cy="' + svgf(Y(p.v)) + '" r="12" data-t="' + shortDate(p.date) + "|" + fm(p.v) + (m === "w" ? " " + UNIT : "") + '"/>').join("");
-  return '<svg class="chart pt" viewBox="0 0 ' + W + " " + H + '" role="img">' + grid + (pts.length > 1 ? '<path class="ch-line" d="' + path + '"/>' : "") + dots +
+  const line = (key, cls, dcls, lab) => { const ix = pts.map((p, i) => [p, i]).filter(([p]) => p[key] > 0);
+    const d = ix.map(([p, i], j) => (j ? "L" : "M") + svgf(X(i)) + " " + svgf(Y(p[key]))).join(" ");
+    return (ix.length > 1 ? '<path class="ch-line ' + cls + '" d="' + d + '"/>' : "") + ix.map(([p, i]) => '<circle class="ch-dot ' + dcls + '" cx="' + svgf(X(i)) + '" cy="' + svgf(Y(p[key])) + '" r="3.6"/><circle class="hit" cx="' + svgf(X(i)) + '" cy="' + svgf(Y(p[key])) + '" r="12" data-t="' + shortDate(p.date) + "|" + (lab ? lab + " " : "") + fm(p[key]) + (m === "w" ? " " + UNIT : "") + '"/>').join(""); };
+  const dots = two ? line("v", "", "", "Left") + line("v2", "rl", "rd2", "Right") : line("v", "", "rd2", "");
+  const key = two ? '<text class="ch-tx" x="' + (W - R - 44) + '" y="9" text-anchor="end" style="fill:var(--rdA);font-weight:700">Left</text><text class="ch-tx" x="' + (W - R) + '" y="9" text-anchor="end" style="fill:var(--rdB);font-weight:700">Right</text>' : "";
+  return '<svg class="chart pt" viewBox="0 0 ' + W + " " + H + '" role="img">' + grid + dots + key +
     '<text class="ch-tx" x="' + L + '" y="' + (H - 6) + '">' + shortDate(pts[0].date) + '</text><text class="ch-tx" x="' + (W - R) + '" y="' + (H - 6) + '" text-anchor="end">' + shortDate(pts[pts.length - 1].date) + "</text></svg>";
 }
 function rpProgressCard() {
   const r = rp(), rows = RP_PROG.map(([k, n, m]) => ({ k, n, m, pts: rpSeries(k, m) })).filter(x => x.pts.length);
-  const fm = (v, m) => m === "t" ? fmtT(v) : m === "w" ? v + " " + UNIT : "Level " + v;
+  const lastOf = x => x.pts[x.pts.length - 1];
+  const fm = x => { const l = lastOf(x); return x.m === "t" ? "L " + fmtT(l.v) + " · R " + fmtT(l.v2) : x.m === "w" ? l.v + " " + UNIT : "Level " + l.v + " of " + (RP_EX[x.k].levels || []).length; };
   return h("div", { class: "card ptc" }, h("h2", {}, "Progress"),
     !rows.length ? h("p", { class: "m", style: "margin:8px 0 0" }, "Finish a session and your weights, hold times and levels will show up here.") :
-    rows.map(x => { const a = x.pts[0].v, b = x.pts[x.pts.length - 1].v, d = b - a, open = rpOpen === x.k;
-      return h("div", { class: "rppr" }, h("button", { type: "button", class: "rpprh", "aria-expanded": String(open), onclick: () => { rpOpen = open ? null : x.k; render(); } },
-        h("b", {}, x.n), h("span", {}, fm(b, x.m)), h("em", { class: d > 0 ? "up" : d < 0 ? "dn" : "" }, x.pts.length > 1 ? (d > 0 ? "+" : d < 0 ? "−" : "") + (x.m === "t" ? fmtT(Math.abs(d)) : Math.abs(Math.round(d * 10) / 10)) : "first")),
-        open && tipChart(rpSvg(x.pts, x.m))); }));
+    rows.map(x => { const a = x.pts[0].top, b = lastOf(x).top, d = b - a, open = rpOpen === x.k, chart = x.m !== "l";
+      const head = [h("b", {}, x.n), h("span", {}, fm(x)), h("em", { class: d > 0 ? "up" : d < 0 ? "dn" : "" }, x.pts.length > 1 ? (d > 0 ? "+" : d < 0 ? "−" : "") + (x.m === "t" ? fmtT(Math.abs(d)) : Math.abs(Math.round(d * 10) / 10)) : "first")];
+      return h("div", { class: "rppr" }, chart ? h("button", { type: "button", class: "rpprh", "aria-expanded": String(open), onclick: () => { rpOpen = open ? null : x.k; render(); } }, ...head) : h("div", { class: "rpprh" }, ...head),
+        chart && open && tipChart(rpSvg(x.pts, x.m))); }));
 }
 function rpStage4() {
   return h("div", { class: "card ptc" }, h("h2", {}, "Return to sport"),
@@ -3158,18 +3242,22 @@ const money = () => {
     if (M.recurring.length) { const first = M.spends.filter(x => !x.demo).map(x => x.date.slice(0, 7)).sort()[0]; M.recBy[first && first < M.start ? first : M.start] = M.recurring.map(r => ({ ...r })); }
     save();
   }
+  if (!M.cats.some(c => c.auto)) { M.cats.push({ id: "other", name: "Other", alloc: null, auto: true }); save(); } // "Other" holds whatever is left of the everyday budget
   return M;
 };
 // The recurring list in force for a month: the newest saved version that starts on or before it (nothing before the first one).
 function recFor(mo) { const B = money().recBy, k = Object.keys(B).filter(x => x <= mo).sort().pop(); return k ? B[k] : []; }
 // The list you are about to change for a month. The first change in a month saves its own copy, so earlier months stay as they were.
-function recEdit(mo) { const B = money().recBy; if (!B[mo]) B[mo] = recFor(mo).map(r => ({ ...r })); return B[mo]; }
+function recEdit(mo) { const B = money().recBy; if (money().limDemo && money().limDemo.cur === mo) { money().limDemo.keys = (money().limDemo.keys || []).filter(k => k !== mo); delete money().limDemo.recHad; } // your own edit: the sample no longer owns this month
+  if (!B[mo]) B[mo] = recFor(mo).map(r => ({ ...r })); return B[mo]; }
 let mm = today().slice(0, 7), mcat = null;
+// Your monthly limit is kept month by month, like the recurring list: a change applies from that month on and never rewrites earlier months.
+const limitFor = mo => { const B = money().limBy; if (!B) return money().limit; const k = Object.keys(B).filter(x => x <= mo).sort().pop(); return k ? B[k] : money().limit; };
 const usd0 = n => new Intl.NumberFormat("en-US", { style: "currency", currency: "USD", maximumFractionDigits: n % 1 ? 2 : 0 }).format(n);
 const sumBy = (arr, f) => arr.reduce((a, x) => a + f(x), 0);
 const monthSpends = (cat) => money().spends.filter(x => x.date.startsWith(mm) && (!cat || x.cat === cat));
 const monthName = () => new Date(mm + "-01T00:00:00").toLocaleDateString("en-US", { month: "long", year: "numeric" });
-const shiftMm = n => { const d = new Date(mm + "-01T00:00:00"); d.setMonth(d.getMonth() + n); mm = d.getFullYear() + "-" + pad(d.getMonth() + 1); render(); };
+const shiftMm = n => { const d = new Date(mm + "-01T00:00:00"); d.setMonth(d.getMonth() + n); mm = d.getFullYear() + "-" + pad(d.getMonth() + 1); reportMo = null; render(); };
 const mAmt = {}; // amount waiting in each spending category (by category id) for its + button
 let amtFill = null; // { cat, v } amount chosen in the picker, waiting for the + button
 // Slider range (dollars) for each spending category, matched by name. Anything else (Other, new categories) is 0 to 100.
@@ -3218,8 +3306,12 @@ function dragCat(el, pid, y0, M, mo) {
 const catsFor = (M, mo) => M.cats.filter(c => !c.from || c.from <= mo);
 function moneyView() {
   const M = money(), rec = sumBy(recFor(mm), r => r.amt), other = sumBy(monthSpends(), x => x.amt);
-  const total = rec + other, left = M.limit - total, pool = Math.max(0, M.limit - rec), planned = sumBy(M.cats, c => c.alloc || 0);
-  const pct = v => Math.min(100, M.limit ? 100 * v / M.limit : 0) + "%";
+  const LIM = limitFor(mm), total = rec + other, left = LIM - total, pool = Math.max(0, LIM - rec), planned = sumBy(M.cats, c => c.alloc || 0);
+  M.cats = [...M.cats.filter(c => !c.auto), ...M.cats.filter(c => c.auto)]; // Other always sits last
+  // Everyday budget = your limit minus recurring. Category budgets come out of it; Other is automatically what is left, so it follows every change.
+  const budSum = sumBy(catsFor(M, mm).filter(c => !c.auto), c => c.budget || 0), otherBud = Math.max(0, pool - budSum), overBud = Math.max(0, budSum - pool);
+  M.cats.forEach(c => { if (c.auto) c.budget = otherBud; });
+  const pct = v => Math.min(100, LIM ? 100 * v / LIM : 0) + "%";
   const catName = h("input", { class: "n", placeholder: "New category", "aria-label": "Category name", required: true });
   return h("section", { style: "--ac:var(--bl);--on:var(--blk)" },
     h("div", { class: "hhead mhead" }, h("h1", {}, "Spending"),
@@ -3229,19 +3321,25 @@ function moneyView() {
       h("h2", { class: "mmn" }, monthName(),
         h("button", { class: "iconbtn", "aria-label": "Each month", style: "color:var(--blt)", onclick: () => { modal = { type: "mhist", year: Number(mm.slice(0, 4)) }; renderModal(); } }, raw(CAL))),
       h("button", { class: "lnk", "aria-label": "Next month", onclick: () => shiftMm(1) }, "›")),
-    h("button", { class: "card mrecbtn mtop", "aria-label": "Monthly limit: " + usd0(M.limit) + ". Tap to change", onclick: () => { modal = { type: "mlimit" }; renderModal(); } },
-      h("div", { class: "mbig" }, usd0(total), " ", h("small", {}, "of " + usd0(M.limit))),
-      h("div", { class: "mbar", role: "img", "aria-label": usd0(total) + " spent of " + usd0(M.limit) },
-        h("i", { style: "width:" + pct(rec) + ";background:var(--bld)" }), h("i", { style: "width:" + pct(Math.min(other, Math.max(0, M.limit - rec))) + ";background:var(--bl)" }),
-        left < 0 && h("i", { style: "width:" + Math.min(100, 100 * -left / Math.max(M.limit, 1)) + "%;background:var(--dn)" })),
+    h("button", { class: "card mrecbtn mtop", "aria-label": "Overall budget: " + usd0(LIM) + ". Tap to change", onclick: () => { modal = { type: "mlimit" }; renderModal(); } },
+      h("div", { class: "mbig" }, usd0(total), " ", h("small", {}, "of " + usd0(LIM))),
+      h("div", { class: "mbar", role: "img", "aria-label": usd0(total) + " spent of " + usd0(LIM) },
+        h("i", { style: "width:" + pct(rec) + ";background:var(--bld)" }), h("i", { style: "width:" + pct(Math.min(other, Math.max(0, LIM - rec))) + ";background:var(--bl)" }),
+        left < 0 && h("i", { style: "width:" + Math.min(100, 100 * -left / Math.max(LIM, 1)) + "%;background:var(--dn)" })),
       h("div", { class: "mleg" }, h("span", {}, h("u", { style: "background:var(--bld)" }), "Recurring ", h("b", {}, usd0(rec))), h("span", {}, h("u", { style: "background:var(--bl)" }), "Everyday ", h("b", {}, usd0(other)))),
       h("div", { class: "mleft" + (left < 0 ? " over" : "") }, left >= 0 ? usd0(left) + " left" : usd0(-left) + " over")),
     h("button", { class: "card mrecbtn", "aria-label": "Recurring expenses", onclick: () => { modal = { type: "mrec" }; renderModal(); } },
       h("div", { class: "mh" }, h("h2", {}, "Recurring"), h("span", {}, usd0(rec))),
       h("span", { class: "mbar", style: "margin:0 0 6px" }, h("i", { style: "width:" + pct(rec) + ";background:var(--bld)" })),
-      h("span", { class: "mleg" }, Math.round(M.limit ? 100 * rec / M.limit : 0) + "% of your " + usd0(M.limit) + " limit")),
+      h("span", { class: "mleg" }, Math.round(LIM ? 100 * rec / LIM : 0) + "% of your " + usd0(LIM) + " overall budget")),
     h("div", { class: "card mcard" },
-      h("div", { class: "mh" }, h("h2", {}, "Everyday spending"), h("span", {}, left >= 0 ? usd0(left) + " to spend" : usd0(-left) + " over")),
+      h("div", { class: "mh" }, h("h2", {}, "Everyday expenses"), h("span", {}, usd0(other))),
+(() => { const live = mm === today().slice(0, 7), dim = new Date(Number(mm.slice(0, 4)), Number(mm.slice(5, 7)), 0).getDate(), dl = live ? dim - Number(today().slice(8, 10)) + 1 : 0, used = pool ? Math.round(100 * other / pool) : (other ? 100 : 0), tn = used > 100 ? "var(--dn)" : used >= 85 ? "var(--bl)" : "var(--c2)", tt = used > 100 ? "var(--dn)" : used >= 85 ? "var(--blt)" : "var(--c3)";
+        return h("div", { class: "evsum" },
+          h("div", { class: "evrow" }, h("b", { style: "color:" + tt }, used + "% used"), h("small", { style: "color:" + tt }, left >= 0 ? usd0(left) + " left of " + usd0(pool) : usd0(-left) + " over " + usd0(pool))),
+          h("span", { class: "mbar evbar" }, h("i", { style: "width:" + Math.min(100, used) + "%;background:" + tn })),
+          live && dl > 0 && h("div", { class: "evday" }, left > 0 ? usd0(Math.floor(left / dl)) + " a day for the " + (dl === 1 ? "last day" : "last " + dl + " days") : "No everyday money left this month")); })(),
+      overBud > 0 && h("div", { class: "mpool over" }, "Budgets add up to " + usd0(budSum) + ", " + usd0(overBud) + " more than your " + usd0(pool) + " everyday budget"),
       catsFor(M, mm).map(c => {
         const es = monthSpends(c.id).sort((x, y) => y.date.localeCompare(x.date) || (y.at || "").localeCompare(x.at || ""));
         // The amount box opens a popup with quick amounts and a spot to type your own.
@@ -3249,69 +3347,133 @@ function moneyView() {
         const inp = h("button", { type: "button", class: "a abox" + (amt ? " has" : ""), "aria-label": c.name + " amount: tap to choose", onclick: e => openAmtPop(c, e.currentTarget) }, h("span", {}, amt ? "$" + amt : "$"), raw('<svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg>'));
         // Hold a category name to rename or delete the category.
         const delCat = () => { modal = { type: "mcatopt", id: c.id }; renderModal(); };
-        return h("div", { class: "mcat", onpointerdown: ev => catHold(ev, M, mm) },
+        return h("div", { class: "mcat" + (c.auto ? " mauto" : ""), onpointerdown: ev => { if (!c.auto) catHold(ev, M, mm); } },
           h("form", { class: "mq", onsubmit: e => { e.preventDefault(); const a = mAmt[c.id] || 0; if (!a) return; delete mAmt[c.id]; M.spends.push({ id: uid(), at: new Date().toISOString(), date: mm === today().slice(0, 7) ? today() : mm + "-01", cat: c.id, amt: a, note: "" }); save(); render(); } },
-            h("button", { type: "button", ...holdProps(delCat), class: "mname hold", "aria-label": c.name + ": hold to rename or delete" }, h("b", {}, c.name)),
+            c.auto ? h("span", { class: "mname mnauto" }, h("b", {}, c.name), h("small", { class: "mauto-t" }, "auto")) : h("button", { type: "button", ...holdProps(delCat), class: "mname hold", "aria-label": c.name + ": hold to rename or delete" }, h("b", {}, c.name)),
             h("span", { class: "mgap" }), inp, h("button", { class: "btn", type: "submit", "aria-label": "Add to " + c.name }, "+")),
           (() => { const bud = c.budget || 0, spent = sumBy(es, x => x.amt);
-            return h("button", { type: "button", class: "mcpb" + (bud ? " bset" : " none"), "aria-label": bud ? c.name + ": " + usd0(spent) + " spent, budget " + usd0(bud) + ". Tap to change" : "Set a monthly budget for " + c.name,
-              onclick: e => openAmtPop(c, e.currentTarget, { get: () => c.budget || 0, set: v => { if (v > 0) c.budget = v; else delete c.budget; delete c.budgetDemo; save(); } }) },
+            if (c.auto) { // Other also covers categories with no budget of their own, so what you spend there comes out of the same leftover money
+              const spent = sumBy(es, x => x.amt);
+              return h("div", {},
+              h("div", { class: "mcpb bset auto", "aria-label": "Other: " + usd0(spent) + " spent of " + usd0(bud) + ", the part of your everyday budget not given to a category" },
+              h("span", { class: "mbbar" }, h("i", { style: "width:" + (bud ? Math.min(100, 100 * spent / bud) : spent ? 100 : 0) + "%;background:var(--bl)" })),
+              h("span", { class: "mbe" }, h("span", {}, h("span", { style: "color:" + (spent > bud ? "var(--dn)" : spent >= bud * 0.85 && bud ? "var(--blt)" : "var(--c2)") }, usd0(spent)), " / " + usd0(bud)), raw('<svg viewBox="0 0 24 24" width="14" height="14" style="visibility:hidden" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg>'))),
+              ); }
+            return h("div", {}, h("button", { type: "button", class: "mcpb" + (bud ? " bset" : " none"), "aria-label": bud ? c.name + ": " + usd0(spent) + " spent, budget " + usd0(bud) + ". Tap to change" : "Set a monthly budget for " + c.name,
+              onclick: e => openAmtPop(c, e.currentTarget, { get: () => c.budget || 0, max: () => Math.max(0, pool - sumBy(catsFor(M, mm).filter(x => !x.auto && x !== c), x => x.budget || 0)), set: v => { if (v > 0) c.budget = v; else delete c.budget; delete c.budgetDemo; save(); } }) },
               bud ? [h("span", { class: "mbbar" }, h("i", { style: "width:" + Math.min(100, 100 * spent / bud) + "%;background:var(--bl)" })), h("span", { class: "mbe" }, h("span", {}, h("span", { style: "color:" + (spent > bud ? "var(--dn)" : spent >= bud * 0.85 ? "var(--blt)" : "var(--c2)") }, usd0(spent)), " / " + usd0(bud)), raw('<svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg>'))]
-                  : [h("span", { class: "mcpn" }, "+ Set a monthly budget")]); })(),
+                  : [h("span", { class: "mcpn" }, "+ Set a monthly budget")])); })(),
           es.length > 0 && h("div", { class: "mgray" },
             es.map(x => h("div", { class: "ge" }, h("span", { class: "gdt" }, usd0(x.amt) + " · ",
                 h("button", { type: "button", class: "gdb", "aria-label": usd0(x.amt) + " on " + shortDate(x.date) + ": tap to change the date", onclick: () => { modal = { type: "mdate", id: x.id }; renderModal(); } }, shortDate(x.date))),
               h("button", { type: "button", class: "gt", "aria-label": "Remove " + usd0(x.amt) + " from " + c.name, onclick: () => { M.spends = M.spends.filter(y => y !== x); save(); render(); } }, raw(TRASH)))),
             ));
       }),
-      h("form", { class: "madd sm", onsubmit: e => { e.preventDefault(); const n = catName.value.trim(); if (!n) return; M.cats.push({ id: uid(), name: n, alloc: null, from: mm }); save(); render(); } },
+      h("form", { class: "madd sm", onsubmit: e => { e.preventDefault(); const n = catName.value.trim(); if (!n) return; const ai = M.cats.findIndex(c => c.auto); M.cats.splice(ai < 0 ? M.cats.length : ai, 0, { id: uid(), name: n, alloc: null, from: mm }); save(); render(); } },
         catName, h("button", { class: "btn", type: "submit", "aria-label": "Add category" }, "+"))),
     budgetReport(M));
 }
 const BTONE = p => p > 100 ? ["var(--dn)", "var(--dn)"] : p >= 80 ? ["var(--bl)", "var(--blt)"] : ["var(--c2)", "var(--c3)"]; // [fill, text]: under 80% green, 80 to 100 blue, past it red
 // Last card: how each budgeted category did over the last six months (under, close, or over its budget).
+let reportView = "bars"; // which graph the Budget report shows
 let reportOpen = false; // the Budget report card is folded up until you tap it
+let reportMo = null; // the month shown in the Budget report (null = the month of the page)
+const donSel = {};
 function budgetReport(M) {
-  const months = []; { const d0 = new Date(mm + "-01T00:00:00"); for (let i = 5; i >= 0; i--) { const d = new Date(d0.getFullYear(), d0.getMonth() - i, 1); months.push(d.getFullYear() + "-" + pad(d.getMonth() + 1)); } }
+  const real = today().slice(0, 7);
   const first = M.spends.map(x => x.date.slice(0, 7)).sort()[0] || mm;
-  const spentIn = (cid, mo) => sumBy(M.spends.filter(x => x.cat === cid && x.date.slice(0, 7) === mo), x => x.amt);
-  const lbl = mo => new Date(mo + "-01T00:00:00").toLocaleDateString("en-US", { month: "short" });
-  const st = p => p > 100 ? "over" : p >= 80 ? "close" : "under";
-  const col = k => k === "over" ? "var(--dn)" : k === "close" ? "var(--blt)" : "var(--c3)";
-  const cats = catsFor(M, mm).filter(c => c.budget > 0);
-  const rowFor = (name, bud, spent, total, from) => {
-    const cells = months.filter(mo => mo >= first || mo === mm).map(mo => ({ mo, has: mo >= first && (!from || mo >= from), p: bud ? 100 * spent(mo) / bud : 0 }));
-    const done = cells.filter(x => x.has && x.mo < mm), under = done.filter(x => x.p <= 100).length;
-    return h("div", { class: "mrr" + (total ? " tot" : "") + (cells.length > 3 ? " stk" : "") },
-      h("div", { class: "mrt" }, h("b", {}, name)),
-      h("div", { class: "mrc", style: "grid-template-columns:repeat(" + cells.length + ",minmax(0,58px))" }, cells.map(x => { const k = st(x.p); return h("div", { class: "mrm" + (x.mo === mm ? " now" : "") },
-        x.has ? h("div", { class: "mrp " + k, style: "color:" + col(k) }, Math.round(x.p) + "%") : h("div", { class: "mrp nod" }, "–"), h("small", {}, lbl(x.mo))); })));
-  };
-  const now = cats.map(c => st(100 * spentIn(c.id, mm) / c.budget));
-  const cnt = k => now.filter(x => x === k).length;
-  const totalB = sumBy(cats, c => c.budget);
-  // ----- Over budget this month -----
-  const overs = cats.map(c => ({ name: c.name, by: spentIn(c.id, mm) - c.budget })).filter(x => x.by > 0).sort((a, b) => b.by - a.by);
-  const overBox = h("div", { class: "mov" },
-    h("div", { class: "mvh" }, "Over budget in " + lbl(mm)),
-    ...(overs.length ? overs.map(o => h("div", { class: "mvr" }, h("span", {}, o.name), h("b", {}, usd0(o.by) + " over"))) : [h("div", { class: "mvn" }, "Nothing over budget")]));
-  // ----- Line graph: spent vs budget by month -----
-  const pts = months.filter(mo => mo >= first || mo === mm).map(mo => ({ mo, v: sumBy(cats, c => spentIn(c.id, mo)) }));
-  const lineBox = pts.length < 2 ? null : (() => {
-    const W = 320, H = 140, px = 24, pr = 58, top = 22, bot = 42, top$ = Math.max(totalB, ...pts.map(p => p.v)) * 1.12 || 1;
-    const X = i => px + (W - px - pr) * i / (pts.length - 1), Y = v => top + (H - top - bot) * (1 - v / top$), by = Y(totalB);
-    const line = pts.map((p, i) => (i ? "L" : "M") + X(i).toFixed(1) + " " + Y(p.v).toFixed(1)).join(" ");
-    const dots = pts.map((p, i) => '<circle cx="' + X(i).toFixed(1) + '" cy="' + Y(p.v).toFixed(1) + '" r="3.5" fill="' + (p.v > totalB ? "var(--dn)" : "var(--sf)") + '" stroke="' + (p.v > totalB ? "var(--dn)" : "var(--bl)") + '" stroke-width="2"/><text x="' + X(i).toFixed(1) + '" y="' + (p.v <= totalB ? Y(p.v) + 14 : Y(p.v) - 8).toFixed(1) + '" text-anchor="middle" class="mlv">' + usd0(p.v) + '</text><text x="' + X(i).toFixed(1) + '" y="' + (H - 6) + '" text-anchor="middle" class="mll' + (p.mo === mm ? " now" : "") + '">' + lbl(p.mo) + '</text>').join("");
-    return h("div", { class: "mlg" }, h("div", { class: "mvh" }, "Spent vs. budget"),
-      raw('<svg viewBox="0 0 ' + W + " " + H + '" role="img" aria-label="Spending each month compared with the total budget of ' + usd0(totalB) + '"><line x1="' + px + '" x2="' + (W - pr + 12) + '" y1="' + by.toFixed(1) + '" y2="' + by.toFixed(1) + '" stroke="var(--bl)" stroke-opacity=".6" stroke-width="1.5" stroke-dasharray="4 4"/><text x="' + (W - pr + 17) + '" y="' + (by - 1).toFixed(1) + '" class="mlb">Budget</text><text x="' + (W - pr + 17) + '" y="' + (by + 9).toFixed(1) + '" class="mlb">' + usd0(totalB) + '</text><path d="' + line + '" fill="none" stroke="var(--bl)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>' + dots + '</svg>'));
+  const all = []; { const d0 = new Date(real + "-01T00:00:00"); for (let i = 11; i >= 0; i--) { const d = new Date(d0.getFullYear(), d0.getMonth() - i, 1); all.push(d.getFullYear() + "-" + pad(d.getMonth() + 1)); } }
+  const ms = all.filter(mo => mo >= first || mo === real || mo === mm);
+  const sel = reportMo && ms.includes(reportMo) ? reportMo : (ms.includes(mm) ? mm : real);
+  const lbl = (mo, long) => new Date(mo + "-01T00:00:00").toLocaleDateString("en-US", { month: long ? "long" : "short" });
+  // What applied in a month: its overall budget and recurring list are the ones saved for that month, so later changes never rewrite it.
+  const data = mo => { const sp = M.spends.filter(x => x.date.slice(0, 7) === mo), rec = sumBy(recFor(mo), r => r.amt), ev = sumBy(sp, x => x.amt), bud = limitFor(mo), tot = rec + ev; return { mo, sp, rec, ev, bud, tot, left: bud - tot, p: bud ? 100 * tot / bud : (tot ? 101 : 0) }; };
+  const tone = p => p > 100 ? "var(--dn)" : p >= 85 ? "var(--bl)" : "var(--c2)";
+  const toneT = p => p > 100 ? "var(--dn)" : p >= 85 ? "var(--blt)" : "var(--c3)";
+  const cur = data(sel), prevMo = ms[ms.indexOf(sel) - 1], prev = prevMo ? data(prevMo) : null;
+  const catName = id => (M.cats.find(c => c.id === id) || {}).name;
+  const byCat = d => { const o = {}; d.sp.forEach(x => { o[x.cat] = (o[x.cat] || 0) + x.amt; }); return o; };
+  const cc = byCat(cur), pc = prev ? byCat(prev) : {};
+  const cats = Object.keys(cc).filter(k => catName(k) && cc[k] > 0).map(k => ({ k, n: catName(k), v: cc[k] })).sort((a, b) => b.v - a.v);
+  const arrow = (d, goodDown) => (d > 0 ? "▲ " : "▼ ") + usd0(Math.abs(Math.round(d)));
+  const dcol = d => d > 0 ? "var(--dn)" : "var(--c3)";
+  // ----- Month chips -----
+  const chips = h("div", { class: "brmonths", role: "group", "aria-label": "Month" }, ms.map(mo => h("button", { type: "button", class: "brmo" + (mo === sel ? " on" : ""), "aria-pressed": String(mo === sel), onclick: () => { reportMo = mo; render(); } }, lbl(mo))));
+  // ----- A. Monthly summary -----
+  const live = sel === real;
+  const row = (l, v, c) => h("div", { class: "brsr" }, h("span", {}, l), h("b", { style: c ? "color:" + c : null }, v));
+  const scale = Math.max(cur.bud, cur.tot) || 1, dot = c => h("i", { class: "brdot", style: "background:" + c });
+  const line = (c, l, v, strong) => h("div", { class: "brsr" + (strong ? " strong" : "") }, h("span", {}, c ? dot(c) : null, l), h("b", {}, v));
+  const summary = h("div", { class: "brsum" },
+    h("div", { class: "brsh" }, h("b", { style: "color:" + toneT(cur.p) }, Math.round(cur.p) + "% of budget used"), live && h("span", { class: "brlive" }, "In progress")),
+    h("div", { class: "brstack", role: "img", "aria-label": usd0(cur.tot) + " of " + usd0(cur.bud) + " spent" },
+      h("i", { style: "width:" + (100 * cur.rec / scale) + "%;background:var(--bld)" }), h("i", { style: "width:" + (100 * cur.ev / scale) + "%;background:" + (cur.left < 0 ? "var(--dn)" : "var(--bl)") })),
+    h("div", { class: "brgrp" }, "Spent"),
+    line("var(--bld)", "Recurring", usd0(cur.rec)), line(cur.left < 0 ? "var(--dn)" : "var(--bl)", "Everyday", usd0(cur.ev)),
+    h("div", { class: "brgrp" }, "Budget"),
+    line(null, "Overall budget", usd0(cur.bud)),
+    h("div", { class: "brrem", style: "--c:" + (cur.left >= 0 ? "var(--c3)" : "var(--dn)") }, h("span", {}, cur.left >= 0 ? "Remaining" : "Over budget"), h("b", {}, usd0(Math.abs(cur.left)))));
+  // ----- B. History chart: each month's share of its own overall budget (dashed line = 100%) -----
+  const pts = ms.slice(-6).map(data);
+  const chart = (() => {
+    const W = 320, H = 150, px = 38, pr = 8, top = 16, bot = 34, max = Math.max(100, ...pts.map(x => x.p)) * 1.1;
+    const Y = v => top + (H - top - bot) * (1 - v / max), step = (W - px - pr) / pts.length, bw = Math.min(38, step * 0.62), base = H - bot;
+    const bars = pts.map((x, i) => { const cx = px + step * i + step / 2, isLive = x.mo === real, on = x.mo === sel, ly0 = Y(100); let ty = Y(x.p) - 4; if (ly0 >= ty - 11 && ly0 <= ty + 3) ty = ly0 - 5; // keep the % clear of the dashed budget line
+      return '<g data-mo="' + x.mo + '" style="cursor:pointer"><rect x="' + (cx - step / 2).toFixed(1) + '" y="0" width="' + step.toFixed(1) + '" height="' + H + '" fill="transparent"/>' +
+        '<rect x="' + (cx - bw / 2).toFixed(1) + '" y="' + Y(x.p).toFixed(1) + '" width="' + bw.toFixed(1) + '" height="' + Math.max(1.5, base - Y(x.p)).toFixed(1) + '" rx="4" fill="' + tone(x.p) + '" fill-opacity="' + (isLive ? ".55" : on ? "1" : ".7") + '"' + (isLive ? ' stroke="' + tone(x.p) + '" stroke-width="1.5" stroke-dasharray="3 2"' : "") + '/>' +
+        '<text x="' + cx.toFixed(1) + '" y="' + ty.toFixed(1) + '" text-anchor="middle" class="mla" style="fill:' + toneT(x.p) + '">' + Math.round(x.p) + '%</text>' +
+        '<text x="' + cx.toFixed(1) + '" y="' + (H - 18) + '" text-anchor="middle" class="mll' + (on ? " now" : "") + '">' + lbl(x.mo) + '</text>' +
+        '<text x="' + cx.toFixed(1) + '" y="' + (H - 7) + '" text-anchor="middle" class="mll2">' + usd0(Math.round(x.tot)) + '</text></g>'; }).join("");
+    const ly = Y(100).toFixed(1);
+    return h("div", { class: "mlg sl", onclick: e => { const g = e.target.closest && e.target.closest("[data-mo]"); if (g) { reportMo = g.getAttribute("data-mo"); render(); } } },
+      raw('<svg viewBox="0 0 ' + W + " " + H + '" role="img" aria-label="Share of the overall budget spent each month">' +
+        '<line x1="' + px + '" x2="' + (W - pr) + '" y1="' + ly + '" y2="' + ly + '" stroke="var(--bld)" stroke-width="1.3" stroke-dasharray="4 3"/><text x="' + (px - 6) + '" y="' + (Number(ly) + 3) + '" text-anchor="end" class="mll2">Budget</text>' + bars + '</svg>'));
   })();
+  // ----- C. Everyday categories in the selected month -----
+  // Two donuts side by side: Recurring and Everyday. Tap a slice and it grows, with its details in the middle.
+  const PAL = ["#2f7fd3", "#1f9d6b", "#e0a030", "#8a63d2", "#d9644a", "#3aa7b8", "#8b97a3"];
+  const donut = (key, title, items) => {
+    if (!items.length) return null;
+    const sum = sumBy(items, x => x.v) || 1, sk = key + sel, pick = donSel[sk];
+    const shown = items.length > 7 ? [...items.slice(0, 6), { n: "Everything else", v: sumBy(items.slice(6), x => x.v) }] : items;
+    const R = 38, C = 2 * Math.PI * R; let at = 0;
+    const arcs = shown.map((x, i) => { const len = C * x.v / sum, gap = shown.length > 1 ? Math.min(1.6, len * 0.3) : 0, on = pick === i;
+      const seg = '<circle data-i="' + i + '" cx="50" cy="50" r="' + R + '" fill="none" stroke="' + PAL[i % PAL.length] + '" stroke-width="' + (on ? 19 : 13) + '" stroke-opacity="' + (pick == null || on ? 1 : 0.4) + '" stroke-dasharray="' + (len - gap).toFixed(2) + " " + (C - len + gap).toFixed(2) + '" stroke-dashoffset="' + (-at).toFixed(2) + '" transform="rotate(-90 50 50)" style="cursor:pointer"/>'; at += len; return seg; }).join("");
+    const sx = pick != null ? shown[pick] : null;
+    const mid = sx
+      ? '<text x="50" y="56" text-anchor="middle" class="brdp">' + Math.round(100 * sx.v / sum) + '%</text>'
+      : '<text x="50" y="52" text-anchor="middle" class="brdt">' + usd0(Math.round(sum)) + '</text><text x="50" y="62" text-anchor="middle" class="brds">spent</text>';
+    const tap = i => { donSel[sk] = i === pick ? null : i; render(); };
+    return h("div", { class: "brdc", onclick: e => { const g = e.target.closest && e.target.closest("[data-i]"); if (g) tap(Number(g.getAttribute("data-i"))); else if (!(e.target.closest && e.target.closest(".brlg"))) { donSel[sk] = null; render(); } } },
+      h("div", { class: "brdcap" }, title),
+      raw('<svg class="brdn" viewBox="0 0 100 100" role="img" aria-label="' + title + ' by item. Tap a slice for its share">' + arcs + mid + '</svg>'),
+      ...shown.map((x, i) => h("div", { class: "brrow brlg" + (pick === i ? " on" : ""), onclick: () => tap(i) }, h("span", { class: "brn" }, h("i", { class: "brdot", style: "background:" + PAL[i % PAL.length] }), x.n), h("span", { class: "brv2" }, h("b", {}, usd0(Math.round(x.v))), h("em", {}, Math.round(100 * x.v / sum) + "%")))));
+  };
+  const recItems = recFor(sel).map(r => ({ n: r.name, v: r.amt })).filter(x => x.v > 0).sort((a, b) => b.v - a.v);
+  const dRec = donut("rec", "Recurring", recItems), dEv = donut("ev", "Everyday", cats.map(x => ({ n: x.n, v: x.v })));
+  const catBox = !(dRec || dEv) ? null : h("div", { class: "brsec" }, h("div", { class: "mvh" }, "Expenses"), h("div", { class: "brpl" }, h("em", { class: "brm" }, lbl(sel, 1))),
+    h("div", { class: "brdg one" }, dRec, dEv));
+  // ----- D. Compared with the month before -----
+  let cmp = null, tips = [];
+  if (prev && (prev.tot || prev.ev)) {
+    const ch = Object.keys({ ...cc, ...pc }).filter(k => catName(k)).map(k => ({ n: catName(k), d: (cc[k] || 0) - (pc[k] || 0) })).filter(x => Math.abs(x.d) >= 1).sort((a, b) => Math.abs(b.d) - Math.abs(a.d)).slice(0, 3);
+    cmp = h("div", { class: "brsec" }, h("div", { class: "mvh" }, "Comparison"), h("div", { class: "brpl" }, h("em", { class: "brm" }, lbl(sel, 1)), h("span", { class: "brvs" }, "vs"), h("em", { class: "brm" }, lbl(prev.mo, 1))),
+      h("div", { class: "brsr" }, h("span", {}, dot("var(--mu)"), "Total spending"), h("b", { style: "color:" + dcol(cur.tot - prev.tot) }, cur.tot === prev.tot ? "Same" : arrow(cur.tot - prev.tot))),
+      ...(cur.rec !== prev.rec ? [h("div", { class: "brsr" }, h("span", {}, dot("var(--bld)"), "Recurring"), h("b", { style: "color:" + dcol(cur.rec - prev.rec) }, arrow(cur.rec - prev.rec)))] : []),
+      h("div", { class: "brsr" }, h("span", {}, dot("var(--bl)"), "Everyday expenses"), h("b", { style: "color:" + dcol(cur.ev - prev.ev) }, cur.ev === prev.ev ? "Same" : arrow(cur.ev - prev.ev))),
+      ch.length > 0 && h("div", { class: "brsubs" }, ...ch.map(x => h("div", { class: "brsr sub" }, h("span", {}, x.n), h("b", { style: "color:" + dcol(x.d) }, arrow(x.d))))),
+      null);
+  }
+  // ----- E. A few plain observations -----
+  if (cats.length) tips.push([cur.ev && cats[0].v / cur.ev >= 0.35 ? "var(--blt)" : "var(--mu)", "Most of your everyday money went to " + cats[0].n + " (" + Math.round(100 * cats[0].v / cur.ev) + "%)."]);
+  if (prev && prev.tot && !live) tips.push([dcol(cur.tot - prev.tot), cur.tot > prev.tot ? "Spending went up " + usd0(Math.round(cur.tot - prev.tot)) + " from " + lbl(prev.mo, 1) + "." : cur.tot < prev.tot ? "Spending went down " + usd0(Math.round(prev.tot - cur.tot)) + " from " + lbl(prev.mo, 1) + "." : "Spending was the same as " + lbl(prev.mo, 1) + "."]);
+  tips.push(cur.left < 0 ? ["var(--dn)", (live ? "You are " : "You were ") + usd0(Math.round(-cur.left)) + " over budget."] : ["var(--c3)", live ? "On track: " + usd0(Math.round(cur.left)) + " left in your budget." : "You stayed within budget (" + usd0(Math.round(cur.left)) + " to spare)."]);
+  const insights = h("div", { class: "brsec" }, h("div", { class: "mvh" }, "Insights"), ...tips.map(([c, t]) => h("div", { class: "brtip" }, h("i", { style: "background:" + c }), h("span", {}, t))));
   return h("div", { class: "card mcard mbud" + (reportOpen ? " open" : " shut") },
     h("button", { type: "button", class: "mrh", "aria-expanded": String(reportOpen), onclick: () => { reportOpen = !reportOpen; render(); } },
       h("h2", {}, "Budget report"),
       raw('<svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg>')),
-    ...(!reportOpen ? [] : [h("div", { class: "mrbody" }, ...(cats.length ? [
-      ...cats.map(c => rowFor(c.name, c.budget, mo => spentIn(c.id, mo), false, c.from)), overBox, lineBox]
-    : [h("p", { class: "mrn" }, "Tap \"Set a monthly budget\" under any category above. Then this card shows, month by month, whether you stayed under it.")]))]));
+    ...(!reportOpen ? [] : [h("div", { class: "mrbody" }, chips, h("div", { class: "mvh bro" }, "Overview"), summary, chart, catBox, cmp)]));
 }
 function weeksModal() {
   const done = doneByDate(), t = today(), PT_NEED = 5;
@@ -3385,7 +3547,7 @@ function recapModal() {
       row("var(--cy)", "Calisthenics", cali + (cali === 1 ? " day" : " days")),
       row("var(--gy)", "Rest days", (rests + ptRests + puRests) + ((rests + ptRests + puRests) === 1 ? " day" : " days")),
       row("var(--rd)", "Knee pain", pa == null ? "No ratings" : pa.toFixed(1) + " / 10", painSub),
-      row("var(--bl)", "Everyday spending", usd0(Math.round(s0)), spSub),
+      row("var(--bl)", "Everyday expenses", usd0(Math.round(s0)), spSub),
       byCat.length > 0 && h("div", { class: "rcpc" }, byCat.slice(0, 3).map(x => h("span", {}, x.n + " " + usd0(Math.round(x.v)))))),
     h("button", { type: "button", class: "gbtn rcpok", onclick: closeModal }, "Done"));
 }
@@ -3495,7 +3657,6 @@ function moneyRecModal() {
   return h("div", {},
     h("div", { class: "row exh" }, h("h2", { style: "margin:0" }, "Recurring"), closeBtn()),
     h("div", { class: "mtot" }, usd0(rec), h("small", {}, " a month")),
-    h("p", { class: "mrn", style: "margin:0 0 6px" }, "Changes here apply to " + monthName() + " and later months."),
     h("div", { class: "mleg", style: "margin:2px 0 8px;flex-wrap:wrap" }, legend),
     list.slice().sort((a, b) => b.amt - a.amt || a.name.localeCompare(b.name)).map(r => { const K = REC_KINDS.find(x => x.k === recKind(r)); return h("div", { class: "mrow" },
       h("button", { type: "button", class: "mrname", "aria-label": r.name + ": tap to change the symbol", onclick: () => { const ks = [null, ...REC_KINDS.map(x => x.k)], n = ks[(ks.indexOf(recKind(r)) + 1) % ks.length], x = recEdit(mm).find(q => q.id === r.id); if (x) { x.kind = n; x.home = n === "home"; } save(); render(); } }, h("b", {}, r.name, K && h("span", { class: "mh2", role: "img", "aria-label": K.label }, raw(K.svg)))),
@@ -3521,10 +3682,10 @@ function infoModal() {
     ]);
 }
 function moneyLimitModal() {
-  const M = money(), inp = mInput("", "1500", { "aria-label": "Monthly limit", value: M.limit });
+  const M = money(), inp = mInput("", "1500", { "aria-label": "Overall budget", value: limitFor(mm) });
   return h("div", {},
-    h("div", { class: "row exh" }, h("h2", { style: "margin:0;font-size:16px" }, "Monthly limit"), closeBtn()),
-    h("form", { class: "mlf", onsubmit: e => { e.preventDefault(); const n = numOf(inp.value); if (n > 0) { M.limit = n; modal = null; save(); render(); } } },
+    h("div", { class: "row exh" }, h("h2", { style: "margin:0;font-size:16px" }, "Overall budget"), closeBtn()),
+    h("form", { class: "mlf", onsubmit: e => { e.preventDefault(); const n = numOf(inp.value); if (n > 0) { const L = M.limBy || (M.limBy = { "0000-00": M.limit }); Object.keys(L).forEach(k => { if (k > mm) delete L[k]; }); L[mm] = n; M.limit = n; delete M.limDemo; modal = null; save(); render(); } } },
       h("span", { class: "mlh" }, "Spend under"),
       h("label", { class: "mlin" }, h("span", {}, "$"), inp),
       h("button", { class: "btn", type: "submit" }, "Save")));
@@ -3755,7 +3916,7 @@ function ptSeedOnce() {
   for (let i = 31; i >= 1; i--) { // activity day = i days ago, morning after = i-1 days ago
     const actDate = daysAgo(i), morn = daysAgo(i - 1), age = 31 - i;
     const a = {}; let eff = 0;
-    if ([1, 3].includes(i % 5)) { const m = 30 + 5 * Math.floor(rnd() * 11); a.training = m; eff += 0.8 + 0.02 * m; }
+    if ([1, 3].includes(i % 5)) { const m = 30 + 5 * Math.floor(rnd() * 11); a.training = "M"; eff += 0.8 + 0.02 * m; }
     if (i % 2 === 0) { a.walking = 15 + 5 * Math.floor(rnd() * 9); eff += 0.3; }
     if ([0, 1].includes(i % 3)) { a.pt = 20 + 5 * Math.floor(rnd() * 5); eff -= 1.5; }
     if ([2, 5].includes(i % 7)) { const n = 3 + Math.floor(rnd() * 4); a.squats = n; eff -= 0.5 + 0.2 * n; }
@@ -3778,8 +3939,8 @@ ptMigrate();
 function ptOctOnce() {
   if (state.ptOct) return;
   state.ptOct = 1;
-  const D = [[2, 6, 5, { training: 45 }, 1], [3, 4, 4, { pt: 25 }, 2], [5, 4, 3, { walking: 30, pt: 20 }, 4], [6, 7, 6, { training: 60 }, 5], [8, 4, 4, { squats: 4 }, 7],
-    [9, 6, 5, { golf: 18 }, 8], [11, 5, 5, { walking: 25 }, 10], [12, 5, 4, { training: 40, pt: 20 }, 11], [14, 5, 4, { none: null }, 13], [16, 3, 3, { pt: 30, squats: 5 }, 15]];
+  const D = [[2, 6, 5, { training: "M" }, 1], [3, 4, 4, { pt: 25 }, 2], [5, 4, 3, { walking: 30, pt: 20 }, 4], [6, 7, 6, { training: "H" }, 5], [8, 4, 4, { squats: 4 }, 7],
+    [9, 6, 5, { golf: 18 }, 8], [11, 5, 5, { walking: 25 }, 10], [12, 5, 4, { training: "M", pt: 20 }, 11], [14, 5, 4, { none: null }, 13], [16, 3, 3, { pt: 30, squats: 5 }, 15]];
   const ds = n => "2026-10-" + pad(n);
   D.forEach(([m, l, r, acts, a]) => {
     if (!ptRec(ds(m))) state.data.pt = [...list("pt"), { id: uid(), date: ds(m), l, r, at: new Date().toISOString(), demo: true }];
@@ -3818,7 +3979,7 @@ function seed20Once() {
     }
     // Knee: the morning rating and what was done that day
     if (!ptRec(date)) { const l = 3 + Math.floor(rnd() * 4); state.data.pt = [...list("pt"), { id: uid(), date, l, r: Math.max(0, Math.min(10, l + Math.floor(rnd() * 3) - 1)), at: now(), demo: true }]; }
-    if (!ptActs(date)) { const a = {}; if (rnd() < 0.5) a.walking = 20 + 5 * Math.floor(rnd() * 5); if (rnd() < 0.4) a.pt = 20 + 5 * Math.floor(rnd() * 4); if ([1, 3, 5].includes(dow)) a.training = 40; if (!Object.keys(a).length) a.none = null;
+    if (!ptActs(date)) { const a = {}; if (rnd() < 0.5) a.walking = 20 + 5 * Math.floor(rnd() * 5); if (rnd() < 0.4) a.pt = 20 + 5 * Math.floor(rnd() * 4); if ([1, 3, 5].includes(dow)) a.training = "M"; if (!Object.keys(a).length) a.none = null;
       state.data.ptacts = [...list("ptacts"), { id: uid(), date, acts: a, at: now(), demo: true }]; }
     // Spending: one or two small purchases a day
     const M = money(), cats = M.cats.map(c => c.id), n = rnd() < 0.3 ? 2 : 1;
@@ -3841,6 +4002,24 @@ function seedBudgetHistory() {
       parts.forEach((amt, i) => { if (amt > 0) M.spends.push({ id: uid(), at: new Date().toISOString(), date: mo(ago) + "-" + pad([4, 12, 23][i]), cat: c.id, amt, note: "", demo: true }); });
     });
   });
+  save();
+}
+// Sample: rent stopped this month, so the overall budget went from your current number to $900. Marked as sample; "Remove sample data" puts everything back.
+function seedLimitDemo() {
+  if (state.limDemo) return;
+  state.limDemo = 1;
+  const M = money(), t = new Date(today() + "T00:00:00"), mo = n => { const d = new Date(t.getFullYear(), t.getMonth() - n, 1); return d.getFullYear() + "-" + pad(d.getMonth() + 1); };
+  const had = M.limBy ? { ...M.limBy } : null, cur = limitFor(mo(0)), keys = []; let recHad = null;
+  if (!M.limBy) M.limBy = { "0000-00": cur };
+  Object.keys(M.limBy).forEach(k => { if (k > mo(0)) delete M.limBy[k]; });
+  M.limBy[mo(0)] = 900;
+  const base = recFor(mo(0)).map(r => ({ ...r }));
+  if (base.length) {
+    if (!Object.keys(M.recBy).some(k => k <= mo(2))) { M.recBy[mo(2)] = base.map(r => ({ ...r })); keys.push(mo(2)); } // earlier months had the full list
+    if (M.recBy[mo(0)]) recHad = M.recBy[mo(0)].map(r => ({ ...r })); else keys.push(mo(0));
+    M.recBy[mo(0)] = base.filter(r => r.name.trim().toLowerCase() !== "rent").map(r => ({ ...r })); // no rent this month
+  }
+  M.limDemo = { had, keys, recHad, cur: mo(0) };
   save();
 }
 function seedBonusWeek() {
@@ -3867,6 +4046,7 @@ function seedBonusWeek() {
 seed20Once();
 seedBonusWeek();
 seedBudgetHistory();
+seedLimitDemo();
 render();
 
 // Ask the browser to keep our data, and make the app work offline.
